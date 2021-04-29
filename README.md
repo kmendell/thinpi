@@ -4,7 +4,14 @@ ThinPi is a open source Thin Client for the raspberry pi 4
 
 ## Installation
 
-See **[https://kmprojects.us/thinpi](https://kmprojects.us/thinpi)**
+ # Option 1:
+ Use the standalone binary and install to any debian based distro
+
+ # Option 2:
+ Use Docker to compile the full OS image and flash it onto the USB device
+
+ # Option 3: 
+ Download the latest image and flash it onto your SD Card using the Raspberry Pi Imager
 
 
 ## Building - Only for Developers
