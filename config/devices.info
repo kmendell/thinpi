@@ -1,0 +1,11 @@
+Drive Redirection: /drive:home,/home/user
+Printer Redirection: /printer:<device>,<driver>
+
+Audio Output Redirection: /sound:sys:oss,dev:1,format:1
+Audio Output Redirection: /sound:sys:alsa
+Audio Input Redirection: /microphone:sys:oss,dev:1,format:1
+Audio Input Redirection: /microphone:sys:alsa
+
+Multimedia Redirection: /multimedia:sys:oss,dev:/dev/dsp1,decoder:ffmpeg
+Multimedia Redirection: /multimedia:sys:alsa
+USB Device Redirection: /usb:id,dev:054c:0268

@@ -1,0 +1,128 @@
+#! /bin/bash
+## ThinPi OS Command Line Tool ##
+### Created By: KMProjects April 17 2021 ###
+clear
+echo "----------------------------------"
+echo "ThinPi OS Command Line Tool v0.2.0"
+echo "----------------------------------"
+sleep 1
+
+thinpiCmdLine() {
+clear
+echo "----------------------------------"
+echo "ThinPi OS Command Line Tool v0.2.0"
+echo "----------------------------------"
+echo "Available Options"
+echo "[1] Change the sudo Password"
+echo "[2] Reset Server and Device Config Files"
+echo "[3] Factory Reset Device **DANGEROUS**"
+echo "[4] Install a new Linux Package"
+echo "[5] Remove a Installed Linux Package"
+echo "[6] Update System Packages"
+echo "[7] Exit"
+read -p "Please enter a option number: " option
+
+}
+thinpiCmdLine
+running=1
+while [ $running == 1 ];
+do
+
+## Option 1
+
+## End Option 1
+
+
+## Option 2
+if [ $option == 2 ];
+then
+	clear
+	echo "Reseting Servers and device config..."
+	read -s -p "Sudo password for [$USER@$HOSTNAME]: " sudo_pass2
+	if [ $sudo_pass2 == "maddie" ];
+	then
+		echo $sudo_pass | sudo -S rm /thinpi/config/servers
+		echo $sudo_pass | sudo -S rm /thinpi/thinpi/devices
+		echo $sudo_pass | sudo -S touch /thinpi/config/servers
+		echo $sudo_pass | sudo -S touch /thinpi/config/devices
+		running=1
+		option=nil
+		clear
+		echo "ThinPi server and device config files have been cleared!"
+		sleep 2
+		clear
+		thinpiCmdLine
+	else
+		echo "Incorrect Password Entered, Unable to perform these actions"
+		exit 1
+	fi
+
+
+
+fi
+## End Option 2
+
+
+## Option 3
+
+## End Option 3
+
+
+## Option 4
+if [ $option == 4 ];
+then
+	clear
+	read -p "Package Name: " package_name
+	read -s -p "Sudo password for [$USER@$HOSTNAME]: " sudo_pass4
+	if [ $sudo_pass4 != "maddie" ];
+	then
+		echo "Incorrect Password Entered, Unable to perform these actions"
+		exit 1
+	else
+		echo $sudo_pass4 | sudo -S apt-get install $package_name
+	fi
+fi
+## End Option 4
+
+
+## Option 5
+
+## End Option 5
+
+## Option 6
+if [ $option == 6 ];
+then
+	clear
+	read -s -p "Sudo password for [$USER@$HOSTNAME]: " sudo_pass6
+	echo ""
+	if [ $sudo_pass6 != "maddie" ];
+	then
+		echo "Incorrect Password Entered, Unable to perform these actions"
+		exit 1
+	else
+		echo $sudo_pass6 | sudo -S apt-get update
+		echo $sudo_pass6 | sudo -S apt-get upgrade
+		echo "System Update Complete"
+		read -p "Would you like to continue? [y/n]" continue
+		if [ $continue == "y" ] || [ $continue == "Y" ];
+		then
+			clear
+			$option == nil
+			thinpiCmdLine 
+		else
+			running=0
+		fi
+	fi
+fi
+## End Option 6
+
+
+## Option 7
+
+## End Option 7
+
+done
+
+
+
+
