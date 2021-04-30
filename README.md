@@ -1,4 +1,4 @@
-<img src="assets/logo/logo-colors@2x.png"></img>
+<img height="50%" width="50% src="assets/logo/logo-colors@2x.png"></img>
 
 # Thinpi
 
