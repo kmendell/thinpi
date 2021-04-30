@@ -9,14 +9,14 @@ all: release
 req:
 	sudo apt-get install gtk3.0 gtk+-3.0-dev freerdp2-x11
 
-release: src/managerv2.c src/rdp.c src/helpers.c src/addserver.c
+release: src/thinpi/managerv2.c src/thinpi/rdp.c src/thinpi/helpers.c src/thinpi/addserver.c
 	gcc -w `pkg-config --cflags --libs gtk+-3.0` src/thinpi/managerv2.c src/thinpi/rdp.c src/thinpi/helpers.c -o output/thinpi-manager
 	echo "[THINPI] - Connection Manager built at system/thinpi-manager"
 	gcc -w `pkg-config --cflags --libs gtk+-3.0` src/thinpi/addserver.c src/thinpi/helpers.c -o output/config-manager
 	echo "[THINPI] - Configuration Manager built at system/config-manager"
 	
 	
-beta: src/managerv2.c src/rdp.c src/helpers.c src/addserver.c
+beta: src/thinpi/managerv2.c src/thinpi/rdp.c src/thinpi/helpers.c src/thinpi/addserver.c
 	gcc  `pkg-config --cflags --libs gtk+-3.0` src/thinpi/managerv2.c src/thinpi/rdp.c src/thinpi/helpers.c -o output/beta
 	echo "[THINPI] - Connection Manager built at system/beta"
 	gcc  `pkg-config --cflags --libs gtk+-3.0` src/thinpi/addserver.c src/thinpi/helpers.c -o output/beta-config
