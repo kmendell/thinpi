@@ -1,3 +1,4 @@
+<center>
 <img style="display: block; margin-left: auto; margin-right: auto;" height="50%" width="50%" src="assets/logo/logo-colors@2x.png"></img>
 
 # Thinpi
