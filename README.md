@@ -2,6 +2,13 @@
 
 ThinPi is a open source Thin Client for the raspberry pi 4
 
+**Run the following commands if your are having issues cloning this repo**
+```bash
+git config --global http.sslverify false
+
+export GIT_SSL_NO_VERIFY=true
+```
+
 ## Installation
 
  # Option 1:
@@ -17,6 +24,7 @@ ThinPi is a open source Thin Client for the raspberry pi 4
 ## Building - Only for Developers
 
 ```bash
+
 git clone https://git.kmprojects.us/kmendell/thinpi.git
 
 cd thinpi
