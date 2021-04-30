@@ -1,5 +1,5 @@
 <center>
-<img height="50%" width="50%" src="assets/logo/logo-colors@2x.png"></img>
+<img style="align: center;" height="50%" width="50%" src="assets/logo/logo-colors@2x.png"></img>
 </center>
 
 # Thinpi
