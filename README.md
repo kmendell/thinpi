@@ -1,6 +1,7 @@
 <center>
 <img height="50%" width="50%" src="assets/logo/logo-colors@2x.png"></img>
 </center>
+
 # Thinpi
 
 ThinPi is a open source Thin Client for the raspberry pi 4
