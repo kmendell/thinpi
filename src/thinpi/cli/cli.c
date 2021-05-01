@@ -3,22 +3,27 @@
 
 void checkArg(char *sArg)
 {
-    if (sArg == "reset") {
-        printf("Reset all config files in the system\n");
-    } else if (sArg == "install") {
-        printf("Package to install: \n");
-    } else {
-        printf("Unknown Argument\n");
-    }
+    printf("%s\n", sArg);
+ 
 }
 
 void main (int argc, char *argv[])
 {
-    system("clear");
-    system("figlet ThinPi");
+    system("figlet ThinPi");\
+    //this is failing in this build.... no idea why the argv wont pass into the other if statments.....
+    sleep(2);
     if( argc == 2 ) {
-      printf("The argument supplied is %s\n", argv[1]);
-      checkArg(argv[1]);
+        if ( argv[2] == '-r' ) {
+        printf("Reset all config files in the system\n");
+        } else if (argv[1] == 'install') {
+        char pkg[100];
+        char cmd[100];
+
+        printf("Package to install: \n");
+        gets( pkg );
+        sprintf(cmd, "sudo apt-get install %s", pkg);
+        system(cmd);
+        }
    }
    else if( argc > 2 ) {
         printf("Too many arguments supplied.\n");
