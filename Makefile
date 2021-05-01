@@ -29,7 +29,7 @@ install: cleaninstall
 	cp -r output/thinpi/* /thinpi
 	
 git:
-	git add . && git commit -m "v2 update" && git push origin master -f
+	git add . && git commit -m "v2 Update $(shell date --iso=seconds)" && git push origin master -f
 	
 cleaninstall:
 	rm -Rf /thinpi
