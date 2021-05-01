@@ -16,36 +16,29 @@ export GIT_SSL_NO_VERIFY=true
 
 ## Installation
 
- # Option 1:
- Use the standalone binary and install to any debian based distro
+Download the latest image from the downloads pages
 
- # Option 2:
- Use Docker to compile the full OS image and flash it onto the USB device
+Flash the Image to your SD Card using etcher or Raspberry Pi Imager
 
- # Option 3: 
- Download the latest image and flash it onto your SD Card using the Raspberry Pi Imager
+Boot up the Pi and continue with the installation
 
 
-## Building - Only for Developers
+## Building - Project Only
 
-```go
-git clone https://git.kmprojects.us/kmendell/thinpi.git
+```bash
+git clone https://git.kmprojects.us/kmprojects/thinpi.git
 
 cd thinpi
+
+sudo ./configure **Must be ran as sudo**
 
 make all
 
 ```
 
-New Folders
+This will compile all project files into the output directory in there repective directorys (output is /)
 
-Packages: Location of the standalone thinpios filesystem .deb packages
-
-boot: The additional files needed to be added to the boot drive for the custom boot logo to appear, be careful with cmdline.txt, only copy the last few commands right after rootwait.
-
-scripts: image building scripts for ease of build purposes.
-
-**This way does not give you the custom desktop or boot logo as the image will** 
+Note however this will not build a image to flash to an SD Card 
 
 ## ThinPi Usage
 
