@@ -3,7 +3,8 @@ CFLAGS=`pkg-config --cflags --libs gtk+-3.0`
 
 TARGET = output/thinpi/thinpi-*
 ODIR = output/thinpi
-CDATE=`date '+%Y_%m_%d__%H_%M'`;
+CDATE=$(date +%Y-%m-%d)
+
 
 all: manager config cli tpsudo
 
