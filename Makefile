@@ -16,23 +16,24 @@ manager: src/thinpi/managerv2.c src/thinpi/rdp.c src/thinpi/helpers.c src/thinpi
 config:
 	$(CC) -w src/thinpi/addserver.c src/thinpi/helpers.c $(CFLAGS) -o $(ODIR)/thinpi-config
 
-cli:
-
-	echo " [THINPI] - CLI Tool Built "
+cli: src/thinpi/cli/cli.c
+	$(CC) -w src/thinpi/cli/cli.c -o output/usr/bin/thinpi-cli
+	@echo "[THINPI] - CLI Tool Built"
 
 tpsudo:
 
-	echo "[THINPI] - tpsudo Built"
+	@echo "[THINPI] - tpsudo Built"
 
-install: cleaninstall
+install: uninstall
 	sudo mkdir /thinpi
-	sudo chown $(USER):$(USER) /thinpi
+	sudo chmod 0777 /thinpi
 	cp -r output/thinpi/* /thinpi
+	sudo chmod -R 0777 /thinpi
 	
 git:
 	git add . && git commit -m "v2 Update" && git push origin master -f
 	
-cleaninstall:
+uninstall:
 	rm -Rf /thinpi
 
 clean:
