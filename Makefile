@@ -23,6 +23,7 @@ cli: src/thinpi/cli/cli.c
 tprdp:
 	@echo "[THINPI] - Building tprdp ..."
 	cd src/freerdp; \
+	cmake .; \
 	make tprdp --no-print-directory
 	cp src/freerdp/client/X11/tprdp output/usr/bin/tprdp
 	cp src/freerdp/client/Wayland/wltprdp output/usr/bin/wltprdp
