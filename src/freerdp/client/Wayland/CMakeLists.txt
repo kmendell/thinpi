@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set(MODULE_NAME "wlfreerdp")
+set(MODULE_NAME "wltprdp")
 set(MODULE_PREFIX "FREERDP_CLIENT_WAYLAND")
 
 include_directories(${WAYLAND_INCLUDE_DIR})
@@ -37,7 +37,7 @@ set(${MODULE_PREFIX}_SRCS
 	wlf_channels.h
 	)
 
-list (APPEND ${MODULE_PREFIX}_LIBS freerdp-client freerdp uwac)
+list (APPEND ${MODULE_PREFIX}_LIBS tprdp-client freerdp uwac)
 
 add_executable(${MODULE_NAME} ${${MODULE_PREFIX}_SRCS})
 

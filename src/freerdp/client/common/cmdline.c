@@ -435,58 +435,10 @@ BOOL freerdp_client_print_command_line_help_ex(int argc, char** argv,
 		name = argv[0];
 
 	printf("\n");
-	printf("FreeRDP - A Free Remote Desktop Protocol Implementation\n");
-	printf("See www.freerdp.com for more information\n");
+	printf("tprdp for ThinPi - Fork of FreeRDP\n");
 	printf("\n");
 	printf("Usage: %s [file] [options] [/v:<server>[:port]]\n", argv[0]);
 	printf("\n");
-	printf("Syntax:\n");
-	printf("    /flag (enables flag)\n");
-	printf("    /option:<value> (specifies option with value)\n");
-	printf("    +toggle -toggle (enables or disables toggle, where '/' is a synonym of '+')\n");
-	printf("\n");
-	freerdp_client_print_command_line_args(custom);
-	freerdp_client_print_command_line_args(largs);
-	printf("\n");
-	printf("Examples:\n");
-	printf("    %s connection.rdp /p:Pwd123! /f\n", name);
-	printf("    %s /u:CONTOSO\\JohnDoe /p:Pwd123! /v:rdp.contoso.com\n", name);
-	printf("    %s /u:JohnDoe /p:Pwd123! /w:1366 /h:768 /v:192.168.1.100:4489\n", name);
-	printf("    %s /u:JohnDoe /p:Pwd123! /vmconnect:C824F53E-95D2-46C6-9A18-23A5BB403532 "
-	       "/v:192.168.1.100\n",
-	       name);
-	printf("\n");
-	printf("Clipboard Redirection: +clipboard\n");
-	printf("\n");
-	printf("Drive Redirection: /drive:home,/home/user\n");
-	printf("Smartcard Redirection: /smartcard:<device>\n");
-	printf("Serial Port Redirection: /serial:<name>,<device>,[SerCx2|SerCx|Serial],[permissive]\n");
-	printf("Serial Port Redirection: /serial:COM1,/dev/ttyS0\n");
-	printf("Parallel Port Redirection: /parallel:<name>,<device>\n");
-	printf("Printer Redirection: /printer:<device>,<driver>\n");
-	printf("TCP redirection: /rdp2tcp:/usr/bin/rdp2tcp\n");
-	printf("\n");
-	printf("Audio Output Redirection: /sound:sys:oss,dev:1,format:1\n");
-	printf("Audio Output Redirection: /sound:sys:alsa\n");
-	printf("Audio Input Redirection: /microphone:sys:oss,dev:1,format:1\n");
-	printf("Audio Input Redirection: /microphone:sys:alsa\n");
-	printf("\n");
-	printf("Multimedia Redirection: /video\n");
-#ifdef CHANNEL_URBDRC_CLIENT
-	printf("USB Device Redirection: /usb:id:054c:0268#4669:6e6b,addr:04:0c\n");
-#endif
-	printf("\n");
-	printf("For Gateways, the https_proxy environment variable is respected:\n");
-#ifdef _WIN32
-	printf("    set HTTPS_PROXY=http://proxy.contoso.com:3128/\n");
-#else
-	printf("    export https_proxy=http://proxy.contoso.com:3128/\n");
-#endif
-	printf("    %s /g:rdp.contoso.com ...\n", name);
-	printf("\n");
-	printf("More documentation is coming, in the meantime consult source files\n");
-	printf("\n");
-	return TRUE;
 }
 
 static int freerdp_client_command_line_pre_filter(void* context, int index, int argc, LPSTR* argv)

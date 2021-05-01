@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set(MODULE_NAME "freerdp-client")
+set(MODULE_NAME "tprdp-client")
 set(MODULE_PREFIX "FREERDP_CLIENT")
 
 #  Policy CMP0022: INTERFACE_LINK_LIBRARIES defines the link

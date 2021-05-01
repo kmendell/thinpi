@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set(MODULE_NAME "xfreerdp-client")
+set(MODULE_NAME "tprdp")
 set(MODULE_PREFIX "FREERDP_CLIENT_X11_CONTROL")
 
 include(FindDocBookXSL)
@@ -76,7 +76,7 @@ if(WITH_CLIENT_INTERFACE)
 else()
 	set(${MODULE_PREFIX}_SRCS ${${MODULE_PREFIX}_SRCS} cli/xfreerdp.c xfreerdp.h)
 	add_executable(${MODULE_NAME} ${${MODULE_PREFIX}_SRCS})
-	set_target_properties(${MODULE_NAME} PROPERTIES OUTPUT_NAME "xfreerdp")
+	set_target_properties(${MODULE_NAME} PROPERTIES OUTPUT_NAME "tprdp")
 	include_directories(..)
 endif()
 
@@ -241,7 +241,7 @@ endif()
 
 include_directories(${CMAKE_SOURCE_DIR}/resources)
 
-set(${MODULE_PREFIX}_LIBS ${${MODULE_PREFIX}_LIBS} freerdp-client freerdp m)
+set(${MODULE_PREFIX}_LIBS ${${MODULE_PREFIX}_LIBS} tprdp-client freerdp m)
 if (NOT APPLE)
 	list(APPEND ${MODULE_PREFIX}_LIBS rt)
 endif()
