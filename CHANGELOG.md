@@ -11,5 +11,6 @@ All notable changes to this project will be documented in this file.
 - [Optimized] RDP gfx is now using RDP 8.1 thin-client graphics
 - [Build] Added makefile instead of build scripts
 - [Feature] Added add server ui to add servers to config files (only adding works as of now)
-- [GIT] Added packages folder - 'debs' and 'images'
-- [RELEASE-ALPHA] Released Image of ThinPi OS 0.2
+- [GIT] Updated Git Repo Structure and moved to selfhosted gitlab
+- [CLI] CLI Tool has been included in this build
+- [SUDO] tpsudo progress has begun
