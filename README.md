@@ -1,3 +1,4 @@
+
 <div align="center">
 <img height="50%" width="50%" src="assets/logo/logo-colors@2x.png"></img>
 </div>
@@ -27,8 +28,7 @@ export GIT_SSL_NO_VERIFY=true
 
 ## Building - Only for Developers
 
-```bash
-
+```go
 git clone https://git.kmprojects.us/kmendell/thinpi.git
 
 cd thinpi
