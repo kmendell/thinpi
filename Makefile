@@ -3,7 +3,6 @@ CFLAGS=`pkg-config --cflags --libs gtk+-3.0`
 
 TARGET = output/thinpi/thinpi-*
 ODIR = output/thinpi
-CDATE=$(DATE)
 
 
 all: manager config cli tpsudo
@@ -31,7 +30,6 @@ install: cleaninstall
 	cp -r output/thinpi/* /thinpi
 	
 git:
-	@echo $(CDATE)
 	git add . && git commit -m "v2 Update" && git push origin master -f
 	
 cleaninstall:
