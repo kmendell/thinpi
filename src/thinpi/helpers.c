@@ -24,6 +24,10 @@ void hideErrorMessage(GtkWidget *wid, gpointer ptr)
 
 }
 
+int checkForUpdates() {
+	system("/usr/bin/tpupdate");
+}
+
 void setUserInfo()
 {
 	

@@ -15,4 +15,4 @@ All notable changes to this project will be documented in this file.
 - [CLI] CLI Tool has been started in this build
 - [SUDO] tpsudo progress has begun
 - [RDP] Added FreeRDP fork called tprdp (stripped down version to fit our needs)
-- [UPDATE] Added version.tlp file this will check with our server to see if the OS it self needs an update 
+- [UPDATE] Added version.tlp file this will check with our server to see if the OS it self needs an update using tpupdate command

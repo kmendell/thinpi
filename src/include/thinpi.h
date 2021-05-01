@@ -22,3 +22,4 @@ extern void hideErrorMessage(GtkWidget *wid, gpointer ptr);
 extern void getServerConfig();
 extern void openConnection(gchar *u, gchar *p, gchar *s);
 extern void setUserInfo();
+int checkForUpdates();
