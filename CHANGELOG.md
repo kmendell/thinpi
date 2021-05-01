@@ -12,5 +12,7 @@ All notable changes to this project will be documented in this file.
 - [Build] Added makefile instead of build scripts
 - [Feature] Added add server ui to add servers to config files (only adding works as of now)
 - [GIT] Updated Git Repo Structure and moved to selfhosted gitlab
-- [CLI] CLI Tool has been included in this build
+- [CLI] CLI Tool has been started in this build
 - [SUDO] tpsudo progress has begun
+- [RDP] Added FreeRDP fork called tprdp (stripped down version to fit our needs)
+- [UPDATE] Added version.tlp file this will check with our server to see if the OS it self needs an update 
