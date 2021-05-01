@@ -30,11 +30,13 @@ git clone https://git.kmprojects.us/kmprojects/thinpi.git
 
 cd thinpi
 
-sudo ./configure **Must be ran as sudo**
+sudo ./configure 
 
 make all
 
 ```
+
+**The configure command must be ran as sudo - it handles all dependency install and directory creation**
 
 This will compile all project files into the output directory in there repective directorys (output is /)
 
