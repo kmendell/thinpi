@@ -4,14 +4,11 @@
 
 # Thinpi
 
-ThinPi is a open source Thin Client for the raspberry pi 4
+ThinPi is a open source Thin Client for the Raspberry Pi 4
 
-**Run the following commands if your are having issues cloning this repo**
-```bash
-git config --global http.sslverify false
+Developed and Maintained By: Kyle Mendell
 
-export GIT_SSL_NO_VERIFY=true
-```
+This project has been being developed on a RPi4 so it is fully stabled on all of those devices, It has not been tested on any other Pi's, That being said it is running a armhf verison not a arm64 based OS
 
 ## Installation
 
