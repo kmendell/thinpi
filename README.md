@@ -12,7 +12,7 @@ This project has been being developed on a RPi4 so it is fully stabled on all of
 
 ## Installation
 
-Download the latest image from the downloads pages
+Download the latest image from the releases pages
 
 Flash the Image to your SD Card using etcher or Raspberry Pi Imager
 
@@ -40,26 +40,28 @@ Note however this will not build a image to flash to an SD Card
 
 ## ThinPi Usage
 
-Upon first boot of the Pi you will be greeted with a custom rasbian desktop.
+Upon the first boot of the Pi you will be prompted by a custom LXDE Desktop
 
-Use the Start menu in the top left to select your option under the Thin Pi Category
+The start menu in the top left holds all functtions you will need to use thin pi
 
-Too add your server Opened the Thin Pi Configurator : Start > Thin Pi > Thin Pi Configuration and enter the IP address and Display names in the correct boxes and click add!
+Under ThinPi > Connect Manager - This is where you will go to connect to the servers you have added in the config files
 
-Removing Servers this way does not quite work yet, but we are working on that as well
+Under ThinPi > Config Manager - This is where youll go to add or remove servers to the config file that the Connect Manager will read from
 
-The Main user of the OS is "thinpi" with password of tppassword.
+There are also options for a Terminal and File Manager (In most cases these will only be used by the admin)
 
-**Note: we are working on building a integrated "sudo" or admin system ourselves**
+Custom Commands included in this distro are:
 
-Currently there is no key combos coded in that allow you to "disconnect" from the server once connected. However Ctl+Alt+Enter will get you out of fullscreen mode of the RDP connection
+editmenu - This will open up the Start Menu Editor to edit the menu items shown to the user 
 
+showconfig - This will open the file manager to the config directory if you need to maually edit or remove servers or devices from the config file
+
+thinpi-cli - Admin Console for system commands **This needs to be ran as sudo**
 
 
 ## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-Please make sure to update tests as appropriate.
+Email: getthinpi@gmail.com to join the team and discuss ceertain changes or improvements
 
 ## License
 [GNU](https://choosealicense.com/licenses/gpl-3.0/)
