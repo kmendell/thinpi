@@ -12,12 +12,7 @@ This project has been being developed on a RPi4 so it is fully stabled on all of
 
 ## Installation
 
-Download the latest image from the releases pages
-
-Flash the Image to your SD Card using etcher or Raspberry Pi Imager
-
-Boot up the Pi and continue with the installation
-
+Image Release Coming Soon
 
 ## Building - Project Only
 
@@ -58,7 +53,7 @@ Under ThinPi > Config Manager - This is where youll go to add or remove servers 
 
 There are also options for a Terminal and File Manager (In most cases these will only be used by the admin)
 
-Custom Commands included in this distro are:
+Custom Commands included in this distro are: Image Release Only
 
 editmenu - This will open up the Start Menu Editor to edit the menu items shown to the user 
 
