@@ -65,6 +65,3 @@ thinpi-cli - Admin Console for system commands **This needs to be ran as sudo**
 ## Contributing
 
 Email: getthinpi@gmail.com to join the team and discuss ceertain changes or improvements
-
-## License
-[GNU](https://choosealicense.com/licenses/gpl-3.0/)
