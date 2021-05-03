@@ -30,17 +30,19 @@ sudo ./configure
 
 make all
 
-sudo make install
-
 ```
 
 **The configure command must be ran as sudo - it handles all dependency install and directory creation**
 
-**The make install command also needs to be ran as sudo because it copys files to usr/bin and to the /boot directory**
-
 This will compile all project files into the output directory in there repective directorys (output is /)
 
 Note however this will not build a image to flash to an SD Card
+
+If you want to install the files to the filesystem run 
+
+```sudo make install```
+
+This needs to be ran as sudo because it copys file into /usr/bin and /boot
 
 ## ThinPi Usage
 
