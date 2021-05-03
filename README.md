@@ -40,7 +40,9 @@ Note however this will not build a image to flash to an SD Card
 
 If you want to install the files to the filesystem run 
 
-```sudo make install```
+```bash
+sudo make install
+```
 
 This needs to be ran as sudo because it copys file into /usr/bin and /boot
 
