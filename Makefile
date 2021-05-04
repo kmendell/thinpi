@@ -10,11 +10,12 @@ all: manager config cli tpsudo tprdp tpupdate
 manager: src/thinpi/managerv2.c src/thinpi/rdp.c src/thinpi/helpers.c src/thinpi/addserver.c
 	@echo "[THINPI] - Building connect-manager ..."
 	$(CC) -w src/thinpi/managerv2.c src/thinpi/rdp.c src/thinpi/helpers.c $(CFLAGS)  -o $(ODIR)/thinpi-manager
-	cp src/Interface/connectmanger.glade output/Interface/connectmanger.glade
+	cp src/Interface/connect-manger.glade output/Interface/connect-manger.glade
 
 config:
 	@echo "[THINPI] - Building config-manager ..."
 	$(CC) -w src/thinpi/addserver.c src/thinpi/helpers.c $(CFLAGS) -o $(ODIR)/thinpi-config
+	cp src/Interface/addserver.glade output/Interface/addserver.glade
 
 cli: src/thinpi/cli/cli.c
 	@echo "[THINPI] - Building thinpi-cli ..."
