@@ -7,6 +7,7 @@ void openConnection(gchar *u, gchar *p, gchar *s)
 {	
 	char *cmd = malloc(100);
 	sprintf(cmd, "xfreerdp +home-drive +gfx-thin-client /t:ThinPi /cert:tofu /size:1280x720 /f /rfx /audio:sys:alsa /gdi:sw /u:'%s' /p:'%s' /v:%s", u, p, s);
+	// use wayland over x11 - this will be default in the update -- sprintf(cmd, "wlfreerdp +home-drive +gfx-thin-client /t:ThinPi /cert:tofu /size:1280x720 /f /rfx /audio:sys:alsa /gdi:sw /u:'%s' /p:'%s' /v:%s", u, p, s);
 	int rv = system(cmd);
 	if(rv == 0 || rv == 2816) {
 		gtk_entry_set_text(usernameTextbox, "");
