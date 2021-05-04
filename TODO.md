@@ -8,3 +8,5 @@ All notable changes that are (so far planned, or being worked on) for this versi
 - [Feature] Device pass-through support - Done
 - [Optimize] Allow RDP graphic/setting options to be configured - In Progress
 - [Build] Implement custom FreeRDP build (tprdp) - Done
+- [Image] Create Build Image Script - In Progress
+- [Optimize] Restructure and Reconfigure RDP arguments and GFX States - Planned
