@@ -18,3 +18,5 @@ All notable changes to this project will be documented in this file.
 - [UPDATE] Added version.tlp file this will check with our server to see if the OS it self needs an update using tpupdate command
 - [Optimized] By Default ThinPi will use wayland over X11 to fix the tearing issue X11 causes 
 - [Devices] USB, Home Drives, and Audio all now get Passed Through 
+- [Feature] Device pass-through support - Done
+- [Build] Implement custom FreeRDP build (tprdp) - Done
