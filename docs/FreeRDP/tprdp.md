@@ -10,7 +10,8 @@ This is in no way perfect or the official Documentation of the project
 -- This will be the server IP you are trying to connect to 
 
 - /u:username
--- This will automatically use that user on sign in 
+-- This will automatically use that user on sign in - if this is not passed it will use the current username which in this case would be "pi"
 
 - /p:password
--- same as above it will auto use this password but will also auto sign in the user 
+-- same as above it will auto use this password but will also auto sign in the user if /u is used as well 
+
