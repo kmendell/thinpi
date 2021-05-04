@@ -6,16 +6,6 @@
 void handleClick(GtkWidget *wid, GtkEntry *pwordp)
 {
 	setUserInfo();
-	
-	
-	
-	//Debuging
-	//openConfig(NULL, NULL);
-	printf("set username to: %s\n", currentUsername);
-	printf("set password to: %s\n", currentPassword);
-	printf("set server to: %s\n", currentServerIP);
-	//end debug
-	
 	openConnection(currentUsername, currentPassword, currentServerIP);
 	
 }
