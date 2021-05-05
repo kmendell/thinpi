@@ -9,6 +9,8 @@ gchar *nameToAdd;
 GtkEntry *ipaddressTextbox;
 GtkEntry *displaynameTextbox;
 
+int removeServer(GtkWidget *wid, gpointer ptr);
+
 void addNewServer(GtkWidget *wid, gpointer ptr)
 {
 	ipToAdd = gtk_entry_get_text (ipaddressTextbox);
@@ -42,6 +44,7 @@ ipaddressTextbox = (GtkEntry *) gtk_builder_get_object (builder, "ipaddressTextb
 
 g_signal_connect (configWindow, "delete_event", G_CALLBACK(closeThinPiManager), NULL);
 g_signal_connect (addButton, "clicked", G_CALLBACK(addNewServer), NULL);
+g_signal_connect (removeButton, "clicked", G_CALLBACK(removeServer), NULL);
 
 gtk_window_present(configWindow);
 gtk_main();
@@ -97,7 +100,7 @@ void removeAll(char * str, const char * toRemove)
 }
 
 
-int removeServer()
+int removeServer(GtkWidget *wid, gpointer ptr)
 {
     FILE * fPtr;
     FILE * fTemp;
@@ -106,17 +109,18 @@ int removeServer()
     char *toRemove = malloc(1000);
     char *buffer = malloc(1000);
 
+    char *string = malloc(100);
+    sprintf(toRemove, "%s:%s\n", gtk_entry_get_text (ipaddressTextbox), gtk_entry_get_text (displaynameTextbox));
 
     /* Input source file path path */
     path = "/thinpi/config/servers";
 
-    printf("Enter word to remove: ");
-    toRemove = gtk_entry_get_text (ipaddressTextbox);
+    //toRemove = string;
 
 
     /*  Open files */
-    fPtr  = fopen(path, "r");
-    fTemp = fopen("delete.tmp", "w"); 
+    fPtr  = fopen("/thinpi/config/servers", "r");
+    fTemp = fopen("/thinpi/config/delete.tmp", "w"); 
 
     /* fopen() return NULL if unable to open file in given mode. */
     if (fPtr == NULL || fTemp == NULL)
@@ -135,7 +139,7 @@ int removeServer()
     while ((fgets(buffer, BUFSIZ, fPtr)) != NULL)
     {
         // Remove all occurrence of word from current line
-        //removeAll(buffer, toRemove);
+        removeAll(buffer, toRemove);
 
         // Write to temp file
         fputs(buffer, fTemp);
@@ -151,7 +155,7 @@ int removeServer()
     remove(path);
 
     /* Rename temp file as original file */
-    rename("delete.tmp", path);
+    rename("/thinpi/config/delete.tmp", path);
 
 
     printf("\nServer '%s' has been removed successfully.", toRemove);
