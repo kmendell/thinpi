@@ -52,14 +52,14 @@ int removeServer()
 {
     FILE * fPtr;
     FILE * fTemp;
-    char path[100];
+    char path = malloc(100);
     
-    char toRemove[100];
-    char buffer[1000];
+    char *toRemove = malloc(1000);
+    char *buffer = malloc(1000);
 
 
     /* Input source file path path */
-    path = "/thinpi/config/servers"
+    path = "/thinpi/config/servers";
 
     printf("Enter word to remove: ");
     toRemove = gtk_entry_get_text (ipaddressTextbox);
@@ -83,10 +83,10 @@ int removeServer()
      * Read line from source file and write to destination 
      * file after removing given word.
      */
-    while ((fgets(buffer, BUFFER_SIZE, fPtr)) != NULL)
+    while ((fgets(buffer, BUFSIZ, fPtr)) != NULL)
     {
         // Remove all occurrence of word from current line
-        removeAll(buffer, toRemove);
+        //removeAll(buffer, toRemove);
 
         // Write to temp file
         fputs(buffer, fTemp);
