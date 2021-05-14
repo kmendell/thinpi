@@ -1,4 +1,0 @@
-
-set(FREERDP_SERVER_NAME "sfreerdp-server")
-set(FREERDP_SERVER_PLATFORM "Sample")
-set(FREERDP_SERVER_VENDOR "FreeRDP")

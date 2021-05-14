@@ -24,11 +24,10 @@ cli: src/thinpi/cli/cli.c
 
 tprdp:
 	@echo "[THINPI] - Building tprdp ..."
-	cd src/freerdp; \
-	cmake .; \
-	make tprdp --no-print-directory
-	cp src/freerdp/client/X11/tprdp output/usr/bin/tprdp
-	cp src/freerdp/client/Wayland/wltprdp output/usr/bin/wltprdp
+	cd src/rdp; \
+	cmake -DWITH_PULSE=on .; \
+	make xfreerdp-client --no-print-directory
+	cp src/rdp/client/X11/xfreerdp output/usr/bin/tprdp
 
 tpupdate:
 	shc -f src/thinpi/tpupdate/tpupdate
@@ -38,10 +37,10 @@ tpsudo:
 
 	@echo "[THINPI] - tpsudo Built"
 
-install: uninstall
+install: 
 	cp -r output/thinpi/* /thinpi
 	chmod -R 0777 /thinpi
-	chown -R $USER /thinpi
+	chown -R pi /thinpi
 	
 git:
 	git add . && git commit -m "v2 Update" && git push origin master -f

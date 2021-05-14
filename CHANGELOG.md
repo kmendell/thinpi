@@ -20,3 +20,4 @@ All notable changes to this project will be documented in this file.
 - [Devices] USB, Home Drives, and Audio all now get Passed Through 
 - [Feature] Device pass-through support - Done
 - [Build] Implement custom FreeRDP build (tprdp) - Done
+- [RDP] Bumped up to FreeRDP v2.3.2 
