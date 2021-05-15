@@ -8,3 +8,4 @@ All notable changes that are (so far planned, or being worked on) for this versi
 - [Optimize] Allow RDP graphic/setting options to be configured - In Progress
 - [Image] Create Build Image Script - In Progress
 - [Optimize] Restructure and Reconfigure RDP arguments and GFX States - Planned
+- [Error] Implement Return Values from tprdp into the Connect Manager - In Progress
