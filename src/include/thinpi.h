@@ -4,6 +4,7 @@
 extern  gchar *currentServerIP;
 extern  gchar *currentUsername;
 extern  gchar *currentPassword;
+extern gchar *currentServerDomain;
 
 extern  gchar *ipToAdd;
 extern  gchar *nameToAdd;

@@ -4,6 +4,7 @@
 #include "../include/thinpi.h"
 
 gchar *currentServerIP;
+gchar *currentServerDomain;
 gchar *currentUsername;
 gchar *currentPassword;
 
@@ -34,6 +35,8 @@ void setUserInfo()
 	currentUsername = gtk_entry_get_text (usernameTextbox);
 	currentPassword = gtk_entry_get_text (passwordTextbox);
 	currentServerIP = strtok(gtk_combo_box_text_get_active_text(serverList), ":");
+	currentServerDomain = strtok(NULL, "-");
+	printf("%s\n", currentServerDomain);
 	
 }
 
