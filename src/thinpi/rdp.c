@@ -6,7 +6,7 @@
 void openConnection(gchar *u, gchar *p, gchar *s)
 {	
 	char *cmd = malloc(100);
-	sprintf(cmd, "tprdp %s -p %s -u %s -z -x b -d %s -g 1920x1080 -f -v", s, p, u, currentServerDomain);
+	sprintf(cmd, "tprdp %s -p %s -u %s -z -x b -d %s -g %s -f -v", s, p, u, currentServerDomain, screenResValue);
 	int rv = system(cmd);
 	if(rv == 12 || rv == 11 || rv == 2 | rv == 1) {
 		gtk_entry_set_text(usernameTextbox, "");
