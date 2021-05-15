@@ -36,7 +36,7 @@ void setUserInfo()
 	currentUsername = gtk_entry_get_text (usernameTextbox);
 	currentPassword = gtk_entry_get_text (passwordTextbox);
 	currentServerIP = strtok(gtk_combo_box_text_get_active_text(serverList), ":");
-	currentServerDomain = strtok(NULL, "-");
+	currentServerDomain = strtok(NULL, ":");
 	screenResValue = strtok(NULL, "\n");
 	printf("%s\n", screenResValue);
 	
