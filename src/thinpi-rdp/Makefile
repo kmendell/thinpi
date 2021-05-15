@@ -11,7 +11,7 @@ mandir      = ${datarootdir}/man
 datarootdir = ${prefix}/share
 datadir     = ${datarootdir}
 
-VERSION     = 1.0-alpha
+VERSION     = 1.9.0
 KEYMAP_PATH = $(datadir)/rdesktop/keymaps/
 
 CC          = gcc
@@ -20,7 +20,7 @@ CFLAGS      = -g -O2 -Wall -Wextra      -I/usr/include/p11-kit-1 -pthread -I/usr
 LDFLAGS     =  -lgmp  -lXrandr -lXcursor -ltasn1 -lnettle -lhogweed -lgnutls -lpcsclite  -lasound -lpulse   
 STRIP       = strip
 
-TARGETS     = tprdp
+TARGETS     = rdesktop
 SOUNDOBJ    =  rdpsnd.o rdpsnd_dsp.o rdpsnd_oss.o rdpsnd_alsa.o rdpsnd_pulse.o
 SCARDOBJ    = scard.o
 CREDSSPOBJ  = 
@@ -31,8 +31,8 @@ X11OBJ   = rdesktop.o xwin.o xkeymap.o ewmhints.o xclip.o cliprdr.o ctrl.o
 .PHONY: all
 all: $(TARGETS)
 
-tprdp: $(X11OBJ) $(SOUNDOBJ) $(RDPOBJ) $(SCARDOBJ) $(CREDSSPOBJ)
-	$(CC) $(CFLAGS) -o tprdp $(X11OBJ) $(SOUNDOBJ) $(RDPOBJ) $(SCARDOBJ) $(CREDSSPOBJ) $(LDFLAGS) -lX11
+rdesktop: $(X11OBJ) $(SOUNDOBJ) $(RDPOBJ) $(SCARDOBJ) $(CREDSSPOBJ)
+	$(CC) $(CFLAGS) -o rdesktop $(X11OBJ) $(SOUNDOBJ) $(RDPOBJ) $(SCARDOBJ) $(CREDSSPOBJ) $(LDFLAGS) -lX11
 
 .PHONY: install
 install: installbin installkeymaps installman

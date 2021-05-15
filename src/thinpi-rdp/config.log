@@ -308,8 +308,8 @@ configure:4765: found /usr/bin/pkg-config
 configure:4777: result: /usr/bin/pkg-config
 configure:4801: checking for library containing __gmpz_init
 configure:4832: gcc -o conftest -g -O2 -Wall -Wextra   conftest.c  >&5
-/usr/bin/ld: /tmp/ccq9O5Dq.o: in function `main':
-/home/pi/rdesktop/conftest.c:31: undefined reference to `__gmpz_init'
+/usr/bin/ld: /tmp/ccSnMMe7.o: in function `main':
+/home/pi/git/thinpi/src/thinpi-rdp/conftest.c:31: undefined reference to `__gmpz_init'
 collect2: error: ld returned 1 exit status
 configure:4832: $? = 1
 configure: failed program was:

@@ -6,7 +6,7 @@
 void openConnection(gchar *u, gchar *p, gchar *s)
 {	
 	char *cmd = malloc(100);
-	sprintf(cmd, "tprdp +home-drive +gfx-thin-client /t:ThinPi /cert:tofu /size:1280x720 /f /rfx /sound:rate:44100,channel:2 /gdi:hw /u:'%s' /p:'%s' /v:%s", u, p, s);
+	sprintf(cmd, "tprdp %s -p %s -u %s", s, p, u);
 	// use wayland over x11 - this will be default in the update -- sprintf(cmd, "wlfreerdp +home-drive +gfx-thin-client /t:ThinPi /cert:tofu /size:1280x720 /f /rfx /audio:sys:alsa /gdi:sw /u:'%s' /p:'%s' /v:%s", u, p, s);
 	int rv = system(cmd);
 	if(rv == 0 || rv == 2816) {

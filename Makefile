@@ -24,10 +24,9 @@ cli: src/thinpi/cli/cli.c
 
 tprdp:
 	@echo "[THINPI] - Building tprdp ..."
-	cd src/rdp; \
-	cmake -DWITH_PULSE=on .; \
-	make xfreerdp-client --no-print-directory
-	cp src/rdp/client/X11/xfreerdp output/usr/bin/tprdp
+	cd src/thinpi-rdp; \
+	make  --no-print-directory
+	cp src/thinpi-rdp/tprdp  output/usr/bin/tprdp
 
 tpupdate:
 	shc -f src/thinpi/tpupdate/tpupdate
@@ -38,6 +37,7 @@ tpsudo:
 	@echo "[THINPI] - tpsudo Built"
 
 install: 
+	cp output/usr/bin/tprdp /usr/bin/tprdp
 	cp -r output/thinpi/* /thinpi
 	chmod -R 0777 /thinpi
 	chown -R pi /thinpi
