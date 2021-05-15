@@ -1,0 +1,133 @@
+#
+# rdesktop: A Remote Desktop Protocol client
+# Makefile.in
+# Copyright (C) Matthew Chapman 1999-2007
+#
+
+prefix      = @prefix@
+exec_prefix = @exec_prefix@
+bindir      = @bindir@
+mandir      = @mandir@
+datarootdir = @datarootdir@
+datadir     = @datadir@
+
+VERSION     = @PACKAGE_VERSION@
+KEYMAP_PATH = $(datadir)/rdesktop/keymaps/
+
+CC          = @CC@
+INSTALL     = @INSTALL@
+CFLAGS      = @CFLAGS@ @X_CFLAGS@ @DEFS@ -DKEYMAP_PATH=\"$(KEYMAP_PATH)\"
+LDFLAGS     = @LDFLAGS@ @LIBS@ @X_LIBS@ @X_EXTRA_LIBS@
+STRIP       = @STRIP@
+
+TARGETS     = rdesktop
+SOUNDOBJ    = @SOUNDOBJ@
+SCARDOBJ    = @SCARDOBJ@
+CREDSSPOBJ  = @CREDSSPOBJ@
+
+RDPOBJ   = tcp.o asn.o iso.o mcs.o secure.o licence.o rdp.o orders.o bitmap.o cache.o rdp5.o channels.o rdpdr.o serial.o printer.o disk.o parallel.o printercache.o mppc.o pstcache.o lspci.o seamless.o ssl.o utils.o stream.o dvc.o rdpedisp.o
+X11OBJ   = rdesktop.o xwin.o xkeymap.o ewmhints.o xclip.o cliprdr.o ctrl.o
+
+.PHONY: all
+all: $(TARGETS)
+
+rdesktop: $(X11OBJ) $(SOUNDOBJ) $(RDPOBJ) $(SCARDOBJ) $(CREDSSPOBJ)
+	$(CC) $(CFLAGS) -o rdesktop $(X11OBJ) $(SOUNDOBJ) $(RDPOBJ) $(SCARDOBJ) $(CREDSSPOBJ) $(LDFLAGS) -lX11
+
+.PHONY: install
+install: installbin installkeymaps installman
+
+.PHONY: installbin
+installbin: rdesktop
+	mkdir -p $(DESTDIR)$(bindir)
+	$(INSTALL) rdesktop $(DESTDIR)$(bindir)
+	$(STRIP) $(DESTDIR)$(bindir)/rdesktop
+	chmod 755 $(DESTDIR)$(bindir)/rdesktop
+
+.PHONY: installman
+installman: doc/rdesktop.1
+	mkdir -p $(DESTDIR)$(mandir)/man1
+	cp doc/rdesktop.1 $(DESTDIR)$(mandir)/man1
+	chmod 644 $(DESTDIR)$(mandir)/man1/rdesktop.1
+
+.PHONY: installkeymaps
+installkeymaps:
+	mkdir -p $(DESTDIR)$(KEYMAP_PATH)
+# Prevent copying the CVS directory
+	cp keymaps/?? keymaps/??-?? keymaps/??-??-???? $(DESTDIR)$(KEYMAP_PATH)
+	cp keymaps/common $(DESTDIR)$(KEYMAP_PATH)
+	cp keymaps/modifiers $(DESTDIR)$(KEYMAP_PATH)
+	chmod 644 $(DESTDIR)$(KEYMAP_PATH)/*
+
+.PHONY: clean
+clean:
+	rm -f *.o *~ rdesktop
+
+.PHONY: distclean
+distclean: clean
+	rm -rf autom4te.cache config.log config.status Makefile rdesktop-$(VERSION).tar.gz
+
+.PHONY: dist
+dist: rdesktop-$(VERSION).tar.gz
+
+rdesktop-$(VERSION).tar.gz: Makefile configure
+	mkdir -p /tmp/rdesktop-make-dist-dir
+	ln -sf `pwd` /tmp/rdesktop-make-dist-dir/rdesktop-$(VERSION)
+	(cd /tmp/rdesktop-make-dist-dir; \
+	tar zcvf rdesktop-$(VERSION)/rdesktop-$(VERSION).tar.gz \
+	rdesktop-$(VERSION)/COPYING \
+	rdesktop-$(VERSION)/README.md \
+	rdesktop-$(VERSION)/configure \
+	rdesktop-$(VERSION)/configure.ac \
+	rdesktop-$(VERSION)/config.sub \
+	rdesktop-$(VERSION)/config.guess \
+	rdesktop-$(VERSION)/bootstrap \
+	rdesktop-$(VERSION)/install-sh \
+	rdesktop-$(VERSION)/Makefile.in \
+	rdesktop-$(VERSION)/rdesktop.spec \
+	rdesktop-$(VERSION)/*.c \
+	rdesktop-$(VERSION)/*.h \
+	rdesktop-$(VERSION)/keymaps/?? \
+	rdesktop-$(VERSION)/keymaps/??-* \
+	rdesktop-$(VERSION)/keymaps/common \
+	rdesktop-$(VERSION)/keymaps/modifiers \
+	rdesktop-$(VERSION)/keymaps/convert-map \
+	rdesktop-$(VERSION)/doc/HACKING \
+	rdesktop-$(VERSION)/doc/AUTHORS \
+	rdesktop-$(VERSION)/doc/TODO \
+	rdesktop-$(VERSION)/doc/ChangeLog \
+	rdesktop-$(VERSION)/doc/keymapping.txt \
+	rdesktop-$(VERSION)/doc/keymap-names.txt \
+	rdesktop-$(VERSION)/doc/ipv6.txt \
+	rdesktop-$(VERSION)/doc/licensing.txt \
+	rdesktop-$(VERSION)/doc/patches.txt \
+	rdesktop-$(VERSION)/doc/redirection.txt \
+	rdesktop-$(VERSION)/doc/rdesktop.1 )
+	rm -rf /tmp/rdesktop-make-dist-dir
+
+.PHONY: dist-noversion
+dist-noversion: rdesktop.tar.gz
+
+rdesktop.tar.gz: rdesktop-$(VERSION).tar.gz
+	mkdir -p /tmp/rdesktop-make-dist-dir
+	tar zxvf $< -C /tmp/rdesktop-make-dist-dir
+	mv /tmp/rdesktop-make-dist-dir/rdesktop-$(VERSION) /tmp/rdesktop-make-dist-dir/rdesktop
+	ls /tmp/rdesktop-make-dist-dir/rdesktop
+	tar zcvf $@ -C /tmp/rdesktop-make-dist-dir rdesktop
+	rm -rf /tmp/rdesktop-make-dist-dir
+
+Makefile: Makefile.in configure
+	./config.status
+
+configure: configure.ac
+	./bootstrap
+
+.SUFFIXES:
+.SUFFIXES: .c .o
+
+.c.o:
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+.PHONY: doc/AUTHORS
+doc/AUTHORS:
+	./genauthors *.c
