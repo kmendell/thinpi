@@ -22,3 +22,4 @@ All notable changes to this project will be documented in this file.
 - [Build] Implement custom FreeRDP build (tprdp) - Done
 - [RDP] Bumped up to FreeRDP v2.3.2 -- Pulled -- Canceled
 - [RDP] Switched to a custom tpdp implementation (rdesktop)
+- [RDP] If logging into a Domain Based Server put -DOMAINNAME in the config file after the name of the server
