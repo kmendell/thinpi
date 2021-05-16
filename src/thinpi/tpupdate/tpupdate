@@ -1,13 +1,16 @@
 #!/bin/bash
 
-wget https://kmprojects.us/tpupdate/version.tpv -o /tmp/version.tpv
+wget -q https://kmprojects.us/api/tp/update.txt -O /tmp/version.tpv
+echo "Checking for updates...."
+sleep 2;
 
-file1="/tmp/version.tpv"
+file1="/usr/bin/update.txt"
 file2="/thinpi/version.tpv"
 
-if cmp -s "$file1" "$file2"; then
-    printf 'The file "%s" is the same as "%s"\n' "$file1" "$file2"
+version="0.2-h1"
+newversion=$(cat /tmp/version.tpv)
+if [ "$version" == "$(cat /tmp/version.tpv)" ] ;then
+    echo "ThinPi is Up to Date - $version"
 else
-    printf 'The file "%s" is different from "%s"\n' "$file1" "$file2"
-    dialog --title "tpupdate" --msgbox 'ThinPi has an update available' 6 20
+    echo "ThinPi has a Update Current version: $version - Update version: $newversion"
 fi
