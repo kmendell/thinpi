@@ -1,13 +1,17 @@
 #!/bin/bash
 
+version="0.2-h1"
+
+rm -f /tmp/version.tpv
+
 wget -q https://kmprojects.us/api/tp/update.txt -O /tmp/version.tpv
+echo "Current version: $version"
 echo "Checking for updates...."
 sleep 2;
 
 file1="/usr/bin/update.txt"
 file2="/thinpi/version.tpv"
 
-version="0.2-h1"
 newversion=$(cat /tmp/version.tpv)
 if [ "$version" == "$(cat /tmp/version.tpv)" ] ;then
     echo "ThinPi is Up to Date - $version"
