@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version="0.2-h1"
+version=$(cat /thinpi/version.tpv)
 
 rm -f /tmp/version.tpv
 
@@ -13,8 +13,17 @@ file1="/usr/bin/update.txt"
 file2="/thinpi/version.tpv"
 
 newversion=$(cat /tmp/version.tpv)
+
 if [ "$version" == "$(cat /tmp/version.tpv)" ] ;then
     echo "ThinPi is Up to Date - $version"
 else
     echo "ThinPi has a Update Current version: $version - Update version: $newversion"
+    echo "Downloading update $newversion..."
+    sleep 2
+    wget -q https://kmprojects.us/api/tp/update.tar.gz -O /tmp/update.tar.gz
+    tar -xzf /tmp/update.tar.gz
+    cd /tmp/thinpi-update/
+    echo "Installing new update..."
+    sleep 2
+    sudo make install
 fi
