@@ -20,8 +20,8 @@ else
     echo "ThinPi has a Update Current version: $version - Update version: $newversion"
     echo "Downloading update $newversion..."
     sleep 2
-    wget -q https://kmprojects.us/api/tp/update.tar.gz -O /tmp/update.tar.gz
-    tar -xzf /tmp/update.tar.gz
+    wget -q https://kmprojects.us/api/tp/update-$newversion.tar.gz -O /tmp/update-$newversion.tar.gz
+    tar -xzf /tmp/update-$newversion.tar.gz
     cd /tmp/thinpi-update/
     echo "Installing new update..."
     sleep 2
