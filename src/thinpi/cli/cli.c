@@ -1,24 +1,44 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void checkArg(char *sArg)
-{
-    printf("%s\n", sArg);
- 
+#define MIN_REQUIRED 2
+
+int help() {
+   printf("Usage: thinpi-cli [-i ] [-d ] [-e]\n");
+   printf("\t-i package: install a package from apt *where package is the name of the package*\n");
+   printf("\t-d package: remove a program from apt *where package is the name of the package*\n");
+   printf("\t-e config: edit the config file via nano\n");
+
+   return 1;
 }
 
-void main (int argc, char *argv[])
-{
-    system("figlet ThinPi");\
-    //this is failing in this build.... no idea why the argv wont pass into the other if statments.....
-    sleep(2);
-    if( argc == 2 ) {
-        
+/* main */
+int main(int argc, char *argv[]) {
+   if (argc < MIN_REQUIRED) {
+      return help();
    }
-   else if( argc > 2 ) {
-        printf("Too many arguments supplied.\n");
+   int i;
+
+   /* iterate over all arguments */
+   for (i = 1; i < (argc - 1); i++) {
+       if (strcmp("-i", argv[i]) == 0) {
+          /* do something with it */ 
+	  char *cmd = malloc(100);
+          sprintf(cmd, "sudo apt install %s", argv[++i]);
+	  system(cmd);
+          continue;
+       }
+       if (strcmp("-d", argv[i]) == 0) {
+	  char *cmd = malloc(100);
+          sprintf(cmd, "sudo apt remove %s", argv[++i]);
+	  system(cmd);
+          continue;
+       }
+       if (strcmp("-e", argv[i]) == 0) {
+          system("nano /thinpi/config/servers");
+	  continue;
+       }
+       return help();
    }
-   else {
-      printf("One argument expected.\n");
-   }
+   return 0;
 }
