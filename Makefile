@@ -5,7 +5,7 @@ TARGET = output/thinpi/thinpi-*
 ODIR = output/thinpi
 
 
-all: manager config cli tpsudo tprdp tpupdate
+all: manager config cli tprdp tpupdate
 
 manager: src/thinpi/managerv2.c src/thinpi/rdp.c src/thinpi/helpers.c src/thinpi/tpconfig.c
 	@echo "[THINPI] - Building connect-manager ..."
@@ -31,10 +31,6 @@ tprdp:
 tpupdate:
 	shc -f src/thinpi/tpupdate/tpupdate
 	cp src/thinpi/tpupdate/tpupdate.x output/usr/bin/tpupdate
-
-tpsudo:
-
-	@echo "[THINPI] - tpsudo Built"
 
 install: 
 	cp -r output/usr/bin/* /usr/bin/

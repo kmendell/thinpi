@@ -24,3 +24,5 @@ All notable changes to this project will be documented in this file.
 - [RDP] Switched to a custom tpdp implementation (rdesktop)
 - [RDP] If logging into a Domain Based Server put -DOMAINNAME in the config file after the name of the server
 - [CONFIG] Adding and Removing Servers now works completely
+- [CLI] Added -i *package*, -d *package*, -e config, -s update commands.
+- [Delete] tpsudo will be removed from all version as its not needed.
