@@ -8,8 +8,12 @@ gchar *ipToAdd;
 gchar *nameToAdd;
 GtkEntry *ipaddressTextbox;
 GtkEntry *displaynameTextbox;
+int dline = 0;
 
-int removeServer(GtkWidget *wid, gpointer ptr);
+#define BUFFER_SIZE 1000
+
+void rhandler(GtkWidget *wid, gpointer ptr);
+void deleteLine(FILE *srcFile, FILE *tempFile, const int line);
 
 void addNewServer(GtkWidget *wid, gpointer ptr)
 {
@@ -24,6 +28,9 @@ void addNewServer(GtkWidget *wid, gpointer ptr)
     
 
     fclose(file);
+
+	gtk_entry_set_text(ipaddressTextbox, "");
+	gtk_entry_set_text(displaynameTextbox, "");
 	
 }
 
@@ -44,123 +51,106 @@ ipaddressTextbox = (GtkEntry *) gtk_builder_get_object (builder, "ipaddressTextb
 
 g_signal_connect (configWindow, "delete_event", G_CALLBACK(closeThinPiManager), NULL);
 g_signal_connect (addButton, "clicked", G_CALLBACK(addNewServer), NULL);
-g_signal_connect (removeButton, "clicked", G_CALLBACK(removeServer), NULL);
+g_signal_connect (removeButton, "clicked", G_CALLBACK(rhandler), NULL);
 
 gtk_window_present(configWindow);
 gtk_main();
 
 }
 
-
-void removeAll(char * str, const char * toRemove)
-{
-    int i, j, stringLen, toRemoveLen;
-    int found;
-
-    stringLen   = strlen(str);      // Length of string
-    toRemoveLen = strlen(toRemove); // Length of word to remove
-
-
-    for(i=0; i <= stringLen - toRemoveLen; i++)
-    {
-        /* Match word with string */
-        found = 1;
-        for(j=0; j < toRemoveLen; j++)
-        {
-            if(str[i + j] != toRemove[j])
-            {
-                found = 0;
-                break;
-            }
-        }
-
-        /* If it is not a word */
-        if(str[i + j] != ' ' && str[i + j] != '\t' && str[i + j] != '\n' && str[i + j] != '\0') 
-        {
-            found = 0;
-        }
-
-        /*
-         * If word is found then shift all characters to left
-         * and decrement the string length
-         */
-        if(found == 1)
-        {
-            for(j=i; j <= stringLen - toRemoveLen; j++)
-            {
-                str[j] = str[j + toRemoveLen];
-            }
-
-            stringLen = stringLen - toRemoveLen;
-
-            // We will match next occurrence of word from current index.
-            i--;
-        }
-    }
+void rhandler(GtkWidget *wid, gpointer ptr) {
+	
+	   char *toRemove = malloc(1000);
+	char *string = malloc(100);
+    	sprintf(toRemove, "%s:%s\n", gtk_entry_get_text (ipaddressTextbox), gtk_entry_get_text (displaynameTextbox));
+	
+	SearchFile("/thinpi/config/servers", toRemove);
 }
 
 
-int removeServer(GtkWidget *wid, gpointer ptr)
-{
-    FILE * fPtr;
-    FILE * fTemp;
-    char path = malloc(100);
-    
-    char *toRemove = malloc(1000);
-    char *buffer = malloc(1000);
+int SearchFile(char *name, char *str) {
+	FILE *fp;
+	int line = 1;
+	int result = 0;
+	char temp[256];
 
-    char *string = malloc(100);
-    sprintf(toRemove, "%s:%s\n", gtk_entry_get_text (ipaddressTextbox), gtk_entry_get_text (displaynameTextbox));
+	if((fp = fopen(name, "r")) == NULL) {
+		return(-1);
+	}
 
-    /* Input source file path path */
-    path = "/thinpi/config/servers";
+	while(fgets(temp, 512, fp) != NULL) {
+		if((strstr(temp, str)) != NULL) {
+			printf("A Match Found on line: %d\n", line);
+			dline = line;
+			printf("\n%s\n", temp);
+			result++;
+		}
+		line++;
+	}
 
-    //toRemove = string;
+	if(result == 0) {
+		printf("\nSorry server doesnt exsist\n");
+	} else {
+		int comp = delete();
+		if(comp == 0) {
+			gtk_entry_set_text(ipaddressTextbox, "");
+			gtk_entry_set_text(displaynameTextbox, "");
+		}
+	}
 
 
-    /*  Open files */
-    fPtr  = fopen("/thinpi/config/servers", "r");
-    fTemp = fopen("/thinpi/config/delete.tmp", "w"); 
+	if(fp) {
+		fclose(fp);
+	}
+	return(0);
+}
 
-    /* fopen() return NULL if unable to open file in given mode. */
-    if (fPtr == NULL || fTemp == NULL)
+int delete() {
+    FILE *srcFile  = fopen("/thinpi/config/servers", "r");
+    FILE *tempFile = fopen("delete-line.tmp", "w");
+
+
+    /* Exit if file not opened successfully */
+    if (srcFile == NULL || tempFile == NULL)
     {
-        /* Unable to open file hence exit */
-        printf("\nUnable to open file.\n");
-        printf("Please check whether file exists and you have read/write privilege.\n");
-        exit(EXIT_SUCCESS);
+        printf("Unable to open file.\n");
+        printf("Please check you have read/write previleges.\n");
+
+        return -1;
     }
 
 
-    /*
-     * Read line from source file and write to destination 
-     * file after removing given word.
-     */
-    while ((fgets(buffer, BUFSIZ, fPtr)) != NULL)
-    {
-        // Remove all occurrence of word from current line
-        removeAll(buffer, toRemove);
+    // Move src file pointer to beginning
+    rewind(srcFile);
 
-        // Write to temp file
-        fputs(buffer, fTemp);
-    }
+    // Delete given line from file.
+    deleteLine(srcFile, tempFile, dline);
 
 
-    /* Close all files to release resource */
-    fclose(fPtr);
-    fclose(fTemp);
+    /* Close all open files */
+    fclose(srcFile);
+    fclose(tempFile);
 
 
-    /* Delete original source file */
-    remove(path);
-
-    /* Rename temp file as original file */
-    rename("/thinpi/config/delete.tmp", path);
-
-
-    printf("\nServer '%s' has been removed successfully.", toRemove);
-
+    /* Delete src file and rename temp file as src */
+    remove("/thinpi/config/servers");
+    rename("delete-line.tmp", "/thinpi/config/servers");
     return 0;
+}
+
+void deleteLine(FILE *srcFile, FILE *tempFile, const int line)
+{
+    char buffer[BUFFER_SIZE];
+    int count = 1;
+
+    while ((fgets(buffer, BUFFER_SIZE, srcFile)) != NULL)
+    {
+        /* If current line is not the line user wanted to remove */
+        if (line != count)
+            fputs(buffer, tempFile);
+
+        count++;
+    }
 }
 
 

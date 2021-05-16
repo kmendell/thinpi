@@ -25,3 +25,4 @@ extern void getServerConfig();
 extern void openConnection(gchar *u, gchar *p, gchar *s);
 extern void setUserInfo();
 int checkForUpdates();
+int SearchFile(char *name, char *str);
