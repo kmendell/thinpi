@@ -8,6 +8,7 @@ int help() {
    printf("\t-i package: install a package from apt *where package is the name of the package*\n");
    printf("\t-d package: remove a program from apt *where package is the name of the package*\n");
    printf("\t-e config: edit the config file via nano\n");
+   printf("\t-s update: edit the config file via nano\n");
 
    return 1;
 }
@@ -36,6 +37,10 @@ int main(int argc, char *argv[]) {
        }
        if (strcmp("-e", argv[i]) == 0) {
           system("nano /thinpi/config/servers");
+	  continue;
+       }
+	if (strcmp("-s", argv[i]) == 0) {
+          system("tpupdate");
 	  continue;
        }
        return help();

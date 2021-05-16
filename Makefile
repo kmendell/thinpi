@@ -37,10 +37,12 @@ tpsudo:
 	@echo "[THINPI] - tpsudo Built"
 
 install: 
-	cp output/usr/bin/tprdp /usr/bin/tprdp
+	cp -r output/usr/bin/* /usr/bin/
 	cp -r output/thinpi/* /thinpi
 	chmod -R 0777 /thinpi
 	chown -R pi /thinpi
+	sudo chown pi:root /usr/bin/thinpi-cli
+	sudo chmod 0777 /usr/bin/thinpi-cli
 	
 git:
 	git add . && git commit -m "v2 Update" && git push origin master -f
