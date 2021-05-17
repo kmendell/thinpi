@@ -6,8 +6,10 @@
 
 gchar *ipToAdd;
 gchar *nameToAdd;
+gchar *screenResToAdd;
 GtkEntry *ipaddressTextbox;
 GtkEntry *displaynameTextbox;
+GtkEntry *screenResTextbox;
 int dline = 0;
 
 #define BUFFER_SIZE 1000
@@ -19,9 +21,10 @@ void addNewServer(GtkWidget *wid, gpointer ptr)
 {
 	ipToAdd = gtk_entry_get_text (ipaddressTextbox);
 	nameToAdd = gtk_entry_get_text (displaynameTextbox);
+	screenResToAdd = gtk_entry_get_text (screenResTextbox);
 	char *string = malloc(100);
     FILE* file = fopen("/thinpi/config/servers", "a"); 
-	sprintf(string, "%s:%s\n", ipToAdd, nameToAdd);
+	sprintf(string, "%s:%s:%s\n", ipToAdd, nameToAdd, screenResToAdd);
 	printf("%s\n", string);
     fputs(string, file);
 	
@@ -31,6 +34,7 @@ void addNewServer(GtkWidget *wid, gpointer ptr)
 
 	gtk_entry_set_text(ipaddressTextbox, "");
 	gtk_entry_set_text(displaynameTextbox, "");
+	gtk_entry_set_text(screenResTextbox, "");
 	
 }
 
@@ -48,6 +52,7 @@ GtkWidget *addButton = (GtkWidget *) gtk_builder_get_object (builder, "addButton
 GtkWidget *removeButton = (GtkWidget *) gtk_builder_get_object (builder, "removeButton"); 
 displaynameTextbox = (GtkEntry *) gtk_builder_get_object (builder, "displaynameTextbox"); 
 ipaddressTextbox = (GtkEntry *) gtk_builder_get_object (builder, "ipaddressTextbox"); 
+screenResTextbox = (GtkEntry *) gtk_builder_get_object (builder, "screenResTextbox"); 
 
 g_signal_connect (configWindow, "delete_event", G_CALLBACK(closeThinPiManager), NULL);
 g_signal_connect (addButton, "clicked", G_CALLBACK(addNewServer), NULL);

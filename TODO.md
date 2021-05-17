@@ -9,3 +9,4 @@ All notable changes that are (so far planned, or being worked on) for this versi
 - [Image] Create Build Image Script - In Progress
 - [Optimize] Restructure and Reconfigure RDP arguments and GFX States - Planned
 - [Error] Implement Return Values from tprdp into the Connect Manager - In Progress
+- [GUI] Recreate config manager GUI to include new options (Domain and Screen Res and Passthrough Options - Planned 5/16/2021

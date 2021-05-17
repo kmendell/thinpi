@@ -54,12 +54,26 @@
             <property name="can_focus">True</property>
             <property name="margin_left">50</property>
             <property name="margin_right">50</property>
-            <property name="placeholder_text" translatable="yes">Display Name</property>
+            <property name="placeholder_text" translatable="yes">Domain</property>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="screenResTextbox">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="margin_left">50</property>
+            <property name="margin_right">50</property>
+            <property name="placeholder_text" translatable="yes">Screen Res - 1920x1080 etc.</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">3</property>
           </packing>
         </child>
         <child>
@@ -104,7 +118,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">3</property>
+            <property name="position">4</property>
           </packing>
         </child>
       </object>
