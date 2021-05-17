@@ -17,13 +17,13 @@ Image Release Coming Soon
 ## Building - Project Only
 
 ```bash
-git clone https://git.kmprojects.us/kmprojects/thinpi.git
+git clone https://git.kmprojects.us/kmendell/ThinPi.git
 
 cd thinpi
 
 sudo ./configure 
 
-make all
+make all 
 
 ```
 
@@ -53,15 +53,16 @@ Under ThinPi > Config Manager - This is where youll go to add or remove servers 
 
 There are also options for a Terminal and File Manager (In most cases these will only be used by the admin)
 
-Custom Commands included in this distro are: Image Release Only
+Custom Commands included in this distro are:
 
-editmenu - This will open up the Start Menu Editor to edit the menu items shown to the user 
+**editmenu - This will open up the Start Menu Editor to edit the menu items shown to the user 
 
-showconfig - This will open the file manager to the config directory if you need to maually edit or remove servers or devices from the config file
+**showconfig - This will open the file manager to the config directory if you need to maually edit or remove servers or devices from the config file
 
-thinpi-cli - Admin Console for system commands **This needs to be ran as sudo**
+thinpi-cli - Admin Console for system commands 
 
+** : Included only in the image release
 
 ## Contributing
 
-Email: getthinpi@gmail.com to join the team and discuss ceertain changes or improvements
+Email: getthinpi@gmail.com to join the team and discuss certain changes or improvements
