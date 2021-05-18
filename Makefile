@@ -5,7 +5,7 @@ TARGET = output/thinpi/thinpi-*
 ODIR = output/thinpi
 
 
-all: manager config cli tprdp tpupdate
+all: manager config cli tprdp tpupdate http
 
 manager: src/thinpi/managerv2.c src/thinpi/rdp.c src/thinpi/helpers.c src/thinpi/tpconfig.c
 	@echo "[THINPI] - Building connect-manager ..."
@@ -32,9 +32,18 @@ tpupdate:
 	shc -f src/thinpi/tpupdate/tpupdate
 	cp src/thinpi/tpupdate/tpupdate.x output/usr/bin/tpupdate
 
+http:
+	@echo "[THINPI] - Building http data..."
+	gcc -w src/thinpi-http/reboot.c -o src/thinpi-http/build/reboot.cgi
+	gcc -w src/thinpi-http/shutdown.c -o src/thinpi-http/build/shutdown.cgi
+	gcc -w src/thinpi-http/default.c -o src/thinpi-http/build/default.cgi
+	cp -r src/thinpi-http/build/* output/var/www/html/
+	cp src/thinpi-http/index.cgi output/var/www/html/index.cgi
+
 install: 
 	cp -r output/usr/bin/* /usr/bin/
 	cp -r output/thinpi/* /thinpi
+	cp -r output/var/www/html/* /var/www/html/
 	chmod -R 0777 /thinpi
 	chown -R pi /thinpi
 	sudo chown pi:root /usr/bin/thinpi-cli
