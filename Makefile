@@ -41,6 +41,10 @@ http:
 	cp src/thinpi-http/index.cgi output/var/www/html/index.cgi
 	cp src/thinpi-http/.htaccess output/var/www/html/.htaccess
 
+dashboard:
+	@echo "[THINPI] - Installing HTTP Dashboard ..."
+	cp -r src/thinpi-http/dashboard/* /var/www/html/dashboard/
+
 install: 
 	cp -r output/usr/bin/* /usr/bin/
 	cp -r output/thinpi/* /thinpi
