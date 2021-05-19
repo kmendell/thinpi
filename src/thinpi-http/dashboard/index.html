@@ -22,7 +22,7 @@
     <!-- End layout styles -->
     <link rel="shortcut icon" href="assets/images/tplogo/icon-colors.png" />
   </head>
-  <body>
+  <body onload="loadDataWidgets()">
     <div class="container-scroller">
       <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
@@ -228,7 +228,7 @@
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0">0.0.0.0</h3>
+                          <h3 id="ipHeader" class="mb-0">0.0.0.0</h3>
                           <p class="text-success ml-2 mb-0 font-weight-medium">Active</p>
                         </div>
                       </div>
@@ -248,7 +248,7 @@
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0">hostname</h3>
+                          <h3 id="hostnameHeader" class="mb-0">hostname</h3>
                           <p class="text-success ml-2 mb-0 font-weight-medium"></p>
                         </div>
                       </div>
@@ -268,7 +268,7 @@
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0">v0.2-h1</h3>
+                          <h3 id="tpHeader" class="mb-0">test</h3>
                           <p class="text-danger ml-2 mb-0 font-weight-medium"></p>
                         </div>
                       </div>
@@ -391,6 +391,7 @@
     <script src="assets/js/misc.js"></script>
     <script src="assets/js/settings.js"></script>
     <script src="assets/js/todolist.js"></script>
+    <script src="assets/js/thinpi.js"></script>
     <!-- endinject -->
     <!-- Custom js for this page -->
     <script src="assets/js/dashboard.js"></script>
