@@ -55,7 +55,7 @@ install:
 	sudo chmod 0777 /usr/bin/thinpi-cli
 	
 git:
-	git add . && git commit -m "v2 Update" && git push origin master -f
+	git add . -f && git commit -m "Commit From Make Script (AUTOMATED)" && git push origin master -f
 	
 uninstall:
 	rm -Rf /thinpi

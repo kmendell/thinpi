@@ -427,7 +427,7 @@ Copyright (C) 2012 Free Software Foundation, Inc.
 This config.status script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it."
 
-ac_pwd='/home/pi/git/thinpi/src/thinpi-rdp'
+ac_pwd='/home/coder/project/src/thinpi-rdp'
 srcdir='.'
 INSTALL='/usr/bin/install -c'
 test -n "$AWK" || AWK=awk
@@ -623,8 +623,8 @@ S["X_LIBS"]=""
 S["X_PRE_LIBS"]=" -lSM -lICE"
 S["X_CFLAGS"]=""
 S["XMKMF"]=""
-S["EGREP"]="/usr/bin/grep -E"
-S["GREP"]="/usr/bin/grep"
+S["EGREP"]="/bin/grep -E"
+S["GREP"]="/bin/grep"
 S["CPP"]="gcc -E"
 S["INSTALL_DATA"]="${INSTALL} -m 644"
 S["INSTALL_SCRIPT"]="${INSTALL}"
@@ -638,12 +638,12 @@ S["CFLAGS"]="-g -O2 -Wall -Wextra      -I/usr/include/p11-kit-1 -pthread -I/usr/
 S["CC"]="gcc"
 S["host_os"]="linux-gnu"
 S["host_vendor"]="unknown"
-S["host_cpu"]="armv7l"
-S["host"]="armv7l-unknown-linux-gnu"
+S["host_cpu"]="x86_64"
+S["host"]="x86_64-unknown-linux-gnu"
 S["build_os"]="linux-gnu"
 S["build_vendor"]="unknown"
-S["build_cpu"]="armv7l"
-S["build"]="armv7l-unknown-linux-gnu"
+S["build_cpu"]="x86_64"
+S["build"]="x86_64-unknown-linux-gnu"
 S["target_alias"]=""
 S["host_alias"]=""
 S["build_alias"]=""
@@ -657,7 +657,7 @@ S["DEFS"]="-DPACKAGE_NAME=\\\"rdesktop\\\" -DPACKAGE_TARNAME=\\\"rdesktop\\\" -D
 "H=1 -DHAVE_XRANDR=1 -DHAVE_XCURSOR=1 -DWITH_SCARD=1 -DWITH_PNP_NOTIFICATIONS=1 -DEGD_SOCKET=\\\"/var/run/egd-pool\\\" -DWITH_RDPSND=1 -DRDPSND_OSS=1 -DR"\
 "DPSND_ALSA=1 -DRDPSND_PULSE=1 -DHAVE_DIRENT_H=1 -DHAVE_DIRFD=1 -DHAVE_DECL_DIRFD=1 -DHAVE_ICONV_H=1 -DHAVE_ICONV=1 -DICONV_CONST= -DHAVE_SYS_VFS_H=1"\
 " -DHAVE_SYS_STATVFS_H=1 -DHAVE_SYS_STATFS_H=1 -DHAVE_SYS_PARAM_H=1 -DHAVE_SYS_MOUNT_H=1 -DSTAT_STATVFS=1 -DHAVE_STRUCT_STATVFS_F_NAMEMAX=1 -DHAVE_ST"\
-"RUCT_STATFS_F_NAMELEN=1 -D_FILE_OFFSET_BITS=64 -DHAVE_MNTENT_H=1 -DHAVE_SETMNTENT=1"
+"RUCT_STATFS_F_NAMELEN=1 -DHAVE_MNTENT_H=1 -DHAVE_SETMNTENT=1"
 S["mandir"]="${datarootdir}/man"
 S["localedir"]="${datarootdir}/locale"
 S["libdir"]="${exec_prefix}/lib"
