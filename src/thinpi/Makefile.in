@@ -86,7 +86,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = thinpi$(EXEEXT)
+bin_PROGRAMS = tpconnect$(EXEEXT) tpconfig$(EXEEXT)
 subdir = src/thinpi
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -98,11 +98,17 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_thinpi_OBJECTS = thinpi-manager.$(OBJEXT) thinpi-rdp.$(OBJEXT) \
-	thinpi-helpers.$(OBJEXT)
-thinpi_OBJECTS = $(am_thinpi_OBJECTS)
-thinpi_LDADD = $(LDADD)
-thinpi_LINK = $(CCLD) $(thinpi_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
+am_tpconfig_OBJECTS = tpconfig-tpconfig.$(OBJEXT) \
+	tpconfig-rdp.$(OBJEXT) tpconfig-helpers.$(OBJEXT)
+tpconfig_OBJECTS = $(am_tpconfig_OBJECTS)
+tpconfig_LDADD = $(LDADD)
+tpconfig_LINK = $(CCLD) $(tpconfig_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am_tpconnect_OBJECTS = tpconnect-manager.$(OBJEXT) \
+	tpconnect-rdp.$(OBJEXT) tpconnect-helpers.$(OBJEXT)
+tpconnect_OBJECTS = $(am_tpconnect_OBJECTS)
+tpconnect_LDADD = $(LDADD)
+tpconnect_LINK = $(CCLD) $(tpconnect_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -119,8 +125,10 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/thinpi-helpers.Po \
-	./$(DEPDIR)/thinpi-manager.Po ./$(DEPDIR)/thinpi-rdp.Po
+am__depfiles_remade = ./$(DEPDIR)/tpconfig-helpers.Po \
+	./$(DEPDIR)/tpconfig-rdp.Po ./$(DEPDIR)/tpconfig-tpconfig.Po \
+	./$(DEPDIR)/tpconnect-helpers.Po \
+	./$(DEPDIR)/tpconnect-manager.Po ./$(DEPDIR)/tpconnect-rdp.Po
 am__mv = mv -f
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -138,8 +146,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(thinpi_SOURCES)
-DIST_SOURCES = $(thinpi_SOURCES)
+SOURCES = $(tpconfig_SOURCES) $(tpconnect_SOURCES)
+DIST_SOURCES = $(tpconfig_SOURCES) $(tpconnect_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -252,8 +260,10 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-thinpi_SOURCES = manager.c rdp.c helpers.c 
-thinpi_CFLAGS = `pkg-config --cflags --libs gtk+-3.0`
+tpconnect_SOURCES = manager.c rdp.c helpers.c 
+tpconnect_CFLAGS = `pkg-config --cflags --libs gtk+-3.0`
+tpconfig_SOURCES = tpconfig.c rdp.c helpers.c 
+tpconfig_CFLAGS = `pkg-config --cflags --libs gtk+-3.0`
 all: all-am
 
 .SUFFIXES:
@@ -330,9 +340,13 @@ uninstall-binPROGRAMS:
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
 
-thinpi$(EXEEXT): $(thinpi_OBJECTS) $(thinpi_DEPENDENCIES) $(EXTRA_thinpi_DEPENDENCIES) 
-	@rm -f thinpi$(EXEEXT)
-	$(AM_V_CCLD)$(thinpi_LINK) $(thinpi_OBJECTS) $(thinpi_LDADD) $(LIBS)
+tpconfig$(EXEEXT): $(tpconfig_OBJECTS) $(tpconfig_DEPENDENCIES) $(EXTRA_tpconfig_DEPENDENCIES) 
+	@rm -f tpconfig$(EXEEXT)
+	$(AM_V_CCLD)$(tpconfig_LINK) $(tpconfig_OBJECTS) $(tpconfig_LDADD) $(LIBS)
+
+tpconnect$(EXEEXT): $(tpconnect_OBJECTS) $(tpconnect_DEPENDENCIES) $(EXTRA_tpconnect_DEPENDENCIES) 
+	@rm -f tpconnect$(EXEEXT)
+	$(AM_V_CCLD)$(tpconnect_LINK) $(tpconnect_OBJECTS) $(tpconnect_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -340,9 +354,12 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thinpi-helpers.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thinpi-manager.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thinpi-rdp.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tpconfig-helpers.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tpconfig-rdp.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tpconfig-tpconfig.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tpconnect-helpers.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tpconnect-manager.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tpconnect-rdp.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -366,47 +383,89 @@ am--depfiles: $(am__depfiles_remade)
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(COMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
-thinpi-manager.o: manager.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(thinpi_CFLAGS) $(CFLAGS) -MT thinpi-manager.o -MD -MP -MF $(DEPDIR)/thinpi-manager.Tpo -c -o thinpi-manager.o `test -f 'manager.c' || echo '$(srcdir)/'`manager.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/thinpi-manager.Tpo $(DEPDIR)/thinpi-manager.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='manager.c' object='thinpi-manager.o' libtool=no @AMDEPBACKSLASH@
+tpconfig-tpconfig.o: tpconfig.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconfig_CFLAGS) $(CFLAGS) -MT tpconfig-tpconfig.o -MD -MP -MF $(DEPDIR)/tpconfig-tpconfig.Tpo -c -o tpconfig-tpconfig.o `test -f 'tpconfig.c' || echo '$(srcdir)/'`tpconfig.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tpconfig-tpconfig.Tpo $(DEPDIR)/tpconfig-tpconfig.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='tpconfig.c' object='tpconfig-tpconfig.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(thinpi_CFLAGS) $(CFLAGS) -c -o thinpi-manager.o `test -f 'manager.c' || echo '$(srcdir)/'`manager.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconfig_CFLAGS) $(CFLAGS) -c -o tpconfig-tpconfig.o `test -f 'tpconfig.c' || echo '$(srcdir)/'`tpconfig.c
 
-thinpi-manager.obj: manager.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(thinpi_CFLAGS) $(CFLAGS) -MT thinpi-manager.obj -MD -MP -MF $(DEPDIR)/thinpi-manager.Tpo -c -o thinpi-manager.obj `if test -f 'manager.c'; then $(CYGPATH_W) 'manager.c'; else $(CYGPATH_W) '$(srcdir)/manager.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/thinpi-manager.Tpo $(DEPDIR)/thinpi-manager.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='manager.c' object='thinpi-manager.obj' libtool=no @AMDEPBACKSLASH@
+tpconfig-tpconfig.obj: tpconfig.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconfig_CFLAGS) $(CFLAGS) -MT tpconfig-tpconfig.obj -MD -MP -MF $(DEPDIR)/tpconfig-tpconfig.Tpo -c -o tpconfig-tpconfig.obj `if test -f 'tpconfig.c'; then $(CYGPATH_W) 'tpconfig.c'; else $(CYGPATH_W) '$(srcdir)/tpconfig.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tpconfig-tpconfig.Tpo $(DEPDIR)/tpconfig-tpconfig.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='tpconfig.c' object='tpconfig-tpconfig.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(thinpi_CFLAGS) $(CFLAGS) -c -o thinpi-manager.obj `if test -f 'manager.c'; then $(CYGPATH_W) 'manager.c'; else $(CYGPATH_W) '$(srcdir)/manager.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconfig_CFLAGS) $(CFLAGS) -c -o tpconfig-tpconfig.obj `if test -f 'tpconfig.c'; then $(CYGPATH_W) 'tpconfig.c'; else $(CYGPATH_W) '$(srcdir)/tpconfig.c'; fi`
 
-thinpi-rdp.o: rdp.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(thinpi_CFLAGS) $(CFLAGS) -MT thinpi-rdp.o -MD -MP -MF $(DEPDIR)/thinpi-rdp.Tpo -c -o thinpi-rdp.o `test -f 'rdp.c' || echo '$(srcdir)/'`rdp.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/thinpi-rdp.Tpo $(DEPDIR)/thinpi-rdp.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='rdp.c' object='thinpi-rdp.o' libtool=no @AMDEPBACKSLASH@
+tpconfig-rdp.o: rdp.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconfig_CFLAGS) $(CFLAGS) -MT tpconfig-rdp.o -MD -MP -MF $(DEPDIR)/tpconfig-rdp.Tpo -c -o tpconfig-rdp.o `test -f 'rdp.c' || echo '$(srcdir)/'`rdp.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tpconfig-rdp.Tpo $(DEPDIR)/tpconfig-rdp.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='rdp.c' object='tpconfig-rdp.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(thinpi_CFLAGS) $(CFLAGS) -c -o thinpi-rdp.o `test -f 'rdp.c' || echo '$(srcdir)/'`rdp.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconfig_CFLAGS) $(CFLAGS) -c -o tpconfig-rdp.o `test -f 'rdp.c' || echo '$(srcdir)/'`rdp.c
 
-thinpi-rdp.obj: rdp.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(thinpi_CFLAGS) $(CFLAGS) -MT thinpi-rdp.obj -MD -MP -MF $(DEPDIR)/thinpi-rdp.Tpo -c -o thinpi-rdp.obj `if test -f 'rdp.c'; then $(CYGPATH_W) 'rdp.c'; else $(CYGPATH_W) '$(srcdir)/rdp.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/thinpi-rdp.Tpo $(DEPDIR)/thinpi-rdp.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='rdp.c' object='thinpi-rdp.obj' libtool=no @AMDEPBACKSLASH@
+tpconfig-rdp.obj: rdp.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconfig_CFLAGS) $(CFLAGS) -MT tpconfig-rdp.obj -MD -MP -MF $(DEPDIR)/tpconfig-rdp.Tpo -c -o tpconfig-rdp.obj `if test -f 'rdp.c'; then $(CYGPATH_W) 'rdp.c'; else $(CYGPATH_W) '$(srcdir)/rdp.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tpconfig-rdp.Tpo $(DEPDIR)/tpconfig-rdp.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='rdp.c' object='tpconfig-rdp.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(thinpi_CFLAGS) $(CFLAGS) -c -o thinpi-rdp.obj `if test -f 'rdp.c'; then $(CYGPATH_W) 'rdp.c'; else $(CYGPATH_W) '$(srcdir)/rdp.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconfig_CFLAGS) $(CFLAGS) -c -o tpconfig-rdp.obj `if test -f 'rdp.c'; then $(CYGPATH_W) 'rdp.c'; else $(CYGPATH_W) '$(srcdir)/rdp.c'; fi`
 
-thinpi-helpers.o: helpers.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(thinpi_CFLAGS) $(CFLAGS) -MT thinpi-helpers.o -MD -MP -MF $(DEPDIR)/thinpi-helpers.Tpo -c -o thinpi-helpers.o `test -f 'helpers.c' || echo '$(srcdir)/'`helpers.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/thinpi-helpers.Tpo $(DEPDIR)/thinpi-helpers.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='helpers.c' object='thinpi-helpers.o' libtool=no @AMDEPBACKSLASH@
+tpconfig-helpers.o: helpers.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconfig_CFLAGS) $(CFLAGS) -MT tpconfig-helpers.o -MD -MP -MF $(DEPDIR)/tpconfig-helpers.Tpo -c -o tpconfig-helpers.o `test -f 'helpers.c' || echo '$(srcdir)/'`helpers.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tpconfig-helpers.Tpo $(DEPDIR)/tpconfig-helpers.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='helpers.c' object='tpconfig-helpers.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(thinpi_CFLAGS) $(CFLAGS) -c -o thinpi-helpers.o `test -f 'helpers.c' || echo '$(srcdir)/'`helpers.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconfig_CFLAGS) $(CFLAGS) -c -o tpconfig-helpers.o `test -f 'helpers.c' || echo '$(srcdir)/'`helpers.c
 
-thinpi-helpers.obj: helpers.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(thinpi_CFLAGS) $(CFLAGS) -MT thinpi-helpers.obj -MD -MP -MF $(DEPDIR)/thinpi-helpers.Tpo -c -o thinpi-helpers.obj `if test -f 'helpers.c'; then $(CYGPATH_W) 'helpers.c'; else $(CYGPATH_W) '$(srcdir)/helpers.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/thinpi-helpers.Tpo $(DEPDIR)/thinpi-helpers.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='helpers.c' object='thinpi-helpers.obj' libtool=no @AMDEPBACKSLASH@
+tpconfig-helpers.obj: helpers.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconfig_CFLAGS) $(CFLAGS) -MT tpconfig-helpers.obj -MD -MP -MF $(DEPDIR)/tpconfig-helpers.Tpo -c -o tpconfig-helpers.obj `if test -f 'helpers.c'; then $(CYGPATH_W) 'helpers.c'; else $(CYGPATH_W) '$(srcdir)/helpers.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tpconfig-helpers.Tpo $(DEPDIR)/tpconfig-helpers.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='helpers.c' object='tpconfig-helpers.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(thinpi_CFLAGS) $(CFLAGS) -c -o thinpi-helpers.obj `if test -f 'helpers.c'; then $(CYGPATH_W) 'helpers.c'; else $(CYGPATH_W) '$(srcdir)/helpers.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconfig_CFLAGS) $(CFLAGS) -c -o tpconfig-helpers.obj `if test -f 'helpers.c'; then $(CYGPATH_W) 'helpers.c'; else $(CYGPATH_W) '$(srcdir)/helpers.c'; fi`
+
+tpconnect-manager.o: manager.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconnect_CFLAGS) $(CFLAGS) -MT tpconnect-manager.o -MD -MP -MF $(DEPDIR)/tpconnect-manager.Tpo -c -o tpconnect-manager.o `test -f 'manager.c' || echo '$(srcdir)/'`manager.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tpconnect-manager.Tpo $(DEPDIR)/tpconnect-manager.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='manager.c' object='tpconnect-manager.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconnect_CFLAGS) $(CFLAGS) -c -o tpconnect-manager.o `test -f 'manager.c' || echo '$(srcdir)/'`manager.c
+
+tpconnect-manager.obj: manager.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconnect_CFLAGS) $(CFLAGS) -MT tpconnect-manager.obj -MD -MP -MF $(DEPDIR)/tpconnect-manager.Tpo -c -o tpconnect-manager.obj `if test -f 'manager.c'; then $(CYGPATH_W) 'manager.c'; else $(CYGPATH_W) '$(srcdir)/manager.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tpconnect-manager.Tpo $(DEPDIR)/tpconnect-manager.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='manager.c' object='tpconnect-manager.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconnect_CFLAGS) $(CFLAGS) -c -o tpconnect-manager.obj `if test -f 'manager.c'; then $(CYGPATH_W) 'manager.c'; else $(CYGPATH_W) '$(srcdir)/manager.c'; fi`
+
+tpconnect-rdp.o: rdp.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconnect_CFLAGS) $(CFLAGS) -MT tpconnect-rdp.o -MD -MP -MF $(DEPDIR)/tpconnect-rdp.Tpo -c -o tpconnect-rdp.o `test -f 'rdp.c' || echo '$(srcdir)/'`rdp.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tpconnect-rdp.Tpo $(DEPDIR)/tpconnect-rdp.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='rdp.c' object='tpconnect-rdp.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconnect_CFLAGS) $(CFLAGS) -c -o tpconnect-rdp.o `test -f 'rdp.c' || echo '$(srcdir)/'`rdp.c
+
+tpconnect-rdp.obj: rdp.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconnect_CFLAGS) $(CFLAGS) -MT tpconnect-rdp.obj -MD -MP -MF $(DEPDIR)/tpconnect-rdp.Tpo -c -o tpconnect-rdp.obj `if test -f 'rdp.c'; then $(CYGPATH_W) 'rdp.c'; else $(CYGPATH_W) '$(srcdir)/rdp.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tpconnect-rdp.Tpo $(DEPDIR)/tpconnect-rdp.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='rdp.c' object='tpconnect-rdp.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconnect_CFLAGS) $(CFLAGS) -c -o tpconnect-rdp.obj `if test -f 'rdp.c'; then $(CYGPATH_W) 'rdp.c'; else $(CYGPATH_W) '$(srcdir)/rdp.c'; fi`
+
+tpconnect-helpers.o: helpers.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconnect_CFLAGS) $(CFLAGS) -MT tpconnect-helpers.o -MD -MP -MF $(DEPDIR)/tpconnect-helpers.Tpo -c -o tpconnect-helpers.o `test -f 'helpers.c' || echo '$(srcdir)/'`helpers.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tpconnect-helpers.Tpo $(DEPDIR)/tpconnect-helpers.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='helpers.c' object='tpconnect-helpers.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconnect_CFLAGS) $(CFLAGS) -c -o tpconnect-helpers.o `test -f 'helpers.c' || echo '$(srcdir)/'`helpers.c
+
+tpconnect-helpers.obj: helpers.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconnect_CFLAGS) $(CFLAGS) -MT tpconnect-helpers.obj -MD -MP -MF $(DEPDIR)/tpconnect-helpers.Tpo -c -o tpconnect-helpers.obj `if test -f 'helpers.c'; then $(CYGPATH_W) 'helpers.c'; else $(CYGPATH_W) '$(srcdir)/helpers.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tpconnect-helpers.Tpo $(DEPDIR)/tpconnect-helpers.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='helpers.c' object='tpconnect-helpers.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tpconnect_CFLAGS) $(CFLAGS) -c -o tpconnect-helpers.obj `if test -f 'helpers.c'; then $(CYGPATH_W) 'helpers.c'; else $(CYGPATH_W) '$(srcdir)/helpers.c'; fi`
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -535,9 +594,12 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
-		-rm -f ./$(DEPDIR)/thinpi-helpers.Po
-	-rm -f ./$(DEPDIR)/thinpi-manager.Po
-	-rm -f ./$(DEPDIR)/thinpi-rdp.Po
+		-rm -f ./$(DEPDIR)/tpconfig-helpers.Po
+	-rm -f ./$(DEPDIR)/tpconfig-rdp.Po
+	-rm -f ./$(DEPDIR)/tpconfig-tpconfig.Po
+	-rm -f ./$(DEPDIR)/tpconnect-helpers.Po
+	-rm -f ./$(DEPDIR)/tpconnect-manager.Po
+	-rm -f ./$(DEPDIR)/tpconnect-rdp.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -583,9 +645,12 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-		-rm -f ./$(DEPDIR)/thinpi-helpers.Po
-	-rm -f ./$(DEPDIR)/thinpi-manager.Po
-	-rm -f ./$(DEPDIR)/thinpi-rdp.Po
+		-rm -f ./$(DEPDIR)/tpconfig-helpers.Po
+	-rm -f ./$(DEPDIR)/tpconfig-rdp.Po
+	-rm -f ./$(DEPDIR)/tpconfig-tpconfig.Po
+	-rm -f ./$(DEPDIR)/tpconnect-helpers.Po
+	-rm -f ./$(DEPDIR)/tpconnect-manager.Po
+	-rm -f ./$(DEPDIR)/tpconnect-rdp.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
