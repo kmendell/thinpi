@@ -16,6 +16,7 @@ newversion=$(cat /tmp/version.tpv)
 
 if [ "$version" == "$(cat /tmp/version.tpv)" ] ;then
     echo "ThinPi is Up to Date - $version"
+    return 0
 else
     echo "ThinPi has a Update Current version: $version - Update version: $newversion"
     echo "Downloading update $newversion..."
@@ -26,4 +27,5 @@ else
     echo "Installing new update..."
     sleep 2
     sudo make install
+    return 1
 fi
