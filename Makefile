@@ -25,7 +25,7 @@ cli: src/thinpi/cli/cli.c
 tprdp:
 	@echo "[THINPI] - Building tprdp ..."
 	cd src/thinpi-rdp; \
-	./configure --disable-credssp; \
+	./configure --disable-credssp --disable-smartcard; \
 	make  --no-print-directory
 	cp src/thinpi-rdp/tprdp  output/usr/bin/tprdp
 
