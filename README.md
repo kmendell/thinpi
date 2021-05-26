@@ -30,28 +30,6 @@ Once built Navigate to that local path and copy all files and folders to the roo
 
 If you encounter any errors please open a issue and email getthinpi@gmail.com
 
-## ThinPi Usage
-
-Upon the first boot of the Pi you will be prompted by a custom LXDE Desktop
-
-The start menu in the top left holds all functtions you will need to use thin pi
-
-Under ThinPi > Connect Manager - This is where you will go to connect to the servers you have added in the config files
-
-Under ThinPi > Config Manager - This is where youll go to add or remove servers to the config file that the Connect Manager will read from
-
-There are also options for a Terminal and File Manager (In most cases these will only be used by the admin)
-
-Custom Commands included in this distro are:
-
-**editmenu - This will open up the Start Menu Editor to edit the menu items shown to the user 
-
-**showconfig - This will open the file manager to the config directory if you need to maually edit or remove servers or devices from the config file
-
-thinpi-cli - Admin Console for system commands 
-
-** : Included only in the image release
-
 ## Contributing
 
 Email: getthinpi@gmail.com to join the team and discuss certain changes or improvements
