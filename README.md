@@ -16,7 +16,7 @@ Image Release Coming Soon
 
 ## Building - Project Only
 
-** ThinPi Now Uses Docker as a Build Context **
+**ThinPi Now Uses Docker as a Build Context**
 
 ```bash
 
@@ -30,7 +30,7 @@ docker run -it -v /local/path:/thinpi kmendell/tpdocker:alpha
 
 Once built Navigate to that local path and copy all files and folders to the root of the SD Card of the Raspberry Pi
 
-** This Docker Context will EVENTUALLY build the complete .img - Currently it does not **
+**This Docker Context will EVENTUALLY build the complete .img - Currently it does not**
 
 If you encounter any errors please open a issue and email getthinpi@gmail.com
 
