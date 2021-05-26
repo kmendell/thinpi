@@ -40,7 +40,6 @@ http:
 	gcc -w src/thinpi-http/default.c -o src/thinpi-http/build/default.cgi
 	cp -r src/thinpi-http/build/* output/var/www/html/
 	cp src/thinpi-http/index.cgi output/var/www/html/index.cgi
-	cp src/thinpi-http/.htaccess output/var/www/html/.htaccess
 
 dashboard:
 	@echo "[THINPI] - Installing HTTP Dashboard ..."
