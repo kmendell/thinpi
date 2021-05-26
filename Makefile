@@ -7,9 +7,9 @@ ODIR = output/thinpi
 
 all: manager config cli tprdp tpupdate http docker
 
-manager: src/thinpi/managerv2.c src/thinpi/rdp.c src/thinpi/helpers.c src/thinpi/tpconfig.c
+manager: src/thinpi/manager.c src/thinpi/rdp.c src/thinpi/helpers.c src/thinpi/tpconfig.c
 	@echo "[THINPI] - Building connect-manager ..."
-	$(CC) -w src/thinpi/managerv2.c src/thinpi/rdp.c src/thinpi/helpers.c $(CFLAGS)  -o $(ODIR)/thinpi-manager
+	$(CC) -w src/thinpi/manager.c src/thinpi/rdp.c src/thinpi/helpers.c $(CFLAGS)  -o $(ODIR)/thinpi-manager
 	cp src/Interface/connect-manager.glade output/thinpi/Interface/connect-manager.glade
 
 config:
