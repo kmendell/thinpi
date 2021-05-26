@@ -16,16 +16,23 @@ Image Release Coming Soon
 
 ## Building - Project Only
 
+** ThinPi Now Uses Docker as a Build Context **
+
 ```bash
-git clone https://git.kmprojects.us/kmendell/ThinPi.git
 
-cd thinpi
+docker pull kmendell/tpdocker:alpha
 
-sudo ./configure 
-
-make all 
+docker run -it -v /local/path:/thinpi kmendell/tpdocker:alpha
 
 ```
+
+/local/path is where you want the output of the ThinPi FS to save too 
+
+Once built Navigate to that local path and copy all files and folders to the root of the SD Card of the Raspberry Pi
+
+** This Docker Context will EVENTUALLY build the complete .img - Currently it does not **
+
+If you encounter any errors please open a issue and email getthinpi@gmail.com
 
 **The configure command must be ran as sudo - it handles all dependency install and directory creation**
 
