@@ -30,10 +30,6 @@ Once built Navigate to that local path and copy all files and folders to the roo
 
 If you encounter any errors please open a issue and email getthinpi@gmail.com
 
-**The configure command must be ran as sudo - it handles all dependency install and directory creation**
-
-This will compile all project files into the output directory in there repective directorys (output is /)
-
 ## ThinPi Usage
 
 Upon the first boot of the Pi you will be prompted by a custom LXDE Desktop
