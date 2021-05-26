@@ -25,6 +25,7 @@ cli: src/thinpi/cli/cli.c
 tprdp:
 	@echo "[THINPI] - Building tprdp ..."
 	cd src/thinpi-rdp; \
+	./configure; \
 	make  --no-print-directory
 	cp src/thinpi-rdp/tprdp  output/usr/bin/tprdp
 
