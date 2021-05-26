@@ -56,7 +56,7 @@ install:
 
 docker:
 	cp -r output/* /thinpi/
-	cp -r src/thinpi-http/dashboard/* /thinpi/dashboard/
+	cp -r src/thinpi-http/dashboard/ /thinpi/
 	
 git:
 	git add . -f && git commit -m "Commit From Make Script (AUTOMATED)" && git push origin master -f
