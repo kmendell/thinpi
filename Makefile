@@ -5,7 +5,7 @@ TARGET = output/thinpi/thinpi-*
 ODIR = output/thinpi
 
 
-all: manager config cli tprdp tpupdate http docker
+all: manager config cli tprdp tpupdate http
 
 manager: src/thinpi/manager.c src/thinpi/rdp.c src/thinpi/helpers.c src/thinpi/tpconfig.c
 	@echo "[THINPI] - Building connect-manager ..."
