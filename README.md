@@ -10,11 +10,7 @@ Developed and Maintained By: Kyle Mendell
 
 This project has been being developed on a RPi4 so it is fully stabled on all of those devices, It has not been tested on any other Pi's, That being said it is running a armhf verison not a arm64 based OS
 
-## Installation
-
-Image Release Coming Soon
-
-## Building - Project Only
+## Building Using Docker
 
 **ThinPi Now Uses Docker as a Build Context**
 
@@ -37,16 +33,6 @@ If you encounter any errors please open a issue and email getthinpi@gmail.com
 **The configure command must be ran as sudo - it handles all dependency install and directory creation**
 
 This will compile all project files into the output directory in there repective directorys (output is /)
-
-Note however this will not build a image to flash to an SD Card
-
-If you want to install the files to the filesystem run 
-
-```bash
-sudo make install
-```
-
-This needs to be ran as sudo because it copys file into /usr/bin and /boot
 
 ## ThinPi Usage
 
