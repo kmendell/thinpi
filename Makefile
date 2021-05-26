@@ -5,7 +5,7 @@ TARGET = output/thinpi/thinpi-*
 ODIR = output/thinpi
 
 
-all: manager config cli tprdp tpupdate http
+all: manager config cli tprdp tpupdate http docker
 
 manager: src/thinpi/managerv2.c src/thinpi/rdp.c src/thinpi/helpers.c src/thinpi/tpconfig.c
 	@echo "[THINPI] - Building connect-manager ..."
@@ -53,6 +53,10 @@ install:
 	chown -R pi /thinpi
 	sudo chown pi:root /usr/bin/thinpi-cli
 	sudo chmod 0777 /usr/bin/thinpi-cli
+
+docker:
+	cp -r output/* /thinpi/
+	cp -r src/thinpi-http/dashboard/* /thinpi/dashboard/
 	
 git:
 	git add . -f && git commit -m "Commit From Make Script (AUTOMATED)" && git push origin master -f
