@@ -16,15 +16,27 @@ This project has been being developed on a RPi4 so it is fully stabled on all of
 
 ```bash
 
-docker pull kmendell/tpdocker:alpha
+docker pull kmendell/tpdocker:build
 
-docker run -it -v /local/path:/thinpi kmendell/tpdocker:alpha
+docker run -it -v /local/path:/thinpi kmendell/tpdocker:build
 
 ```
 
 /local/path is where you want the output of the ThinPi FS to save too 
 
 Once built Navigate to that local path and copy all files and folders to the root of the SD Card of the Raspberry Pi
+
+### Docker tag options:
+
+```
+:build - Build the latest stable source code of ThinPi
+
+:testing - Build the absolute latest (nightly) builds of ThinPi
+
+:latest - Same thing as build
+
+:alpha - Build the not stable but not nightly builds of ThinPi
+```
 
 **This Docker Context will EVENTUALLY build the complete .img - Currently it does not**
 
