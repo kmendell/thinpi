@@ -6,9 +6,13 @@
 
 ThinPi is a open source Thin Client for the Raspberry Pi 4
 
+ThinPi Can Connect to any Machine that has a RDP Server Running 
+
+Currently RDP is only supported in the future pottentially will add citrix based support and so on
+
 Developed and Maintained By: Kyle Mendell
 
-This project has been being developed on a RPi4 so it is fully stabled on all of those devices, It has not been tested on any other Pi's, That being said it is running a armhf verison not a arm64 based OS
+ThinPi is a Debian Based arm32v7 based OS by default, Build for arm64 will be available soon
 
 ## Building Using Docker
 
