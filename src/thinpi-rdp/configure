@@ -5476,7 +5476,7 @@ fi
 
 
 	  if test x"$WITH_CREDSSP" = "x1"; then
-	      CREDSSPOBJ="cssp.o"
+	      CREDSSPOBJ="./Utilities/cssp.o"
 	      CFLAGS="$CFLAGS $GSSAPI_CFLAGS"
 	      LIBS="$LIBS $GSSAPI_LIBS"
 
@@ -6095,7 +6095,7 @@ fi
 	esac
 
 	if test x"$WITH_SCARD" = "x1"; then
-	   SCARDOBJ="scard.o"
+	   SCARDOBJ="./Smartcard/scard.o"
 	   CFLAGS="$CFLAGS $PCSCLITE_CFLAGS"
 	   LIBS="$LIBS $PCSCLITE_LIBS"
 	   $as_echo "#define WITH_SCARD 1" >>confdefs.h

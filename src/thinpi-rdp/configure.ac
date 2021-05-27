@@ -96,7 +96,7 @@ AS_IF([test "x$enable_credssp" != "xno"], [
 
 
 	  if test x"$WITH_CREDSSP" = "x1"; then
-	      CREDSSPOBJ="cssp.o"
+	      CREDSSPOBJ="./Utilities/cssp.o"
 	      CFLAGS="$CFLAGS $GSSAPI_CFLAGS"
 	      LIBS="$LIBS $GSSAPI_LIBS"
 
@@ -210,7 +210,7 @@ AS_IF([test "x$enable_smartcard" != "xno"], [
 	esac
 
 	if test x"$WITH_SCARD" = "x1"; then
-	   SCARDOBJ="scard.o"
+	   SCARDOBJ="./Smartcard/scard.o"
 	   CFLAGS="$CFLAGS $PCSCLITE_CFLAGS"
 	   LIBS="$LIBS $PCSCLITE_LIBS"
 	   AC_DEFINE(WITH_SCARD)
