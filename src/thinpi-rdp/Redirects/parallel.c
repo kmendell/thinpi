@@ -21,7 +21,7 @@
 
 #define IOCTL_PAR_QUERY_RAW_DEVICE_ID	0x0c
 
-#include "rdesktop.h"
+#include "../rdesktop.h"
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/ioctl.h>

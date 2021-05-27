@@ -25,8 +25,8 @@ SOUNDOBJ    = @SOUNDOBJ@
 SCARDOBJ    = @SCARDOBJ@
 CREDSSPOBJ  = @CREDSSPOBJ@
 
-RDPOBJ   = tcp.o asn.o iso.o mcs.o secure.o licence.o rdp.o orders.o bitmap.o cache.o rdp5.o channels.o rdpdr.o serial.o printer.o disk.o parallel.o printercache.o mppc.o pstcache.o lspci.o seamless.o ssl.o utils.o stream.o dvc.o rdpedisp.o
-X11OBJ   = rdesktop.o xwin.o xkeymap.o ewmhints.o xclip.o cliprdr.o ctrl.o
+RDPOBJ   = tcp.o asn.o iso.o mcs.o secure.o licence.o rdp.o orders.o bitmap.o Cache/cache.o rdp5.o Redirects/channels.o rdpdr.o serial.o Redirects/printer.o Redirects/disk.o Redirects/parallel.o Cache/printercache.o mppc.o pstcache.o Utilities/lspci.o seamless.o ssl.o utils.o stream.o dvc.o rdpedisp.o
+X11OBJ   = rdesktop.o xwin.o xkeymap.o ewmhints.o xclip.o Redirects/cliprdr.o Utilities/ctrl.o
 
 .PHONY: all
 all: $(TARGETS)
@@ -61,14 +61,14 @@ installkeymaps:
 
 .PHONY: clean
 clean:
-	rm -f *.o *~ rdesktop
+	rm -f *.o *~ rdesktop Redirects/*.o Cache/*.o Utilities/*.o
 
 .PHONY: distclean
 distclean: clean
-	rm -rf autom4te.cache config.log config.status Makefile rdesktop-$(VERSION).tar.gz
+	rm -rf autom4te.cache config.log config.status Makefile thinpirdp-$(VERSION).tar.gz
 
 .PHONY: dist
-dist: rdesktop-$(VERSION).tar.gz
+dist: thinpirdp-$(VERSION).tar.gz
 
 rdesktop-$(VERSION).tar.gz: Makefile configure
 	mkdir -p /tmp/rdesktop-make-dist-dir
@@ -108,7 +108,7 @@ rdesktop-$(VERSION).tar.gz: Makefile configure
 .PHONY: dist-noversion
 dist-noversion: rdesktop.tar.gz
 
-rdesktop.tar.gz: rdesktop-$(VERSION).tar.gz
+thinpirdp.tar.gz: thinpirdp-$(VERSION).tar.gz
 	mkdir -p /tmp/rdesktop-make-dist-dir
 	tar zxvf $< -C /tmp/rdesktop-make-dist-dir
 	mv /tmp/rdesktop-make-dist-dir/rdesktop-$(VERSION) /tmp/rdesktop-make-dist-dir/rdesktop

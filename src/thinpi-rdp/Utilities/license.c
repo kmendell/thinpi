@@ -20,8 +20,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "rdesktop.h"
-#include "ssl.h"
+#include "../rdesktop.h"
+#include ".../ssl.h"
 
 extern char *g_username;
 extern char g_hostname[16];

@@ -18,7 +18,7 @@
 */
 
 #include <gssapi/gssapi.h>
-#include "rdesktop.h"
+#include "../rdesktop.h"
 
 extern RD_BOOL g_use_password_as_pin;
 

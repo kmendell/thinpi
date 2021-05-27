@@ -19,7 +19,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "rdesktop.h"
+#include "../rdesktop.h"
 
 /* BITMAP CACHE */
 extern int g_pstcache_fd[];

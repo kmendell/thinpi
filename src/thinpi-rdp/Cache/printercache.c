@@ -35,7 +35,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
-#include "rdesktop.h"
+#include "../rdesktop.h"
 
 static RD_BOOL
 printercache_mkdir(char *base, char *printer)

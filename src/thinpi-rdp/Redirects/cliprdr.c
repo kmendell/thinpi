@@ -19,7 +19,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "rdesktop.h"
+#include "../rdesktop.h"
 
 #define CLIPRDR_CONNECT			1
 #define CLIPRDR_FORMAT_ANNOUNCE		2

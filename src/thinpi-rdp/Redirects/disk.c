@@ -69,7 +69,7 @@
 #include <sys/mount.h>
 #endif
 
-#include "rdesktop.h"
+#include "../rdesktop.h"
 
 #ifdef STAT_STATFS3_OSF1
 #define STATFS_FN(path, buf) (statfs(path,buf,sizeof(buf)))

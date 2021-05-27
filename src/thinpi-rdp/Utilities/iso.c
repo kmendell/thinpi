@@ -19,7 +19,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "rdesktop.h"
+#include "../rdesktop.h"
 
 extern RD_BOOL g_encryption;
 extern RD_BOOL g_encryption_initial;

@@ -19,7 +19,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "rdesktop.h"
+#include "../rdesktop.h"
 
 #define MAX_CHANNELS			6
 #define CHANNEL_CHUNK_LENGTH		1600

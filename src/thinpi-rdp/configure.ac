@@ -1,4 +1,4 @@
-AC_INIT(rdesktop, 1.9.0)
+AC_INIT(thinpirdp, 1.9.0-rewrite)
 
 AC_CONFIG_SRCDIR([rdesktop.c])
 
