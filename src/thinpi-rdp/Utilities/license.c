@@ -21,7 +21,7 @@
 */
 
 #include "../rdesktop.h"
-#include ".../ssl.h"
+#include "ssl.h"
 
 extern char *g_username;
 extern char g_hostname[16];

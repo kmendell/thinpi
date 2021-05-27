@@ -6625,7 +6625,7 @@ fi
 fi
 
 if test "$sound" != "no"; then
-    SOUNDOBJ="$SOUNDOBJ rdpsnd.o rdpsnd_dsp.o"
+    SOUNDOBJ="$SOUNDOBJ ./Sound/rdpsnd.o ./Sound/rdpsnd_dsp.o"
     CFLAGS="$CFLAGS $LIBSAMPLERATE_CFLAGS"
     LIBS="$LIBS $LIBSAMPLERATE_LIBS"
     $as_echo "#define WITH_RDPSND 1" >>confdefs.h
@@ -6635,26 +6635,26 @@ fi
 case $sound in
     yes)
         if test x"$HAVE_OSS" = "x1"; then
-            SOUNDOBJ="$SOUNDOBJ rdpsnd_oss.o"
+            SOUNDOBJ="$SOUNDOBJ ./Sound/rdpsnd_oss.o"
             $as_echo "#define RDPSND_OSS 1" >>confdefs.h
 
         fi
 
         if test x"$HAVE_SGI" = "x1"; then
-            SOUNDOBJ="$SOUNDOBJ rdpsnd_sgi.o"
+            SOUNDOBJ="$SOUNDOBJ ./Sound/rdpsnd_sgi.o"
             LIBS="$LIBS -laudio"
             $as_echo "#define RDPSND_SGI 1" >>confdefs.h
 
         fi
 
         if test x"$HAVE_SUN" = "x1"; then
-            SOUNDOBJ="$SOUNDOBJ rdpsnd_sun.o"
+            SOUNDOBJ="$SOUNDOBJ ./Sound/rdpsnd_sun.o"
             $as_echo "#define RDPSND_SUN 1" >>confdefs.h
 
         fi
 
         if test x"$HAVE_ALSA" = "x1"; then
-            SOUNDOBJ="$SOUNDOBJ rdpsnd_alsa.o"
+            SOUNDOBJ="$SOUNDOBJ ./Sound/rdpsnd_alsa.o"
             CFLAGS="$CFLAGS $ALSA_CFLAGS"
             LIBS="$LIBS $ALSA_LIBS"
             $as_echo "#define RDPSND_ALSA 1" >>confdefs.h
@@ -6662,7 +6662,7 @@ case $sound in
         fi
 
         if test x"$HAVE_PULSE" = "x1"; then
-            SOUNDOBJ="$SOUNDOBJ rdpsnd_pulse.o"
+            SOUNDOBJ="$SOUNDOBJ ./Sound/rdpsnd_pulse.o"
             CFLAGS="$CFLAGS $PULSE_CFLAGS"
             LIBS="$LIBS $PULSE_LIBS"
             $as_echo "#define RDPSND_PULSE 1" >>confdefs.h
@@ -6670,7 +6670,7 @@ case $sound in
         fi
 
         if test x"$HAVE_LIBAO" = "x1"; then
-            SOUNDOBJ="$SOUNDOBJ rdpsnd_libao.o"
+            SOUNDOBJ="$SOUNDOBJ ./Sound/rdpsnd_libao.o"
             CFLAGS="$CFLAGS $LIBAO_CFLAGS"
             LIBS="$LIBS $LIBAO_LIBS"
             $as_echo "#define RDPSND_LIBAO 1" >>confdefs.h
@@ -6681,7 +6681,7 @@ case $sound in
 
     oss)
         if test x"$HAVE_OSS" = "x1"; then
-            SOUNDOBJ="$SOUNDOBJ rdpsnd_oss.o"
+            SOUNDOBJ="$SOUNDOBJ ./Sound/rdpsnd_oss.o"
             $as_echo "#define RDPSND_OSS 1" >>confdefs.h
 
         else
@@ -6691,7 +6691,7 @@ case $sound in
 
     sgi)
         if test x"$HAVE_SGI" = "x1"; then
-            SOUNDOBJ="$SOUNDOBJ rdpsnd_sgi.o"
+            SOUNDOBJ="$SOUNDOBJ ./Sound/rdpsnd_sgi.o"
             LIBS="$LIBS -laudio"
             $as_echo "#define RDPSND_SGI 1" >>confdefs.h
 
@@ -6702,7 +6702,7 @@ case $sound in
 
     sun)
         if test x"$HAVE_SUN" = "x1"; then
-            SOUNDOBJ="$SOUNDOBJ rdpsnd_sun.o"
+            SOUNDOBJ="$SOUNDOBJ ./Sound/rdpsnd_sun.o"
             $as_echo "#define RDPSND_SUN 1" >>confdefs.h
 
         else
@@ -6712,7 +6712,7 @@ case $sound in
 
     alsa)
         if test x"$HAVE_ALSA" = "x1"; then
-            SOUNDOBJ="$SOUNDOBJ rdpsnd_alsa.o"
+            SOUNDOBJ="$SOUNDOBJ ./Sound/rdpsnd_alsa.o"
             CFLAGS="$CFLAGS $ALSA_CFLAGS"
             LIBS="$LIBS $ALSA_LIBS"
             $as_echo "#define RDPSND_ALSA 1" >>confdefs.h
@@ -6724,7 +6724,7 @@ case $sound in
 
     pulse)
         if test x"$HAVE_PULSE" = "x1"; then
-            SOUNDOBJ="$SOUNDOBJ rdpsnd_pulse.o"
+            SOUNDOBJ="$SOUNDOBJ ./Sound/rdpsnd_pulse.o"
             CFLAGS="$CFLAGS $PULSE_CFLAGS"
             LIBS="$LIBS $PULSE_LIBS"
             $as_echo "#define RDPSND_PULSE 1" >>confdefs.h
@@ -6736,7 +6736,7 @@ case $sound in
 
     libao)
         if test x"$HAVE_LIBAO" = "x1"; then
-            SOUNDOBJ="$SOUNDOBJ rdpsnd_libao.o"
+            SOUNDOBJ="$SOUNDOBJ ./Sound/rdpsnd_libao.o"
             CFLAGS="$CFLAGS $LIBAO_CFLAGS"
             LIBS="$LIBS $LIBAO_LIBS"
             $as_echo "#define RDPSND_LIBAO 1" >>confdefs.h
