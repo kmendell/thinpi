@@ -42,6 +42,12 @@ Once built Navigate to that local path and copy all files and folders to the roo
 
 If you encounter any errors please open a issue and email getthinpi@gmail.com
 
+## Github Branch Tags
+
+Each Version of ThinPi will get its own branch or "tag"
+
+Any features in a development/testing phase will first be pushed to master then once stable will be pushed to the correct version tag
+
 ## Contributing
 
 Email: getthinpi@gmail.com to join the team and discuss certain changes or improvements
