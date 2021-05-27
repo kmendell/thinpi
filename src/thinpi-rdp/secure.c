@@ -20,7 +20,7 @@
 */
 
 #include "rdesktop.h"
-#include "ssl.h"
+#include "./Utilities/ssl.h"
 
 extern char g_hostname[16];
 extern uint32 g_requested_session_width;

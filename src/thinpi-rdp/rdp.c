@@ -29,7 +29,7 @@
 #include <unistd.h>
 #endif
 #include "rdesktop.h"
-#include "ssl.h"
+#include "./Utilities/ssl.h"
 
 
 extern uint16 g_mcs_userid;

@@ -37,8 +37,8 @@
 #include <gnutls/x509.h>
 
 #include "rdesktop.h"
-#include "ssl.h"
-#include "asn.h"
+#include "./Utilities/ssl.h"
+#include "./ASN/asn.h"
 
 #ifdef _WIN32
 #define socklen_t int

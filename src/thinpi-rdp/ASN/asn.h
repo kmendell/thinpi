@@ -23,7 +23,7 @@
 #include <libtasn1.h>
 #include <stdint.h>
 
-#include "utils.h"
+#include "../utils.h"
 
 #ifdef  __cplusplus
 extern "C" {

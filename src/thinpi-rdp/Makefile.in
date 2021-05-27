@@ -25,8 +25,8 @@ SOUNDOBJ    = @SOUNDOBJ@
 SCARDOBJ    = @SCARDOBJ@
 CREDSSPOBJ  = @CREDSSPOBJ@
 
-RDPOBJ   = tcp.o asn.o iso.o mcs.o secure.o licence.o rdp.o orders.o bitmap.o Cache/cache.o rdp5.o Redirects/channels.o rdpdr.o serial.o Redirects/printer.o Redirects/disk.o Redirects/parallel.o Cache/printercache.o mppc.o pstcache.o Utilities/lspci.o seamless.o ssl.o utils.o stream.o dvc.o rdpedisp.o
-X11OBJ   = rdesktop.o xwin.o xkeymap.o ewmhints.o xclip.o Redirects/cliprdr.o Utilities/ctrl.o
+RDPOBJ   = tcp.o asn.o iso.o mcs.o secure.o licence.o rdp.o orders.o bitmap.o Cache/cache.o rdp5.o Redirects/channels.o rdpdr.o serial.o Redirects/printer.o Redirects/disk.o Redirects/parallel.o Cache/printercache.o mppc.o pstcache.o Utilities/lspci.o seamless.o Utilities/ssl.o utils.o stream.o dvc.o rdpedisp.o
+X11OBJ   = rdesktop.o xwin.o xkeymap.o Utilities/ewmhints.o xclip.o Redirects/cliprdr.o Utilities/ctrl.o
 
 .PHONY: all
 all: $(TARGETS)
