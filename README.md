@@ -14,7 +14,11 @@ Developed and Maintained By: Kyle Mendell
 
 ThinPi is a Debian Based arm32v7 based OS by default, Build for arm64 will be available soon
 
-## Building Using Docker
+
+
+## Building
+
+** If you build manually and dont use docker, you will have to run the scripts in the scripts folder to ensure dependencies are installed **
 
 **ThinPi Now Uses Docker as a Build Context**
 
