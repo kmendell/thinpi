@@ -31,6 +31,7 @@ void addNewServer(GtkWidget *wid, gpointer ptr)
     
 
     fclose(file);
+	free(string);
 
 	gtk_entry_set_text(ipaddressTextbox, "");
 	gtk_entry_set_text(displaynameTextbox, "");
@@ -70,6 +71,8 @@ void rhandler(GtkWidget *wid, gpointer ptr) {
     	sprintf(toRemove, "%s:%s\n", gtk_entry_get_text (ipaddressTextbox), gtk_entry_get_text (displaynameTextbox));
 	
 	SearchFile("/thinpi/config/servers", toRemove);
+	free(string);
+	free(toRemove);
 }
 
 
@@ -107,6 +110,7 @@ int SearchFile(char *name, char *str) {
 	if(fp) {
 		fclose(fp);
 	}
+	free(temp);
 	return(0);
 }
 
@@ -156,6 +160,7 @@ void deleteLine(FILE *srcFile, FILE *tempFile, const int line)
 
         count++;
     }
+	free(buffer);
 }
 
 

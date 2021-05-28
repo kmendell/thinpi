@@ -15,5 +15,6 @@ void openConnection(gchar *u, gchar *p, gchar *s)
 		printf("An Error Occured Please Contact your Administrator\n");
 		gtk_widget_show(wrongCredentialsMessage);
 	}
+	free(cmd);
 	
 }
