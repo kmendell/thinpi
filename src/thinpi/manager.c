@@ -16,6 +16,16 @@ void handleClick(GtkWidget *wid, GtkEntry *pwordp)
 void main (int argc, char *argv[])
 {
 
+if (argc == 2 ) {
+
+	if (argv[1] == "-manager") {
+
+		printf("manager launced\n");
+
+	}
+
+}
+
 gtk_init (&argc, &argv);
 
 GtkBuilder *builder = gtk_builder_new(); 
