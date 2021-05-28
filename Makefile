@@ -28,7 +28,7 @@ tprdp:
 	autoreconf -i; \
 	./configure --disable-credssp --disable-smartcard; \
 	make --no-print-directory
-	cp src/thinpi-rdp/tprdp  output/usr/bin/tprdp
+	cp src/thinpi-rdp/rdesktop  output/usr/bin/tprdp
 
 tpupdate:
 	shc -f src/thinpi/tpupdate/tpupdate

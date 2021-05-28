@@ -26,7 +26,7 @@ SCARDOBJ    = @SCARDOBJ@
 CREDSSPOBJ  = @CREDSSPOBJ@
 
 RDPOBJ   = tcp.o ASN/asn.o Utilities/iso.o Utilities/mcs.o Utilities/secure.o Utilities/license.o RDP/rdp.o Utilities/orders.o Compression/bitmap.o Cache/cache.o RDP/rdp5.o Redirects/channels.o RDP/rdpdr.o Redirects/serial.o Redirects/printer.o Redirects/disk.o Redirects/parallel.o Cache/printercache.o Utilities/mppc.o Utilities/pstcache.o Utilities/lspci.o Seamless/seamless.o Utilities/ssl.o Utilities/utils.o stream.o Utilities/dvc.o RDP/rdpedisp.o
-X11OBJ   = rdesktop.o xwin.o xkeymap.o Utilities/ewmhints.o xclip.o Redirects/cliprdr.o Utilities/ctrl.o
+X11OBJ   = rdesktop.o X11/xwin.o X11/xkeymap.o Utilities/ewmhints.o X11/xclip.o Redirects/cliprdr.o Utilities/ctrl.o
 
 .PHONY: all
 all: $(TARGETS)
