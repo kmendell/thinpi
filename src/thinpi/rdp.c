@@ -12,7 +12,7 @@ void openConnection(gchar *u, gchar *p, gchar *s)
 		gtk_entry_set_text(usernameTextbox, "");
 		gtk_entry_set_text(passwordTextbox, "");
 	} else if(rv != 12 || rv != 11 || rv != 2 | rv != 1) {
-		printf("An Error Occured Please Contact your IT Helpdesk\n");
+		printf("An Error Occured Please Contact your Administrator\n");
 		gtk_widget_show(wrongCredentialsMessage);
 	}
 	
