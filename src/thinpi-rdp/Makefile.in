@@ -61,7 +61,7 @@ installkeymaps:
 
 .PHONY: clean
 clean:
-	rm -f *.o *~ rdesktop Redirects/*.o Cache/*.o Utilities/*.o
+	rm -f *.o *~ rdesktop Redirects/*.o Cache/*.o Utilities/*.o X11/*.o Seamless/*.o Smartcard/*.o Compression/*.o ASN/*.o RDP/*.o Sound/*.o
 
 .PHONY: distclean
 distclean: clean
