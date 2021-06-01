@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.3.0 
+
 ## 0.2.0 - RC
 - [RDP] Switched to a custom tpdp implementation (rdesktop)
 - [CONFIG] Adding and Removing Servers now works completely
