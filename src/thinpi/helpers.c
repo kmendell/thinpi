@@ -56,5 +56,4 @@ void getServerConfig()
     
 
     fclose(file);
-	free(line);
 }
