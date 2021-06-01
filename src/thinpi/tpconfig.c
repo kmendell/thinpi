@@ -19,75 +19,74 @@ void deleteLine(FILE *srcFile, FILE *tempFile, const int line);
 
 void addNewServer(GtkWidget *wid, gpointer ptr)
 {
-	ipToAdd = gtk_entry_get_text (ipaddressTextbox);
-	nameToAdd = gtk_entry_get_text (displaynameTextbox);
-	screenResToAdd = gtk_entry_get_text (screenResTextbox);
+	ipToAdd = gtk_entry_get_text(ipaddressTextbox);
+	nameToAdd = gtk_entry_get_text(displaynameTextbox);
+	screenResToAdd = gtk_entry_get_text(screenResTextbox);
 	char *string = malloc(100);
-    FILE* file = fopen("/thinpi/config/servers", "a"); 
+	FILE *file = fopen("/thinpi/config/servers", "a");
 	sprintf(string, "%s:%s:%s\n", ipToAdd, nameToAdd, screenResToAdd);
 	printf("%s\n", string);
-    fputs(string, file);
-	
-    
+	fputs(string, file);
 
-    fclose(file);
+	fclose(file);
 	free(string);
 
 	gtk_entry_set_text(ipaddressTextbox, "");
 	gtk_entry_set_text(displaynameTextbox, "");
 	gtk_entry_set_text(screenResTextbox, "");
-	
 }
 
-
-void main (int argc, char *argv[])
+void main(int argc, char *argv[])
 {
 
-gtk_init (&argc, &argv);
+	gtk_init(&argc, &argv);
 
-GtkBuilder *builder = gtk_builder_new(); 
-gtk_builder_add_from_file(builder, "/thinpi/Interface/addserver.glade", NULL); 
+	GtkBuilder *builder = gtk_builder_new();
+	gtk_builder_add_from_file(builder, "/thinpi/Interface/addserver.glade", NULL);
 
-GtkWindow *configWindow = (GtkWindow *) gtk_builder_get_object (builder, "configWindow"); 
-GtkWidget *addButton = (GtkWidget *) gtk_builder_get_object (builder, "addButton");
-GtkWidget *removeButton = (GtkWidget *) gtk_builder_get_object (builder, "removeButton"); 
-displaynameTextbox = (GtkEntry *) gtk_builder_get_object (builder, "displaynameTextbox"); 
-ipaddressTextbox = (GtkEntry *) gtk_builder_get_object (builder, "ipaddressTextbox"); 
-screenResTextbox = (GtkEntry *) gtk_builder_get_object (builder, "screenResTextbox"); 
+	GtkWindow *configWindow = (GtkWindow *)gtk_builder_get_object(builder, "configWindow");
+	GtkWidget *addButton = (GtkWidget *)gtk_builder_get_object(builder, "addButton");
+	GtkWidget *removeButton = (GtkWidget *)gtk_builder_get_object(builder, "removeButton");
+	displaynameTextbox = (GtkEntry *)gtk_builder_get_object(builder, "displaynameTextbox");
+	ipaddressTextbox = (GtkEntry *)gtk_builder_get_object(builder, "ipaddressTextbox");
+	screenResTextbox = (GtkEntry *)gtk_builder_get_object(builder, "screenResTextbox");
 
-g_signal_connect (configWindow, "delete_event", G_CALLBACK(closeThinPiManager), NULL);
-g_signal_connect (addButton, "clicked", G_CALLBACK(addNewServer), NULL);
-g_signal_connect (removeButton, "clicked", G_CALLBACK(rhandler), NULL);
+	g_signal_connect(configWindow, "delete_event", G_CALLBACK(closeThinPiManager), NULL);
+	g_signal_connect(addButton, "clicked", G_CALLBACK(addNewServer), NULL);
+	g_signal_connect(removeButton, "clicked", G_CALLBACK(rhandler), NULL);
 
-gtk_window_present(configWindow);
-gtk_main();
-
+	gtk_window_present(configWindow);
+	gtk_main();
 }
 
-void rhandler(GtkWidget *wid, gpointer ptr) {
-	
-	   char *toRemove = malloc(1000);
+void rhandler(GtkWidget *wid, gpointer ptr)
+{
+
+	char *toRemove = malloc(1000);
 	char *string = malloc(100);
-    	sprintf(toRemove, "%s:%s\n", gtk_entry_get_text (ipaddressTextbox), gtk_entry_get_text (displaynameTextbox));
-	
+	sprintf(toRemove, "%s:%s\n", gtk_entry_get_text(ipaddressTextbox), gtk_entry_get_text(displaynameTextbox));
+
 	SearchFile("/thinpi/config/servers", toRemove);
 	free(string);
 	free(toRemove);
 }
 
-
-int SearchFile(char *name, char *str) {
+int SearchFile(char *name, char *str)
+{
 	FILE *fp;
 	int line = 1;
 	int result = 0;
 	char temp[256];
 
-	if((fp = fopen(name, "r")) == NULL) {
-		return(-1);
+	if ((fp = fopen(name, "r")) == NULL)
+	{
+		return (-1);
 	}
 
-	while(fgets(temp, 512, fp) != NULL) {
-		if((strstr(temp, str)) != NULL) {
+	while (fgets(temp, 512, fp) != NULL)
+	{
+		if ((strstr(temp, str)) != NULL)
+		{
 			printf("A Match Found on line: %d\n", line);
 			dline = line;
 			printf("\n%s\n", temp);
@@ -96,72 +95,70 @@ int SearchFile(char *name, char *str) {
 		line++;
 	}
 
-	if(result == 0) {
+	if (result == 0)
+	{
 		printf("\nSorry server doesnt exsist\n");
-	} else {
-		int comp = delete();
-		if(comp == 0) {
+	}
+	else
+	{
+		int comp = delete ();
+		if (comp == 0)
+		{
 			gtk_entry_set_text(ipaddressTextbox, "");
 			gtk_entry_set_text(displaynameTextbox, "");
 		}
 	}
 
-
-	if(fp) {
+	if (fp)
+	{
 		fclose(fp);
 	}
 	free(temp);
-	return(0);
+	return (0);
 }
 
-int delete() {
-    FILE *srcFile  = fopen("/thinpi/config/servers", "r");
-    FILE *tempFile = fopen("delete-line.tmp", "w");
+int delete ()
+{
+	FILE *srcFile = fopen("/thinpi/config/servers", "r");
+	FILE *tempFile = fopen("delete-line.tmp", "w");
 
+	/* Exit if file not opened successfully */
+	if (srcFile == NULL || tempFile == NULL)
+	{
+		printf("Unable to open file.\n");
+		printf("Please check you have read/write previleges.\n");
 
-    /* Exit if file not opened successfully */
-    if (srcFile == NULL || tempFile == NULL)
-    {
-        printf("Unable to open file.\n");
-        printf("Please check you have read/write previleges.\n");
+		return -1;
+	}
 
-        return -1;
-    }
+	// Move src file pointer to beginning
+	rewind(srcFile);
 
+	// Delete given line from file.
+	deleteLine(srcFile, tempFile, dline);
 
-    // Move src file pointer to beginning
-    rewind(srcFile);
+	/* Close all open files */
+	fclose(srcFile);
+	fclose(tempFile);
 
-    // Delete given line from file.
-    deleteLine(srcFile, tempFile, dline);
-
-
-    /* Close all open files */
-    fclose(srcFile);
-    fclose(tempFile);
-
-
-    /* Delete src file and rename temp file as src */
-    remove("/thinpi/config/servers");
-    rename("delete-line.tmp", "/thinpi/config/servers");
-    return 0;
+	/* Delete src file and rename temp file as src */
+	remove("/thinpi/config/servers");
+	rename("delete-line.tmp", "/thinpi/config/servers");
+	return 0;
 }
 
 void deleteLine(FILE *srcFile, FILE *tempFile, const int line)
 {
-    char buffer[BUFFER_SIZE];
-    int count = 1;
+	char buffer[BUFFER_SIZE];
+	int count = 1;
 
-    while ((fgets(buffer, BUFFER_SIZE, srcFile)) != NULL)
-    {
-        /* If current line is not the line user wanted to remove */
-        if (line != count)
-            fputs(buffer, tempFile);
+	while ((fgets(buffer, BUFFER_SIZE, srcFile)) != NULL)
+	{
+		/* If current line is not the line user wanted to remove */
+		if (line != count)
+			fputs(buffer, tempFile);
 
-        count++;
-    }
+		count++;
+	}
 	free(buffer);
 }
-
-
-

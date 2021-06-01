@@ -26,57 +26,48 @@
 
 #include <gnutls/x509.h>
 
-void
-rdssl_sha1_init(RDSSL_SHA1 * sha1)
+void rdssl_sha1_init(RDSSL_SHA1 *sha1)
 {
 	sha1_init(sha1);
 }
 
-void
-rdssl_sha1_update(RDSSL_SHA1 * sha1, uint8 * data, uint32 len)
+void rdssl_sha1_update(RDSSL_SHA1 *sha1, uint8 *data, uint32 len)
 {
 	sha1_update(sha1, len, data);
 }
 
-void
-rdssl_sha1_final(RDSSL_SHA1 * sha1, uint8 * out_data)
+void rdssl_sha1_final(RDSSL_SHA1 *sha1, uint8 *out_data)
 {
 	sha1_digest(sha1, SHA1_DIGEST_SIZE, out_data);
 }
 
-void
-rdssl_md5_init(RDSSL_MD5 * md5)
+void rdssl_md5_init(RDSSL_MD5 *md5)
 {
 	md5_init(md5);
 }
 
-void
-rdssl_md5_update(RDSSL_MD5 * md5, uint8 * data, uint32 len)
+void rdssl_md5_update(RDSSL_MD5 *md5, uint8 *data, uint32 len)
 {
 	md5_update(md5, len, data);
 }
 
-void
-rdssl_md5_final(RDSSL_MD5 * md5, uint8 * out_data)
+void rdssl_md5_final(RDSSL_MD5 *md5, uint8 *out_data)
 {
 	md5_digest(md5, MD5_DIGEST_SIZE, out_data);
 }
 
-void
-rdssl_rc4_set_key(RDSSL_RC4 * rc4, uint8 * key, uint32 len)
+void rdssl_rc4_set_key(RDSSL_RC4 *rc4, uint8 *key, uint32 len)
 {
 	arcfour_set_key(rc4, len, key);
 }
 
-void
-rdssl_rc4_crypt(RDSSL_RC4 * rc4, uint8 * in_data, uint8 * out_data, uint32 len)
+void rdssl_rc4_crypt(RDSSL_RC4 *rc4, uint8 *in_data, uint8 *out_data, uint32 len)
 {
 	arcfour_crypt(rc4, len, out_data, in_data);
 }
 
-void
-rdssl_rsa_encrypt(uint8 * out, uint8 * in, int len, uint32 modulus_size, uint8 * modulus,
-		  uint8 * exponent)
+void rdssl_rsa_encrypt(uint8 *out, uint8 *in, int len, uint32 modulus_size, uint8 *modulus,
+					   uint8 *exponent)
 {
 	mpz_t exp, mod;
 
@@ -104,13 +95,13 @@ rdssl_rsa_encrypt(uint8 * out, uint8 * in, int len, uint32 modulus_size, uint8 *
 	mpz_clear(exp);
 	mpz_clear(mod);
 
-	if (outlen < (int) modulus_size)
+	if (outlen < (int)modulus_size)
 		memset(out + outlen, 0, modulus_size - outlen);
 }
 
 /* returns newly allocated RDSSL_CERT or NULL */
 RDSSL_CERT *
-rdssl_cert_read(uint8 * data, uint32 len)
+rdssl_cert_read(uint8 *data, uint32 len)
 {
 	int ret;
 	gnutls_datum_t cert_data;
@@ -118,15 +109,17 @@ rdssl_cert_read(uint8 * data, uint32 len)
 
 	cert = malloc(sizeof(*cert));
 
-	if (!cert) {
+	if (!cert)
+	{
 		logger(Protocol, Error, "%s:%s:%d: Failed to allocate memory for certificate structure.\n",
-				__FILE__, __func__, __LINE__);
+			   __FILE__, __func__, __LINE__);
 		return NULL;
 	}
 
-	if ((ret = gnutls_x509_crt_init(cert)) != GNUTLS_E_SUCCESS) {
+	if ((ret = gnutls_x509_crt_init(cert)) != GNUTLS_E_SUCCESS)
+	{
 		logger(Protocol, Error, "%s:%s:%d: Failed to init certificate structure. GnuTLS error = 0x%02x (%s)\n",
-				__FILE__, __func__, __LINE__, ret, gnutls_strerror(ret));
+			   __FILE__, __func__, __LINE__, ret, gnutls_strerror(ret));
 
 		return NULL;
 	}
@@ -134,22 +127,21 @@ rdssl_cert_read(uint8 * data, uint32 len)
 	cert_data.size = len;
 	cert_data.data = data;
 
-	if ((ret = gnutls_x509_crt_import(*cert, &cert_data, GNUTLS_X509_FMT_DER)) != GNUTLS_E_SUCCESS) {
+	if ((ret = gnutls_x509_crt_import(*cert, &cert_data, GNUTLS_X509_FMT_DER)) != GNUTLS_E_SUCCESS)
+	{
 		logger(Protocol, Error, "%s:%s:%d: Failed to import DER encoded certificate. GnuTLS error = 0x%02x (%s)\n",
-				__FILE__, __func__, __LINE__, ret, gnutls_strerror(ret));
+			   __FILE__, __func__, __LINE__, ret, gnutls_strerror(ret));
 		return NULL;
 	}
 
 	return cert;
 }
 
-void
-rdssl_cert_free(RDSSL_CERT * cert)
+void rdssl_cert_free(RDSSL_CERT *cert)
 {
 	gnutls_x509_crt_deinit(*cert);
 	free(cert);
 }
-
 
 /*
  * AFAIK, there's no way to alter the decoded certificate using GnuTLS.
@@ -168,7 +160,7 @@ rdssl_cert_free(RDSSL_CERT * cert)
 
 /* returns newly allocated RDSSL_RKEY or NULL */
 RDSSL_RKEY *
-rdssl_cert_to_rkey(RDSSL_CERT * cert, uint32 * key_len)
+rdssl_cert_to_rkey(RDSSL_CERT *cert, uint32 *key_len)
 {
 	int ret;
 
@@ -190,59 +182,66 @@ rdssl_cert_to_rkey(RDSSL_CERT * cert, uint32 * key_len)
 	   Kudos to Richard Levitte for the finding this and proposed the fix
 	   using OpenSSL. */
 
-	if (algo == GNUTLS_PK_RSA) {
+	if (algo == GNUTLS_PK_RSA)
+	{
 
-		if ((ret = gnutls_x509_crt_get_pk_rsa_raw(*cert, &m, &e)) !=  GNUTLS_E_SUCCESS) {
+		if ((ret = gnutls_x509_crt_get_pk_rsa_raw(*cert, &m, &e)) != GNUTLS_E_SUCCESS)
+		{
 			logger(Protocol, Error, "%s:%s:%d: Failed to get RSA public key parameters from certificate. GnuTLS error = 0x%02x (%s)\n",
-					__FILE__, __func__, __LINE__, ret, gnutls_strerror(ret));
+				   __FILE__, __func__, __LINE__, ret, gnutls_strerror(ret));
 			return NULL;
 		}
-
-	} else if (algo == GNUTLS_E_UNIMPLEMENTED_FEATURE) {
+	}
+	else if (algo == GNUTLS_E_UNIMPLEMENTED_FEATURE)
+	{
 
 		len = sizeof(data);
-		if ((ret = gnutls_x509_crt_export(*cert, GNUTLS_X509_FMT_DER, data, &len)) != GNUTLS_E_SUCCESS) {
+		if ((ret = gnutls_x509_crt_export(*cert, GNUTLS_X509_FMT_DER, data, &len)) != GNUTLS_E_SUCCESS)
+		{
 			logger(Protocol, Error, "%s:%s:%d: Failed to encode X.509 certificate to DER. GnuTLS error = 0x%02x (%s)\n",
-					__FILE__, __func__, __LINE__, ret, gnutls_strerror(ret));
+				   __FILE__, __func__, __LINE__, ret, gnutls_strerror(ret));
 			return NULL;
 		}
 
 		/* Validate public key algorithm as OID_SHA_WITH_RSA_SIGNATURE
 		   or OID_MD5_WITH_RSA_SIGNATURE
 		*/
-		if ((ret = libtasn_read_cert_pk_oid(data, len, oid, &oid_size)) != 0) {
+		if ((ret = libtasn_read_cert_pk_oid(data, len, oid, &oid_size)) != 0)
+		{
 			logger(Protocol, Error, "%s:%s:%d: Failed to get OID of public key algorithm.\n",
-					__FILE__, __func__, __LINE__);
+				   __FILE__, __func__, __LINE__);
 			return NULL;
 		}
 
-		if (!(strncmp(oid, OID_SHA_WITH_RSA_SIGNATURE, strlen(OID_SHA_WITH_RSA_SIGNATURE)) == 0
-				|| strncmp(oid, OID_MD5_WITH_RSA_SIGNATURE, strlen(OID_MD5_WITH_RSA_SIGNATURE)) == 0))
+		if (!(strncmp(oid, OID_SHA_WITH_RSA_SIGNATURE, strlen(OID_SHA_WITH_RSA_SIGNATURE)) == 0 || strncmp(oid, OID_MD5_WITH_RSA_SIGNATURE, strlen(OID_MD5_WITH_RSA_SIGNATURE)) == 0))
 		{
 			logger(Protocol, Error, "%s:%s:%d: Wrong public key algorithm algo = 0x%02x (%s)\n",
-					__FILE__, __func__, __LINE__, algo, oid);
+				   __FILE__, __func__, __LINE__, algo, oid);
 			return NULL;
 		}
 
 		/* Get public key parameters */
-		if ((ret = libtasn_read_cert_pk_parameters(data, len, &m, &e)) != 0) {
+		if ((ret = libtasn_read_cert_pk_parameters(data, len, &m, &e)) != 0)
+		{
 			logger(Protocol, Error, "%s:%s:%d: Failed to read RSA public key parameters\n",
-					__FILE__, __func__, __LINE__);
+				   __FILE__, __func__, __LINE__);
 
 			return NULL;
 		}
-
-	} else {
+	}
+	else
+	{
 		logger(Protocol, Error, "%s:%s:%d: Failed to get public key algorithm from certificate. algo = 0x%02x (%d)\n",
-				__FILE__, __func__, __LINE__, algo, algo);
+			   __FILE__, __func__, __LINE__, algo, algo);
 		return NULL;
 	}
 
 	pkey = malloc(sizeof(*pkey));
 
-	if (!pkey) {
+	if (!pkey)
+	{
 		logger(Protocol, Error, "%s:%s:%d: Failed to allocate memory for  RSA public key\n",
-				__FILE__, __func__, __LINE__);
+			   __FILE__, __func__, __LINE__);
 		return NULL;
 	}
 
@@ -260,7 +259,7 @@ rdssl_cert_to_rkey(RDSSL_CERT * cert, uint32 * key_len)
 
 /* returns boolean */
 RD_BOOL
-rdssl_certs_ok(RDSSL_CERT * server_cert, RDSSL_CERT * cacert)
+rdssl_certs_ok(RDSSL_CERT *server_cert, RDSSL_CERT *cacert)
 {
 	UNUSED(server_cert);
 	UNUSED(cacert);
@@ -276,24 +275,23 @@ rdssl_certs_ok(RDSSL_CERT * server_cert, RDSSL_CERT * cacert)
 	return True;
 }
 
-int
-rdssl_cert_print_fp(FILE * fp, RDSSL_CERT * cert)
+int rdssl_cert_print_fp(FILE *fp, RDSSL_CERT *cert)
 {
 	int ret;
 	gnutls_datum_t cinfo;
 
 	ret = gnutls_x509_crt_print(*cert, GNUTLS_CRT_PRINT_ONELINE, &cinfo);
 
-	if (ret == 0) {
-		fprintf (fp, "\t%s\n", cinfo.data);
+	if (ret == 0)
+	{
+		fprintf(fp, "\t%s\n", cinfo.data);
 		gnutls_free(cinfo.data);
 	}
 
 	return 0;
 }
 
-void
-rdssl_rkey_free(RDSSL_RKEY * rkey)
+void rdssl_rkey_free(RDSSL_RKEY *rkey)
 {
 	rsa_public_key_clear(rkey);
 	free(rkey);
@@ -301,9 +299,8 @@ rdssl_rkey_free(RDSSL_RKEY * rkey)
 
 /* Actually we can get rid of this function and use rsa_public)_key in rdssl_rsa_encrypt */
 /* returns error */
-int
-rdssl_rkey_get_exp_mod(RDSSL_RKEY * rkey, uint8 * exponent, uint32 max_exp_len, uint8 * modulus,
-		       uint32 max_mod_len)
+int rdssl_rkey_get_exp_mod(RDSSL_RKEY *rkey, uint8 *exponent, uint32 max_exp_len, uint8 *modulus,
+						   uint32 max_mod_len)
 {
 	size_t outlen;
 
@@ -336,8 +333,8 @@ rdssl_rkey_get_exp_mod(RDSSL_RKEY * rkey, uint8 * exponent, uint32 max_exp_len, 
 
 /* returns boolean */
 RD_BOOL
-rdssl_sig_ok(uint8 * exponent, uint32 exp_len, uint8 * modulus, uint32 mod_len,
-	     uint8 * signature, uint32 sig_len)
+rdssl_sig_ok(uint8 *exponent, uint32 exp_len, uint8 *modulus, uint32 mod_len,
+			 uint8 *signature, uint32 sig_len)
 {
 	UNUSED(exponent);
 	UNUSED(exp_len);
@@ -351,10 +348,8 @@ rdssl_sig_ok(uint8 * exponent, uint32 exp_len, uint8 * modulus, uint32 mod_len,
 	return True;
 }
 
-
-void
-rdssl_hmac_md5(const void *key, int key_len, const unsigned char *msg, int msg_len,
-	       unsigned char *md)
+void rdssl_hmac_md5(const void *key, int key_len, const unsigned char *msg, int msg_len,
+					unsigned char *md)
 {
 	struct hmac_md5_ctx ctx;
 

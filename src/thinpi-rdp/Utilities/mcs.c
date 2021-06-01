@@ -25,7 +25,6 @@ uint16 g_mcs_userid;
 extern VCHANNEL g_channels[];
 extern unsigned int g_num_channels;
 
-
 /* Output a DOMAIN_PARAMS structure (ASN.1 BER) */
 static void
 mcs_out_domain_params(STREAM s, int max_channels, int max_users, int max_tokens, int max_pdusize)
@@ -34,11 +33,11 @@ mcs_out_domain_params(STREAM s, int max_channels, int max_users, int max_tokens,
 	ber_out_integer(s, max_channels);
 	ber_out_integer(s, max_users);
 	ber_out_integer(s, max_tokens);
-	ber_out_integer(s, 1);	/* num_priorities */
-	ber_out_integer(s, 0);	/* min_throughput */
-	ber_out_integer(s, 1);	/* max_height */
+	ber_out_integer(s, 1); /* num_priorities */
+	ber_out_integer(s, 0); /* min_throughput */
+	ber_out_integer(s, 1); /* max_height */
 	ber_out_integer(s, max_pdusize);
-	ber_out_integer(s, 2);	/* ver_protocol */
+	ber_out_integer(s, 2); /* ver_protocol */
 }
 
 /* Parse a DOMAIN_PARAMS structure (ASN.1 BER) */
@@ -69,17 +68,17 @@ mcs_send_connect_initial(STREAM mcs_data)
 	s = iso_init(length + 5);
 
 	ber_out_header(s, MCS_CONNECT_INITIAL, length);
-	ber_out_header(s, BER_TAG_OCTET_STRING, 1);	/* calling domain */
+	ber_out_header(s, BER_TAG_OCTET_STRING, 1); /* calling domain */
 	out_uint8(s, 1);
-	ber_out_header(s, BER_TAG_OCTET_STRING, 1);	/* called domain */
+	ber_out_header(s, BER_TAG_OCTET_STRING, 1); /* called domain */
 	out_uint8(s, 1);
 
 	ber_out_header(s, BER_TAG_BOOLEAN, 1);
-	out_uint8(s, 0xff);	/* upward flag */
+	out_uint8(s, 0xff); /* upward flag */
 
-	mcs_out_domain_params(s, 34, 2, 0, 0xffff);	/* target params */
-	mcs_out_domain_params(s, 1, 1, 1, 0x420);	/* min params */
-	mcs_out_domain_params(s, 0xffff, 0xfc17, 0xffff, 0xffff);	/* max params */
+	mcs_out_domain_params(s, 34, 2, 0, 0xffff);				  /* target params */
+	mcs_out_domain_params(s, 1, 1, 1, 0x420);				  /* min params */
+	mcs_out_domain_params(s, 0xffff, 0xfc17, 0xffff, 0xffff); /* max params */
 
 	ber_out_header(s, BER_TAG_OCTET_STRING, datalen);
 	out_uint8a(s, mcs_data->data, datalen);
@@ -106,7 +105,7 @@ mcs_recv_connect_response(STREAM mcs_data)
 
 	if (s == NULL)
 		return False;
-	
+
 	packet = *s;
 
 	ber_parse_header(s, MCS_CONNECT_RESPONSE, &length);
@@ -120,7 +119,7 @@ mcs_recv_connect_response(STREAM mcs_data)
 	}
 
 	ber_parse_header(s, BER_TAG_INTEGER, &length);
-	in_uint8s(s, length);	/* connect id */
+	in_uint8s(s, length); /* connect id */
 
 	if (!s_check_rem(s, length))
 	{
@@ -156,8 +155,8 @@ mcs_send_edrq(void)
 	s = iso_init(5);
 
 	out_uint8(s, (MCS_EDRQ << 2));
-	out_uint16_be(s, 1);	/* height */
-	out_uint16_be(s, 1);	/* interval */
+	out_uint16_be(s, 1); /* height */
+	out_uint16_be(s, 1); /* interval */
 
 	s_mark_end(s);
 	iso_send(s);
@@ -181,7 +180,7 @@ mcs_send_aurq(void)
 
 /* Expect a AUcf message (ASN.1 PER) */
 static RD_BOOL
-mcs_recv_aucf(uint16 * mcs_userid)
+mcs_recv_aucf(uint16 *mcs_userid)
 {
 	RD_BOOL is_fastpath;
 	uint8 fastpath_hdr;
@@ -262,25 +261,23 @@ mcs_recv_cjcf(void)
 		return False;
 	}
 
-	in_uint8s(s, 4);	/* mcs_userid, req_chanid */
+	in_uint8s(s, 4); /* mcs_userid, req_chanid */
 	if (opcode & 2)
-		in_uint8s(s, 2);	/* join_chanid */
+		in_uint8s(s, 2); /* join_chanid */
 
 	return s_check_end(s);
 }
 
-
 /* Send MCS Disconnect provider ultimatum PDU */
-void
-mcs_send_dpu(unsigned short reason)
+void mcs_send_dpu(unsigned short reason)
 {
 	STREAM s, contents;
 
 	logger(Protocol, Debug, "mcs_send_dpu(), reason=%d", reason);
 
 	contents = s_alloc(6);
-	ber_out_integer(contents, reason);	/* Reason */
-	ber_out_sequence(contents, NULL);	/* SEQUENCE OF NonStandradParameters OPTIONAL */
+	ber_out_integer(contents, reason); /* Reason */
+	ber_out_sequence(contents, NULL);  /* SEQUENCE OF NonStandradParameters OPTIONAL */
 	s_mark_end(contents);
 
 	s = iso_init(8);
@@ -306,8 +303,7 @@ mcs_init(int length)
 }
 
 /* Send an MCS transport data packet to a specific channel */
-void
-mcs_send_to_channel(STREAM s, uint16 channel)
+void mcs_send_to_channel(STREAM s, uint16 channel)
 {
 	uint16 length;
 
@@ -318,22 +314,21 @@ mcs_send_to_channel(STREAM s, uint16 channel)
 	out_uint8(s, (MCS_SDRQ << 2));
 	out_uint16_be(s, g_mcs_userid);
 	out_uint16_be(s, channel);
-	out_uint8(s, 0x70);	/* flags */
+	out_uint8(s, 0x70); /* flags */
 	out_uint16_be(s, length);
 
 	iso_send(s);
 }
 
 /* Send an MCS transport data packet to the global channel */
-void
-mcs_send(STREAM s)
+void mcs_send(STREAM s)
 {
 	mcs_send_to_channel(s, MCS_GLOBAL_CHANNEL);
 }
 
 /* Receive an MCS transport data packet */
 STREAM
-mcs_recv(uint16 * channel, RD_BOOL * is_fastpath, uint8 * fastpath_hdr)
+mcs_recv(uint16 *channel, RD_BOOL *is_fastpath, uint8 *fastpath_hdr)
 {
 	uint8 opcode, appid, length;
 	STREAM s;
@@ -355,18 +350,18 @@ mcs_recv(uint16 * channel, RD_BOOL * is_fastpath, uint8 * fastpath_hdr)
 		}
 		return NULL;
 	}
-	in_uint8s(s, 2);	/* userid */
+	in_uint8s(s, 2); /* userid */
 	in_uint16_be(s, *channel);
-	in_uint8s(s, 1);	/* flags */
+	in_uint8s(s, 1); /* flags */
 	in_uint8(s, length);
 	if (length & 0x80)
-		in_uint8s(s, 1);	/* second byte of length */
+		in_uint8s(s, 1); /* second byte of length */
 	return s;
 }
 
 RD_BOOL
 mcs_connect_start(char *server, char *username, char *domain, char *password,
-		  RD_BOOL reconnect, uint32 * selected_protocol)
+				  RD_BOOL reconnect, uint32 *selected_protocol)
 {
 	logger(Protocol, Debug, "%s()", __func__);
 	return iso_connect(server, username, domain, password, reconnect, selected_protocol);
@@ -405,22 +400,20 @@ mcs_connect_finalize(STREAM mcs_data)
 	}
 	return True;
 
-      error:
+error:
 	iso_disconnect();
 	return False;
 }
 
 /* Disconnect from the MCS layer */
-void
-mcs_disconnect(int reason)
+void mcs_disconnect(int reason)
 {
 	mcs_send_dpu(reason);
 	iso_disconnect();
 }
 
 /* reset the state of the mcs layer */
-void
-mcs_reset_state(void)
+void mcs_reset_state(void)
 {
 	g_mcs_userid = 0;
 	iso_reset_state();

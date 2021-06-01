@@ -40,7 +40,7 @@ utils_djb2_hash(const char *str)
 	uint8 *pstr;
 	uint32 hash = 5381;
 
-	pstr = (uint8 *) str;
+	pstr = (uint8 *)str;
 	while ((c = *pstr++))
 	{
 		hash = ((hash << 5) + hash) + c;
@@ -60,7 +60,7 @@ utils_string_escape(const char *str)
 	cnt = 0;
 	p = str;
 	while (*(p++) != '\0')
-		if ((unsigned char) *p < 32 || *p == '%')
+		if ((unsigned char)*p < 32 || *p == '%')
 			cnt++;
 
 	/* if no characters needs escaping return copy of str */
@@ -74,7 +74,7 @@ utils_string_escape(const char *str)
 	p = str;
 	while (*p != '\0')
 	{
-		if ((unsigned char) *p < 32 || *p == '%')
+		if ((unsigned char)*p < 32 || *p == '%')
 		{
 			snprintf(esc, 4, "%%%02X", *p);
 			memcpy(pe, esc, 3);
@@ -109,7 +109,7 @@ utils_string_unescape(const char *str)
 		{
 			if (sscanf(ps, "%%%2hhX", &c) == 1)
 			{
-				pd[0] = (char) c;
+				pd[0] = (char)c;
 				ps += 3;
 				pd++;
 				continue;
@@ -126,8 +126,7 @@ utils_string_unescape(const char *str)
 	return ns;
 }
 
-int
-utils_mkdir_safe(const char *path, int mask)
+int utils_mkdir_safe(const char *path, int mask)
 {
 	int res = 0;
 	struct stat st;
@@ -145,8 +144,7 @@ utils_mkdir_safe(const char *path, int mask)
 	return 0;
 }
 
-int
-utils_mkdir_p(const char *path, int mask)
+int utils_mkdir_p(const char *path, int mask)
 {
 	int res;
 	char *ptok;
@@ -182,17 +180,15 @@ utils_mkdir_p(const char *path, int mask)
 		if (res != 0)
 			return res;
 
-	}
-	while ((ptok = strtok(NULL, "/")) != NULL);
+	} while ((ptok = strtok(NULL, "/")) != NULL);
 
 	return 0;
 }
 
 /* Convert from system locale string to UTF-8 */
-int
-utils_locale_to_utf8(const char *src, size_t is, char *dest, size_t os)
+int utils_locale_to_utf8(const char *src, size_t is, char *dest, size_t os)
 {
-	static iconv_t *iconv_h = (iconv_t) - 1;
+	static iconv_t *iconv_h = (iconv_t)-1;
 	if (strncmp(g_codepage, "UTF-8", strlen("UTF-8")) == 0)
 		goto pass_trough_as_is;
 
@@ -200,13 +196,13 @@ utils_locale_to_utf8(const char *src, size_t is, char *dest, size_t os)
 		goto pass_trough_as_is;
 
 	/* if not already initialize */
-	if (iconv_h == (iconv_t) - 1)
+	if (iconv_h == (iconv_t)-1)
 	{
-		if ((iconv_h = iconv_open("UTF-8", g_codepage)) == (iconv_t) - 1)
+		if ((iconv_h = iconv_open("UTF-8", g_codepage)) == (iconv_t)-1)
 		{
 			logger(Core, Warning,
-			       "utils_string_to_utf8(), iconv_open[%s -> %s] fail %p", g_codepage,
-			       "UTF-8", iconv_h);
+				   "utils_string_to_utf8(), iconv_open[%s -> %s] fail %p", g_codepage,
+				   "UTF-8", iconv_h);
 
 			g_iconv_works = False;
 			goto pass_trough_as_is;
@@ -214,10 +210,10 @@ utils_locale_to_utf8(const char *src, size_t is, char *dest, size_t os)
 	}
 
 	/* convert string */
-	if (iconv(iconv_h, (char **) &src, &is, &dest, &os) == (size_t) - 1)
+	if (iconv(iconv_h, (char **)&src, &is, &dest, &os) == (size_t)-1)
 	{
 		iconv_close(iconv_h);
-		iconv_h = (iconv_t) - 1;
+		iconv_h = (iconv_t)-1;
 		logger(Core, Warning, "utils_string_to_utf8, iconv(1) fail, errno %d", errno);
 
 		g_iconv_works = False;
@@ -228,7 +224,7 @@ utils_locale_to_utf8(const char *src, size_t is, char *dest, size_t os)
 	if (is != 0)
 		return -1;
 
-      pass_trough_as_is:
+pass_trough_as_is:
 	/* can dest hold strcpy of src */
 	if (os < (strlen(src) + 1))
 		return -1;
@@ -237,11 +233,9 @@ utils_locale_to_utf8(const char *src, size_t is, char *dest, size_t os)
 	return 0;
 }
 
-
-void
-utils_calculate_dpi_scale_factors(uint32 width, uint32 height, uint32 dpi,
-				  uint32 * physwidth, uint32 * physheight,
-				  uint32 * desktopscale, uint32 * devicescale)
+void utils_calculate_dpi_scale_factors(uint32 width, uint32 height, uint32 dpi,
+									   uint32 *physwidth, uint32 *physheight,
+									   uint32 *desktopscale, uint32 *devicescale)
 {
 	*physwidth = *physheight = *desktopscale = *devicescale = 0;
 
@@ -257,13 +251,10 @@ utils_calculate_dpi_scale_factors(uint32 width, uint32 height, uint32 dpi,
 		/* the only allowed values for device scale factor are
 		   100, 140, and 180. */
 		*devicescale = dpi < 134 ? 100 : (dpi < 173 ? 140 : 180);
-
 	}
 }
 
-
-void
-utils_apply_session_size_limitations(uint32 * width, uint32 * height)
+void utils_apply_session_size_limitations(uint32 *width, uint32 *height)
 {
 	/* width MUST be even number */
 	*width -= (*width) % 2;
@@ -297,14 +288,14 @@ util_dialog_choice(const char *message, ...)
 		choices[i] = va_arg(ap, const char *);
 		if (choices[i] == NULL)
 			break;
-    }
-    va_end(ap);
+	}
+	va_end(ap);
 
 	choice = NULL;
 	while (choice == NULL)
 	{
 		/* display message */
-		fprintf(stderr,"\n%s", message);
+		fprintf(stderr, "\n%s", message);
 
 		/* read input */
 		if (fgets(response, sizeof(response), stdin) != NULL)
@@ -343,10 +334,10 @@ util_dialog_choice(const char *message, ...)
 
 static char *level[] = {
 	"debug",
-	"verbose",		/* Verbose message for end user, no prefixed lines */
+	"verbose", /* Verbose message for end user, no prefixed lines */
 	"warning",
 	"error",
-	"notice"		/* Normal messages for end user, no prefixed lines */
+	"notice" /* Normal messages for end user, no prefixed lines */
 };
 
 static char *subject[] = {
@@ -358,29 +349,18 @@ static char *subject[] = {
 	"Graphics",
 	"Core",
 	"SmartCard",
-	"Disk"
-};
+	"Disk"};
 
 static log_level_t _logger_level = Warning;
 
 #define DEFAULT_LOGGER_SUBJECTS (1 << Core)
 
-#define ALL_LOGGER_SUBJECTS			\
-	  (1 << GUI)				\
-	| (1 << Keyboard)			\
-	| (1 << Clipboard)			\
-	| (1 << Sound)				\
-	| (1 << Protocol)			\
-	| (1 << Graphics)			\
-	| (1 << Core)				\
-	| (1 << SmartCard)                      \
-	| (1 << Disk)
-
+#define ALL_LOGGER_SUBJECTS \
+	(1 << GUI) | (1 << Keyboard) | (1 << Clipboard) | (1 << Sound) | (1 << Protocol) | (1 << Graphics) | (1 << Core) | (1 << SmartCard) | (1 << Disk)
 
 static int _logger_subjects = DEFAULT_LOGGER_SUBJECTS;
 
-void
-logger(log_subject_t s, log_level_t lvl, char *format, ...)
+void logger(log_subject_t s, log_level_t lvl, char *format, ...)
 {
 	va_list ap;
 	char buf[1024];
@@ -407,8 +387,7 @@ logger(log_subject_t s, log_level_t lvl, char *format, ...)
 	va_end(ap);
 }
 
-void
-logger_set_verbose(int verbose)
+void logger_set_verbose(int verbose)
 {
 	if (_logger_level < Verbose)
 		return;
@@ -419,8 +398,7 @@ logger_set_verbose(int verbose)
 		_logger_level = Warning;
 }
 
-void
-logger_set_subjects(char *subjects)
+void logger_set_subjects(char *subjects)
 {
 	int clear;
 	int bit;
@@ -482,8 +460,7 @@ logger_set_subjects(char *subjects)
 		else
 			_logger_subjects |= bit;
 
-	}
-	while ((token = strtok(NULL, ",")) != NULL);
+	} while ((token = strtok(NULL, ",")) != NULL);
 
 	_logger_level = Debug;
 
@@ -505,17 +482,19 @@ _utils_data_to_hex(uint8 *data, size_t len, char *out, size_t size)
 		strcat(out, hex);
 	}
 
-	return (len*2);
+	return (len * 2);
 }
 
 static size_t
 _utils_oid_to_string(const char *oid, char *out, size_t size)
 {
 	memset(out, 0, size);
-	if (strcmp(oid, "0.9.2342.19200300.100.1.25") == 0) {
+	if (strcmp(oid, "0.9.2342.19200300.100.1.25") == 0)
+	{
 		snprintf(out, size, "%s", "DC");
 	}
-	else if (strcmp(oid, "2.5.4.3") == 0) {
+	else if (strcmp(oid, "2.5.4.3") == 0)
+	{
 		snprintf(out, size, "%s", "CN");
 	}
 	else if (strcmp(oid, "1.2.840.113549.1.1.13") == 0)
@@ -532,7 +511,7 @@ _utils_oid_to_string(const char *oid, char *out, size_t size)
 
 static int
 _utils_dn_to_string(gnutls_x509_dn_t dn, RD_BOOL exclude_oid,
-				    char *out, size_t size)
+					char *out, size_t size)
 {
 	int i, j;
 	char buf[128] = {0};
@@ -562,7 +541,7 @@ _utils_dn_to_string(gnutls_x509_dn_t dn, RD_BOOL exclude_oid,
 			{
 				_utils_oid_to_string((char *)ava.oid.data, name, sizeof(name));
 				snprintf(buf, sizeof(buf), "%s%s=%.*s",
-						 (j > 0)?", ":"", name, ava.value.size, ava.value.data);
+						 (j > 0) ? ", " : "", name, ava.value.size, ava.value.data);
 				strncat(result, buf, left);
 				left -= strlen(buf);
 			}
@@ -629,14 +608,15 @@ _utils_cert_get_info(gnutls_x509_crt_t cert, char *out, size_t size)
 
 	/* render cert info into out */
 	snprintf(out, size,
-		"%s\n"
-		"%s\n"
-		"%s"
-		"%s"
-		"\n"
-		"  Certificate fingerprints:\n\n"
-		"%s\n"
-		"%s\n", subject, issuer, valid_from, valid_to, sha1, sha256);
+			 "%s\n"
+			 "%s\n"
+			 "%s"
+			 "%s"
+			 "\n"
+			 "  Certificate fingerprints:\n\n"
+			 "%s\n"
+			 "%s\n",
+			 subject, issuer, valid_from, valid_to, sha1, sha256);
 }
 
 static int
@@ -651,7 +631,7 @@ _utils_cert_san_to_string(gnutls_x509_crt_t cert, char *out, size_t size)
 
 	left = sizeof(entries);
 
-	for(i = 0; i < 50; i++)
+	for (i = 0; i < 50; i++)
 	{
 		san_size = sizeof(san);
 		res = gnutls_x509_crt_get_subject_alt_name2(cert, i, san, &san_size, &san_type, &critical);
@@ -668,19 +648,19 @@ _utils_cert_san_to_string(gnutls_x509_crt_t cert, char *out, size_t size)
 		}
 
 		/* add SAN entry to list */
-		switch(san_type)
+		switch (san_type)
 		{
-			case GNUTLS_SAN_IPADDRESS:
-			case GNUTLS_SAN_DNSNAME:
+		case GNUTLS_SAN_IPADDRESS:
+		case GNUTLS_SAN_DNSNAME:
 
-				if (left < (ssize_t)sizeof(entries))
-				{
-					strncat(entries, ", ", left);
-					left -= 2;
-				}
+			if (left < (ssize_t)sizeof(entries))
+			{
+				strncat(entries, ", ", left);
+				left -= 2;
+			}
 
-				strncat(entries, san, left);
-				left -= strlen(san);
+			strncat(entries, san, left);
+			left -= strlen(san);
 
 			break;
 		}
@@ -697,8 +677,8 @@ _utils_cert_san_to_string(gnutls_x509_crt_t cert, char *out, size_t size)
 
 static void
 _utils_cert_get_status_report(gnutls_x509_crt_t cert, unsigned int status,
-						     RD_BOOL hostname_mismatch, const char *hostname,
-						     char *out, size_t size)
+							  RD_BOOL hostname_mismatch, const char *hostname,
+							  char *out, size_t size)
 {
 	int i;
 	char buf[1024];
@@ -709,10 +689,10 @@ _utils_cert_get_status_report(gnutls_x509_crt_t cert, unsigned int status,
 	if (hostname_mismatch == True)
 	{
 		snprintf(buf, sizeof(buf),
-			" %d. The hostname used for this connection does not match any of the names\n"
-			"    given in the certificate.\n\n"
-			"             Hostname: %s\n"
-			, i++, hostname);
+				 " %d. The hostname used for this connection does not match any of the names\n"
+				 "    given in the certificate.\n\n"
+				 "             Hostname: %s\n",
+				 i++, hostname);
 		strncat(out, buf, size - 1);
 		size -= strlen(buf);
 
@@ -740,16 +720,18 @@ _utils_cert_get_status_report(gnutls_x509_crt_t cert, unsigned int status,
 		size -= 1;
 	}
 
-	if (status & GNUTLS_CERT_REVOKED) {
+	if (status & GNUTLS_CERT_REVOKED)
+	{
 		snprintf(buf, sizeof(buf),
-			" %d. Certificate is revoked by its authority\n\n", i++);
+				 " %d. Certificate is revoked by its authority\n\n", i++);
 		strncat(out, buf, size);
 		size -= strlen(buf);
 	}
 
-	if (status & GNUTLS_CERT_SIGNER_NOT_FOUND) {
+	if (status & GNUTLS_CERT_SIGNER_NOT_FOUND)
+	{
 		snprintf(buf, sizeof(buf),
-			" %d. Certificate issuer is not trusted by this system.\n\n", i++);
+				 " %d. Certificate issuer is not trusted by this system.\n\n", i++);
 		strncat(out, buf, size);
 		size -= strlen(buf);
 
@@ -766,24 +748,27 @@ _utils_cert_get_status_report(gnutls_x509_crt_t cert, unsigned int status,
 		}
 	}
 
-	if (status & GNUTLS_CERT_SIGNER_NOT_CA) {
+	if (status & GNUTLS_CERT_SIGNER_NOT_CA)
+	{
 		snprintf(buf, sizeof(buf),
-			" %d. Certificate signer is not a CA.\n\n", i++);
+				 " %d. Certificate signer is not a CA.\n\n", i++);
 		strncat(out, buf, size);
 		size -= strlen(buf);
 	}
 
-	if (status & GNUTLS_CERT_INSECURE_ALGORITHM) {
+	if (status & GNUTLS_CERT_INSECURE_ALGORITHM)
+	{
 		snprintf(buf, sizeof(buf),
-			" %d. Certificate was signed using an insecure algorithm.\n\n", i++);
+				 " %d. Certificate was signed using an insecure algorithm.\n\n", i++);
 		strncat(out, buf, size);
 		size -= strlen(buf);
 		/* TODO: print algorithm*/
 	}
 
-	if (status & GNUTLS_CERT_NOT_ACTIVATED) {
+	if (status & GNUTLS_CERT_NOT_ACTIVATED)
+	{
 		snprintf(buf, sizeof(buf),
-			" %d. Certificate is not yet activated.\n\n", i++);
+				 " %d. Certificate is not yet activated.\n\n", i++);
 		strncat(out, buf, size);
 		size -= strlen(buf);
 
@@ -793,9 +778,10 @@ _utils_cert_get_status_report(gnutls_x509_crt_t cert, unsigned int status,
 		size -= strlen(buf);
 	}
 
-	if (status & GNUTLS_CERT_EXPIRED) {
+	if (status & GNUTLS_CERT_EXPIRED)
+	{
 		snprintf(buf, sizeof(buf),
-			" %d. Certificate has expired.\n\n", i++);
+				 " %d. Certificate has expired.\n\n", i++);
 		strncat(out, buf, size);
 		size -= strlen(buf);
 
@@ -805,80 +791,93 @@ _utils_cert_get_status_report(gnutls_x509_crt_t cert, unsigned int status,
 		size -= strlen(buf);
 	}
 
-	if (status & GNUTLS_CERT_SIGNATURE_FAILURE) {
+	if (status & GNUTLS_CERT_SIGNATURE_FAILURE)
+	{
 		snprintf(buf, sizeof(buf),
-			" %d. Failed to verify the signature of the certificate.\n\n", i++);
+				 " %d. Failed to verify the signature of the certificate.\n\n", i++);
 		strncat(out, buf, size);
 		size -= strlen(buf);
 	}
 
-	if (status & GNUTLS_CERT_REVOCATION_DATA_SUPERSEDED) {
+	if (status & GNUTLS_CERT_REVOCATION_DATA_SUPERSEDED)
+	{
 		snprintf(buf, sizeof(buf),
-			" %d. Revocation data are old and have been superseded.\n\n", i++);
+				 " %d. Revocation data are old and have been superseded.\n\n", i++);
 		strncat(out, buf, size);
 		size -= strlen(buf);
 	}
 
-	if (status & GNUTLS_CERT_UNEXPECTED_OWNER) {
+	if (status & GNUTLS_CERT_UNEXPECTED_OWNER)
+	{
 		snprintf(buf, sizeof(buf),
-			" %d. The owner is not the expected one.\n\n", i++);
+				 " %d. The owner is not the expected one.\n\n", i++);
 		strncat(out, buf, size);
 		size -= strlen(buf);
 	}
 
-	if (status & GNUTLS_CERT_REVOCATION_DATA_ISSUED_IN_FUTURE) {
+	if (status & GNUTLS_CERT_REVOCATION_DATA_ISSUED_IN_FUTURE)
+	{
 		snprintf(buf, sizeof(buf),
-			" %d. The revocation data have a future issue date.\n\n", i++);
+				 " %d. The revocation data have a future issue date.\n\n", i++);
 		strncat(out, buf, size);
 		size -= strlen(buf);
 	}
 
-	if (status & GNUTLS_CERT_SIGNER_CONSTRAINTS_FAILURE) {
+	if (status & GNUTLS_CERT_SIGNER_CONSTRAINTS_FAILURE)
+	{
 		snprintf(buf, sizeof(buf),
-			" %d. The certificate's signer constraints were violated.\n\n", i++);
+				 " %d. The certificate's signer constraints were violated.\n\n", i++);
 		strncat(out, buf, size);
 		size -= strlen(buf);
 	}
 
-	if (status & GNUTLS_CERT_MISMATCH) {
+	if (status & GNUTLS_CERT_MISMATCH)
+	{
 		snprintf(buf, sizeof(buf),
-			" %d. The certificate presented isn't the expected one (TOFU)\n\n", i++);
+				 " %d. The certificate presented isn't the expected one (TOFU)\n\n", i++);
 		strncat(out, buf, size);
 		size -= strlen(buf);
 	}
 
 #if GNUTLS_VERSION_NUMBER >= 0x030400
-	if (status & GNUTLS_CERT_PURPOSE_MISMATCH) {
+	if (status & GNUTLS_CERT_PURPOSE_MISMATCH)
+	{
 		snprintf(buf, sizeof(buf),
-			" %d. The certificate or an intermediate does not match the\n"
-			"     intended purpose (extended key usage).\n\n", i++);
+				 " %d. The certificate or an intermediate does not match the\n"
+				 "     intended purpose (extended key usage).\n\n",
+				 i++);
 		strncat(out, buf, size);
 		size -= strlen(buf);
 	}
 #endif
 
 #if GNUTLS_VERSION_NUMBER >= 0x030501
-	if (status & GNUTLS_CERT_MISSING_OCSP_STATUS) {
+	if (status & GNUTLS_CERT_MISSING_OCSP_STATUS)
+	{
 		snprintf(buf, sizeof(buf),
-			" %d. The certificate requires the server to send the certifiate\n"
-			"     status, but no status was received.\n\n", i++);
+				 " %d. The certificate requires the server to send the certifiate\n"
+				 "     status, but no status was received.\n\n",
+				 i++);
 		strncat(out, buf, size);
 		size -= strlen(buf);
 	}
 
-	if (status & GNUTLS_CERT_INVALID_OCSP_STATUS) {
+	if (status & GNUTLS_CERT_INVALID_OCSP_STATUS)
+	{
 		snprintf(buf, sizeof(buf),
-			" %d. The received OCSP status response is invalid.\n\n", i++);
+				 " %d. The received OCSP status response is invalid.\n\n", i++);
 		strncat(out, buf, size);
 		size -= strlen(buf);
 	}
 #endif
 
 #if GNUTLS_VERSION_NUMBER >= 0x030600
-	if (status & GNUTLS_CERT_UNKNOWN_CRIT_EXTENSIONS) {
+	if (status & GNUTLS_CERT_UNKNOWN_CRIT_EXTENSIONS)
+	{
 		snprintf(buf, sizeof(buf),
-			" %d. The certificate has extensions marked as critical which are\n"
-			"     not supported.\n\n", i++);
+				 " %d. The certificate has extensions marked as critical which are\n"
+				 "     not supported.\n\n",
+				 i++);
 		strncat(out, buf, size);
 		size -= strlen(buf);
 	}
@@ -908,7 +907,8 @@ _utils_cert_store_get_filename(char *out, size_t size)
 	{
 		if (errno == ENOENT)
 		{
-			if (rd_certcache_mkdir() == False) {
+			if (rd_certcache_mkdir() == False)
+			{
 				logger(Core, Error, "%s(), failed to create directory '%s'", __func__, dir);
 				return 1;
 			}
@@ -934,13 +934,12 @@ _utils_cert_store_get_filename(char *out, size_t size)
 }
 
 #define TRUST_CERT_PROMPT_TEXT "Do you trust this certificate (yes/no)? "
-#define REVIEW_CERT_TEXT \
+#define REVIEW_CERT_TEXT                                                                       \
 	"Review the following certificate info before you trust it to be added as an exception.\n" \
 	"If you do not trust the certificate the connection atempt will be aborted:"
 
-int
-utils_cert_handle_exception(gnutls_session_t session, unsigned int status,
-						    RD_BOOL hostname_mismatch, const char *hostname)
+int utils_cert_handle_exception(gnutls_session_t session, unsigned int status,
+								RD_BOOL hostname_mismatch, const char *hostname)
 {
 	int rv;
 	int type;
@@ -959,7 +958,8 @@ utils_cert_handle_exception(gnutls_session_t session, unsigned int status,
 	if (_utils_cert_store_get_filename(certcache_fn, sizeof(certcache_fn)) != 0)
 	{
 		logger(Core, Error, "%s(), Failed to get certificate store file, "
-							"disabling exception handling.", __func__);
+							"disabling exception handling.",
+			   __func__);
 		return 1;
 	}
 
@@ -967,16 +967,17 @@ utils_cert_handle_exception(gnutls_session_t session, unsigned int status,
 	if (type != GNUTLS_CRT_X509)
 	{
 		logger(Core, Error, "%s(), Certificate for session is not an x509 certificate, "
-							"disabling exception handling.", __func__);
+							"disabling exception handling.",
+			   __func__);
 		return 1;
 	}
-
 
 	cert_list = gnutls_certificate_get_peers(session, &cert_list_size);
 	if (cert_list_size == 0)
 	{
 		logger(Core, Error, "%s(), Failed to get certificate, "
-							"disabling exception handling.", __func__);
+							"disabling exception handling.",
+			   __func__);
 		return 1;
 	}
 
@@ -985,14 +986,14 @@ utils_cert_handle_exception(gnutls_session_t session, unsigned int status,
 	{
 		/* Certificate found in store and matches server */
 		logger(Core, Warning, "Certificate received from server is NOT trusted by this system, "
-			"an exception has been added by the user to trust this specific certificate.");
+							  "an exception has been added by the user to trust this specific certificate.");
 		return 0;
 	}
-	else if (rv !=  GNUTLS_E_CERTIFICATE_KEY_MISMATCH && rv != GNUTLS_E_NO_CERTIFICATE_FOUND)
+	else if (rv != GNUTLS_E_CERTIFICATE_KEY_MISMATCH && rv != GNUTLS_E_NO_CERTIFICATE_FOUND)
 	{
 		/* Unhandled errors */
 		logger(Core, Error, "%s(), verification for host '%s' certificate failed. Error = 0x%x (%s)",
-				__func__, hostname, rv, gnutls_strerror(rv));
+			   __func__, hostname, rv, gnutls_strerror(rv));
 		return 1;
 	}
 
@@ -1009,34 +1010,28 @@ utils_cert_handle_exception(gnutls_session_t session, unsigned int status,
 		/* Certificate from server mismatches the one in store */
 
 		snprintf(message, sizeof(message),
-			"ATTENTION! Found a certificate stored for host '%s', but it does not match the certificate\n"
-			"received from server.\n"
-			REVIEW_CERT_TEXT
-			"\n\n"
-			"%s"
-			"\n\n"
-			TRUST_CERT_PROMPT_TEXT
-			, hostname, cert_info);
-
-
+				 "ATTENTION! Found a certificate stored for host '%s', but it does not match the certificate\n"
+				 "received from server.\n" REVIEW_CERT_TEXT
+				 "\n\n"
+				 "%s"
+				 "\n\n" TRUST_CERT_PROMPT_TEXT,
+				 hostname, cert_info);
 	}
 	else if (rv == GNUTLS_E_NO_CERTIFICATE_FOUND)
 	{
 		/* Certificate is not found in store, propose to add an exception */
 		_utils_cert_get_status_report(cert, status, hostname_mismatch, hostname,
-			cert_invalid_reasons, sizeof(cert_invalid_reasons));
+									  cert_invalid_reasons, sizeof(cert_invalid_reasons));
 
 		snprintf(message, sizeof(message),
-			"ATTENTION! The server uses an invalid security certificate which can not be trusted for\n"
-			"the following identified reason(s);\n\n"
-			"%s"
-			"\n"
-			REVIEW_CERT_TEXT
-			"\n\n"
-			"%s"
-			"\n\n"
-			TRUST_CERT_PROMPT_TEXT,
-			cert_invalid_reasons, cert_info);
+				 "ATTENTION! The server uses an invalid security certificate which can not be trusted for\n"
+				 "the following identified reason(s);\n\n"
+				 "%s"
+				 "\n" REVIEW_CERT_TEXT
+				 "\n\n"
+				 "%s"
+				 "\n\n" TRUST_CERT_PROMPT_TEXT,
+				 cert_invalid_reasons, cert_info);
 	}
 
 	/* show dialog */

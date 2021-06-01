@@ -27,9 +27,9 @@
 #include <X11/Xutil.h>
 #include "../rdesktop.h"
 
-#define _NET_WM_STATE_REMOVE        0	/* remove/unset property */
-#define _NET_WM_STATE_ADD           1	/* add/set property */
-#define _NET_WM_STATE_TOGGLE        2	/* toggle property  */
+#define _NET_WM_STATE_REMOVE 0 /* remove/unset property */
+#define _NET_WM_STATE_ADD 1	   /* add/set property */
+#define _NET_WM_STATE_TOGGLE 2 /* toggle property  */
 
 extern Display *g_display;
 
@@ -46,7 +46,7 @@ Atom g_net_wm_state_atom, g_net_wm_desktop_atom, g_net_wm_ping_atom;
 */
 static int
 get_property_value(Window wnd, char *propname, long max_length,
-		   unsigned long *nitems_return, unsigned char **prop_return, int nowarn)
+				   unsigned long *nitems_return, unsigned char **prop_return, int nowarn)
 {
 	int result;
 	Atom property;
@@ -61,13 +61,13 @@ get_property_value(Window wnd, char *propname, long max_length,
 		return (-1);
 	}
 
-	result = XGetWindowProperty(g_display, wnd, property, 0,	/* long_offset */
-				    max_length,	/* long_length */
-				    False,	/* delete */
-				    AnyPropertyType,	/* req_type */
-				    &actual_type_return,
-				    &actual_format_return,
-				    nitems_return, &bytes_after_return, prop_return);
+	result = XGetWindowProperty(g_display, wnd, property, 0, /* long_offset */
+								max_length,					 /* long_length */
+								False,						 /* delete */
+								AnyPropertyType,			 /* req_type */
+								&actual_type_return,
+								&actual_format_return,
+								nitems_return, &bytes_after_return, prop_return);
 
 	if (result != Success)
 	{
@@ -79,7 +79,7 @@ get_property_value(Window wnd, char *propname, long max_length,
 	{
 		if (!nowarn)
 			logger(GUI, Error, "get_property_value(), window is missing atom '%s'",
-			       propname);
+				   propname);
 		return (-1);
 	}
 
@@ -109,9 +109,8 @@ get_current_desktop(void)
 	unsigned char *prop_return;
 	int current_desktop;
 
-	if (get_property_value
-	    (DefaultRootWindow(g_display), "_NET_CURRENT_DESKTOP", 1, &nitems_return,
-	     &prop_return, 0) < 0)
+	if (get_property_value(DefaultRootWindow(g_display), "_NET_CURRENT_DESKTOP", 1, &nitems_return,
+						   &prop_return, 0) < 0)
 		return (-1);
 
 	if (nitems_return != 1)
@@ -130,8 +129,7 @@ get_current_desktop(void)
   Returns zero on success, -1 on error
  */
 
-int
-get_current_workarea(uint32 * x, uint32 * y, uint32 * width, uint32 * height)
+int get_current_workarea(uint32 *x, uint32 *y, uint32 *width, uint32 *height)
 {
 	int current_desktop;
 	unsigned long nitems_return;
@@ -141,11 +139,10 @@ get_current_workarea(uint32 * x, uint32 * y, uint32 * width, uint32 * height)
 	const uint32 net_workarea_y_offset = 1;
 	const uint32 net_workarea_width_offset = 2;
 	const uint32 net_workarea_height_offset = 3;
-	const uint32 max_prop_length = 32 * 4;	/* Max 32 desktops */
+	const uint32 max_prop_length = 32 * 4; /* Max 32 desktops */
 
-	if (get_property_value
-	    (DefaultRootWindow(g_display), "_NET_WORKAREA", max_prop_length, &nitems_return,
-	     &prop_return, 0) < 0)
+	if (get_property_value(DefaultRootWindow(g_display), "_NET_WORKAREA", max_prop_length, &nitems_return,
+						   &prop_return, 0) < 0)
 		return (-1);
 
 	if (nitems_return % 4)
@@ -159,7 +156,7 @@ get_current_workarea(uint32 * x, uint32 * y, uint32 * width, uint32 * height)
 	if (current_desktop < 0)
 		return -1;
 
-	return_words = (long *) prop_return;
+	return_words = (long *)prop_return;
 
 	*x = return_words[current_desktop * 4 + net_workarea_x_offset];
 	*y = return_words[current_desktop * 4 + net_workarea_y_offset];
@@ -169,13 +166,9 @@ get_current_workarea(uint32 * x, uint32 * y, uint32 * width, uint32 * height)
 	XFree(prop_return);
 
 	return (0);
-
 }
 
-
-
-void
-ewmh_init()
+void ewmh_init()
 {
 	/* FIXME: Use XInternAtoms */
 	g_net_wm_state_maximized_vert_atom =
@@ -197,13 +190,11 @@ ewmh_init()
 	g_utf8_string_atom = XInternAtom(g_display, "UTF8_STRING", False);
 }
 
-
 /* 
    Get the window state: normal/minimized/maximized. 
 */
 
-int
-ewmh_get_window_state(Window w)
+int ewmh_get_window_state(Window w)
 {
 	unsigned long nitems_return;
 	unsigned char *prop_return;
@@ -216,7 +207,7 @@ ewmh_get_window_state(Window w)
 	if (get_property_value(w, "_NET_WM_STATE", 64, &nitems_return, &prop_return, 0) < 0)
 		return SEAMLESSRDP_NORMAL;
 
-	return_words = (unsigned long *) prop_return;
+	return_words = (unsigned long *)prop_return;
 
 	for (item = 0; item < nitems_return; item++)
 	{
@@ -257,7 +248,7 @@ ewmh_modify_state(Window wnd, int add, Atom atom1, Atom atom2)
 	result = get_property_value(wnd, "WM_STATE", 64, &nitems, &props, 1);
 	if ((result >= 0) && nitems)
 	{
-		state = *(uint32 *) props;
+		state = *(uint32 *)props;
 		XFree(props);
 	}
 
@@ -276,7 +267,7 @@ ewmh_modify_state(Window wnd, int add, Atom atom1, Atom atom2)
 			}
 
 			XChangeProperty(g_display, wnd, g_net_wm_state_atom, XA_ATOM,
-					32, PropModeAppend, (unsigned char *) atoms, nitems);
+							32, PropModeAppend, (unsigned char *)atoms, nitems);
 		}
 		else
 		{
@@ -285,7 +276,7 @@ ewmh_modify_state(Window wnd, int add, Atom atom1, Atom atom2)
 			if (get_property_value(wnd, "_NET_WM_STATE", 64, &nitems, &props, 1) < 0)
 				return 0;
 
-			atoms = (Atom *) props;
+			atoms = (Atom *)props;
 
 			for (i = 0; i < nitems; i++)
 			{
@@ -293,14 +284,14 @@ ewmh_modify_state(Window wnd, int add, Atom atom1, Atom atom2)
 				{
 					if (i != (nitems - 1))
 						memmove(&atoms[i], &atoms[i + 1],
-							sizeof(Atom) * (nitems - i - 1));
+								sizeof(Atom) * (nitems - i - 1));
 					nitems--;
 					i--;
 				}
 			}
 
 			XChangeProperty(g_display, wnd, g_net_wm_state_atom, XA_ATOM,
-					32, PropModeReplace, (unsigned char *) atoms, nitems);
+							32, PropModeReplace, (unsigned char *)atoms, nitems);
 
 			XFree(props);
 		}
@@ -321,7 +312,7 @@ ewmh_modify_state(Window wnd, int add, Atom atom1, Atom atom2)
 	xevent.xclient.data.l[3] = 0;
 	xevent.xclient.data.l[4] = 0;
 	status = XSendEvent(g_display, DefaultRootWindow(g_display), False,
-			    SubstructureNotifyMask | SubstructureRedirectMask, &xevent);
+						SubstructureNotifyMask | SubstructureRedirectMask, &xevent);
 	if (!status)
 		return -1;
 
@@ -332,33 +323,28 @@ ewmh_modify_state(Window wnd, int add, Atom atom1, Atom atom2)
    Set the window state: normal/minimized/maximized. 
    Returns -1 on failure. 
 */
-int
-ewmh_change_state(Window wnd, int state)
+int ewmh_change_state(Window wnd, int state)
 {
 	/*
 	 * Deal with the max atoms
 	 */
 	if (state == SEAMLESSRDP_MAXIMIZED)
 	{
-		if (ewmh_modify_state
-		    (wnd, 1, g_net_wm_state_maximized_vert_atom,
-		     g_net_wm_state_maximized_horz_atom) < 0)
+		if (ewmh_modify_state(wnd, 1, g_net_wm_state_maximized_vert_atom,
+							  g_net_wm_state_maximized_horz_atom) < 0)
 			return -1;
 	}
 	else
 	{
-		if (ewmh_modify_state
-		    (wnd, 0, g_net_wm_state_maximized_vert_atom,
-		     g_net_wm_state_maximized_horz_atom) < 0)
+		if (ewmh_modify_state(wnd, 0, g_net_wm_state_maximized_vert_atom,
+							  g_net_wm_state_maximized_horz_atom) < 0)
 			return -1;
 	}
 
 	return 0;
 }
 
-
-int
-ewmh_get_window_desktop(Window wnd)
+int ewmh_get_window_desktop(Window wnd)
 {
 	unsigned long nitems_return;
 	unsigned char *prop_return;
@@ -378,9 +364,7 @@ ewmh_get_window_desktop(Window wnd)
 	return desktop;
 }
 
-
-int
-ewmh_move_to_desktop(Window wnd, unsigned int desktop)
+int ewmh_move_to_desktop(Window wnd, unsigned int desktop)
 {
 	Status status;
 	XEvent xevent;
@@ -395,49 +379,43 @@ ewmh_move_to_desktop(Window wnd, unsigned int desktop)
 	xevent.xclient.data.l[3] = 0;
 	xevent.xclient.data.l[4] = 0;
 	status = XSendEvent(g_display, DefaultRootWindow(g_display), False,
-			    SubstructureNotifyMask | SubstructureRedirectMask, &xevent);
+						SubstructureNotifyMask | SubstructureRedirectMask, &xevent);
 	if (!status)
 		return -1;
 
 	return 0;
 }
 
-void
-ewmh_set_wm_name(Window wnd, const char *title)
+void ewmh_set_wm_name(Window wnd, const char *title)
 {
 	int len;
 
 	len = strlen(title);
 	XChangeProperty(g_display, wnd, g_net_wm_name_atom, g_utf8_string_atom,
-			8, PropModeReplace, (unsigned char *) title, len);
+					8, PropModeReplace, (unsigned char *)title, len);
 }
 
-void
-ewmh_set_wm_pid(Window wnd, pid_t pid)
+void ewmh_set_wm_pid(Window wnd, pid_t pid)
 {
 	XChangeProperty(g_display, wnd, g_net_wm_pid_atom,
-			XA_CARDINAL, sizeof(pid_t) * 8, PropModeReplace, (unsigned char *) &pid, 1);
+					XA_CARDINAL, sizeof(pid_t) * 8, PropModeReplace, (unsigned char *)&pid, 1);
 }
 
-int
-ewmh_set_window_popup(Window wnd)
+int ewmh_set_window_popup(Window wnd)
 {
-	if (ewmh_modify_state
-	    (wnd, 1, g_net_wm_state_skip_taskbar_atom, g_net_wm_state_skip_pager_atom) < 0)
+	if (ewmh_modify_state(wnd, 1, g_net_wm_state_skip_taskbar_atom, g_net_wm_state_skip_pager_atom) < 0)
 		return -1;
 	return 0;
 }
 
-int
-ewmh_set_window_modal(Window wnd)
+int ewmh_set_window_modal(Window wnd)
 {
 	if (ewmh_modify_state(wnd, 1, g_net_wm_state_modal_atom, 0) < 0)
 		return -1;
 	return 0;
 }
 
-void
-ewmh_set_icon(Window wnd, uint32 width, uint32 height, const char *rgba_data)
+void ewmh_set_icon(Window wnd, uint32 width, uint32 height, const char *rgba_data)
 {
 	unsigned long nitems, i;
 	unsigned char *props;
@@ -449,7 +427,7 @@ ewmh_set_icon(Window wnd, uint32 width, uint32 height, const char *rgba_data)
 
 	if (get_property_value(wnd, "_NET_WM_ICON", 10000, &nitems, &props, 1) >= 0)
 	{
-		cur_set = (unsigned long *) props;
+		cur_set = (unsigned long *)props;
 
 		for (i = 0; i < nitems;)
 		{
@@ -490,7 +468,7 @@ ewmh_set_icon(Window wnd, uint32 width, uint32 height, const char *rgba_data)
 	}
 
 	XChangeProperty(g_display, wnd, g_net_wm_icon_atom, XA_CARDINAL, 32,
-			PropModeReplace, (unsigned char *) (new_set ? new_set : cur_set), nitems);
+					PropModeReplace, (unsigned char *)(new_set ? new_set : cur_set), nitems);
 
 	if (cur_set)
 		XFree(cur_set);
@@ -498,8 +476,7 @@ ewmh_set_icon(Window wnd, uint32 width, uint32 height, const char *rgba_data)
 		xfree(new_set);
 }
 
-void
-ewmh_del_icon(Window wnd, uint32 width, uint32 height)
+void ewmh_del_icon(Window wnd, uint32 width, uint32 height)
 {
 	unsigned long nitems, i, icon_size;
 	unsigned char *props;
@@ -511,7 +488,7 @@ ewmh_del_icon(Window wnd, uint32 width, uint32 height)
 	if (get_property_value(wnd, "_NET_WM_ICON", 10000, &nitems, &props, 1) < 0)
 		return;
 
-	cur_set = (unsigned long *) props;
+	cur_set = (unsigned long *)props;
 
 	for (i = 0; i < nitems;)
 	{
@@ -531,21 +508,20 @@ ewmh_del_icon(Window wnd, uint32 width, uint32 height)
 		memcpy(new_set, cur_set, i * sizeof(unsigned long));
 	if (i != nitems - icon_size)
 		memcpy(new_set + i, cur_set + i + icon_size,
-		       (nitems - (i + icon_size)) * sizeof(unsigned long));
+			   (nitems - (i + icon_size)) * sizeof(unsigned long));
 
 	nitems -= icon_size;
 
 	XChangeProperty(g_display, wnd, g_net_wm_icon_atom, XA_CARDINAL, 32,
-			PropModeReplace, (unsigned char *) new_set, nitems);
+					PropModeReplace, (unsigned char *)new_set, nitems);
 
 	xfree(new_set);
 
-      out:
+out:
 	XFree(cur_set);
 }
 
-int
-ewmh_set_window_above(Window wnd)
+int ewmh_set_window_above(Window wnd)
 {
 	if (ewmh_modify_state(wnd, 1, g_net_wm_state_above_atom, 0) < 0)
 		return -1;
@@ -566,7 +542,7 @@ ewmh_is_window_above(Window w)
 	if (get_property_value(w, "_NET_WM_STATE", 64, &nitems_return, &prop_return, 0) < 0)
 		return False;
 
-	return_words = (unsigned long *) prop_return;
+	return_words = (unsigned long *)prop_return;
 
 	for (item = 0; item < nitems_return; item++)
 	{

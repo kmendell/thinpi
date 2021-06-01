@@ -19,7 +19,7 @@
 
 #include "../rdesktop.h"
 
-#define MAX_CELL_SIZE		0x1000	/* pixels */
+#define MAX_CELL_SIZE 0x1000 /* pixels */
 
 #define IS_PERSISTENT(id) (id < 8 && g_pstcache_fd[id] > 0)
 
@@ -31,12 +31,10 @@ extern RD_BOOL g_bitmap_cache_precache;
 int g_pstcache_fd[8];
 int g_pstcache_Bpp;
 RD_BOOL g_pstcache_enumerated = False;
-uint8 zero_key[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-
+uint8 zero_key[] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 /* Update mru stamp/index for a bitmap */
-void
-pstcache_touch_bitmap(uint8 cache_id, uint16 cache_idx, uint32 stamp)
+void pstcache_touch_bitmap(uint8 cache_id, uint16 cache_idx, uint32 stamp)
 {
 	int fd;
 
@@ -66,12 +64,12 @@ pstcache_load_bitmap(uint8 cache_id, uint16 cache_idx)
 	fd = g_pstcache_fd[cache_id];
 	rd_lseek_file(fd, cache_idx * (g_pstcache_Bpp * MAX_CELL_SIZE + sizeof(CELLHEADER)));
 	rd_read_file(fd, &cellhdr, sizeof(CELLHEADER));
-	celldata = (uint8 *) xmalloc(cellhdr.length);
+	celldata = (uint8 *)xmalloc(cellhdr.length);
 	rd_read_file(fd, celldata, cellhdr.length);
 
 	bitmap = ui_create_bitmap(cellhdr.width, cellhdr.height, celldata);
 	logger(Core, Debug, "pstcache_load_bitmap(), load bitmap from disk: id=%d, idx=%d, bmp=%p)",
-	       cache_id, cache_idx, bitmap);
+		   cache_id, cache_idx, bitmap);
 	cache_put_bitmap(cache_id, cache_idx, bitmap);
 
 	xfree(celldata);
@@ -80,8 +78,8 @@ pstcache_load_bitmap(uint8 cache_id, uint16 cache_idx)
 
 /* Store a bitmap in the persistent cache */
 RD_BOOL
-pstcache_save_bitmap(uint8 cache_id, uint16 cache_idx, uint8 * key,
-		     uint8 width, uint8 height, uint16 length, uint8 * data)
+pstcache_save_bitmap(uint8 cache_id, uint16 cache_idx, uint8 *key,
+					 uint8 width, uint8 height, uint16 length, uint8 *data)
 {
 	int fd;
 	CELLHEADER cellhdr;
@@ -104,8 +102,7 @@ pstcache_save_bitmap(uint8 cache_id, uint16 cache_idx, uint8 * key,
 }
 
 /* List the bitmap keys from the persistent cache file */
-int
-pstcache_enumerate(uint8 id, HASH_KEY * keylist)
+int pstcache_enumerate(uint8 id, HASH_KEY *keylist)
 {
 	int fd, n;
 	uint16 idx;
@@ -177,7 +174,7 @@ pstcache_init(uint8 cache_id)
 	if (!rd_pstcache_mkdir())
 	{
 		logger(Core, Error,
-		       "pstcache_init(), failed to get/make cache directory, disabling feature");
+			   "pstcache_init(), failed to get/make cache directory, disabling feature");
 		return False;
 	}
 
@@ -192,7 +189,7 @@ pstcache_init(uint8 cache_id)
 	if (!rd_lock_file(fd, 0, 0))
 	{
 		logger(Core, Error,
-		       "pstcache_init(), failed to lock persistent cache file, disabling feature");
+			   "pstcache_init(), failed to lock persistent cache file, disabling feature");
 		rd_close_file(fd);
 		return False;
 	}

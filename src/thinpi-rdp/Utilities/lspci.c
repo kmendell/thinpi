@@ -39,7 +39,6 @@ static pci_device current_device;
 
 static void lspci_send(const char *output);
 
-
 /* Handle one line of output from the lspci subprocess */
 static RD_BOOL
 handle_child_line(const char *line, void *data)
@@ -92,9 +91,9 @@ handle_child_line(const char *line, void *data)
 	{
 		/* Blank line. Send collected information over channel */
 		snprintf(buf, sizeof(buf), "%04x,%04x,%04x,%04x,%04x,%02x,%02x\n",
-			 current_device.klass, current_device.vendor,
-			 current_device.device, current_device.subvendor,
-			 current_device.subdevice, current_device.revision, current_device.progif);
+				 current_device.klass, current_device.vendor,
+				 current_device.device, current_device.subvendor,
+				 current_device.subdevice, current_device.revision, current_device.progif);
 		lspci_send(buf);
 		memset(&current_device, 0, sizeof(current_device));
 	}
@@ -105,13 +104,12 @@ handle_child_line(const char *line, void *data)
 	return True;
 }
 
-
 /* Process one line of input from virtual channel */
 static RD_BOOL
 lspci_process_line(const char *line, void *data)
 {
 	UNUSED(data);
-	char *lspci_command[5] = { "lspci", "-m", "-n", "-v", NULL };
+	char *lspci_command[5] = {"lspci", "-m", "-n", "-v", NULL};
 
 	if (!strcmp(line, "LSPCI"))
 	{
@@ -126,7 +124,6 @@ lspci_process_line(const char *line, void *data)
 	}
 	return True;
 }
-
 
 /* Process new data from the virtual channel */
 static void
@@ -151,7 +148,7 @@ lspci_init(void)
 {
 	lspci_channel =
 		channel_register("lspci", CHANNEL_OPTION_INITIALIZED | CHANNEL_OPTION_ENCRYPT_RDP,
-				 lspci_process);
+						 lspci_process);
 	return (lspci_channel != NULL);
 }
 

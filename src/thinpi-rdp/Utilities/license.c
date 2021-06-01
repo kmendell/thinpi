@@ -35,7 +35,7 @@ RD_BOOL g_licence_error_result = False;
 
 /* Generate a session key and RC4 keys, given client and server randoms */
 static void
-licence_generate_keys(uint8 * client_random, uint8 * server_random, uint8 * pre_master_secret)
+licence_generate_keys(uint8 *client_random, uint8 *server_random, uint8 *pre_master_secret)
 {
 	uint8 master_secret[48];
 	uint8 key_block[48];
@@ -52,16 +52,16 @@ licence_generate_keys(uint8 * client_random, uint8 * server_random, uint8 * pre_
 }
 
 static void
-licence_generate_hwid(uint8 * hwid)
+licence_generate_hwid(uint8 *hwid)
 {
 	buf_out_uint32(hwid, 2);
-	strncpy((char *) (hwid + 4), g_hostname, LICENCE_HWID_SIZE - 4);
+	strncpy((char *)(hwid + 4), g_hostname, LICENCE_HWID_SIZE - 4);
 }
 
 /* Send a licence info packet to server */
 static void
-licence_info(uint8 * client_random, uint8 * rsa_data,
-	     uint8 * licence_data, int licence_size, uint8 * hwid, uint8 * signature)
+licence_info(uint8 *client_random, uint8 *rsa_data,
+			 uint8 *licence_data, int licence_size, uint8 *hwid, uint8 *signature)
 {
 	uint32 sec_flags = SEC_LICENSE_PKT;
 	uint16 length =
@@ -72,7 +72,7 @@ licence_info(uint8 * client_random, uint8 * rsa_data,
 	s = sec_init(sec_flags, length + 2);
 
 	out_uint8(s, LICENCE_TAG_LICENCE_INFO);
-	out_uint8(s, ((g_rdp_version >= RDP_V5) ? 3 : 2));	/* version */
+	out_uint8(s, ((g_rdp_version >= RDP_V5) ? 3 : 2)); /* version */
 	out_uint16_le(s, length);
 
 	out_uint32_le(s, 1);
@@ -102,7 +102,7 @@ licence_info(uint8 * client_random, uint8 * rsa_data,
 
 /* Send a new licence request packet */
 static void
-licence_send_new_licence_request(uint8 * client_random, uint8 * rsa_data, char *user, char *host)
+licence_send_new_licence_request(uint8 *client_random, uint8 *rsa_data, char *user, char *host)
 {
 	uint32 sec_flags = SEC_LICENSE_PKT;
 	uint16 userlen = strlen(user) + 1;
@@ -114,10 +114,10 @@ licence_send_new_licence_request(uint8 * client_random, uint8 * rsa_data, char *
 	s = sec_init(sec_flags, length + 2);
 
 	out_uint8(s, LICENCE_TAG_NEW_LICENCE_REQUEST);
-	out_uint8(s, ((g_rdp_version >= RDP_V5) ? 3 : 2));	/* version */
+	out_uint8(s, ((g_rdp_version >= RDP_V5) ? 3 : 2)); /* version */
 	out_uint16_le(s, length);
 
-	out_uint32_le(s, 1);	// KEY_EXCHANGE_ALG_RSA
+	out_uint32_le(s, 1); // KEY_EXCHANGE_ALG_RSA
 	out_uint16(s, 0);
 	out_uint16_le(s, 0xff01);
 
@@ -174,8 +174,8 @@ licence_process_request(STREAM s)
 		rdssl_rc4_crypt(&crypt_key, hwid, hwid, sizeof(hwid));
 
 		logger(Protocol, Debug,
-		       "license_process_request(), sending licensing PDU (message type 0x%02x)",
-		       LICENCE_TAG_LICENCE_INFO);
+			   "license_process_request(), sending licensing PDU (message type 0x%02x)",
+			   LICENCE_TAG_LICENCE_INFO);
 
 		licence_info(null_data, null_data, licence_data, licence_size, hwid, signature);
 
@@ -184,15 +184,15 @@ licence_process_request(STREAM s)
 	}
 
 	logger(Protocol, Debug,
-	       "license_process_request(), sending licensing PDU (message type 0x%02x)",
-	       LICENCE_TAG_NEW_LICENCE_REQUEST);
+		   "license_process_request(), sending licensing PDU (message type 0x%02x)",
+		   LICENCE_TAG_NEW_LICENCE_REQUEST);
 
 	licence_send_new_licence_request(null_data, null_data, g_username, g_hostname);
 }
 
 /* Send a platform challenge response packet */
 static void
-licence_send_platform_challenge_response(uint8 * token, uint8 * crypt_hwid, uint8 * signature)
+licence_send_platform_challenge_response(uint8 *token, uint8 *crypt_hwid, uint8 *signature)
 {
 	uint32 sec_flags = SEC_LICENSE_PKT;
 	uint16 length = 58;
@@ -201,7 +201,7 @@ licence_send_platform_challenge_response(uint8 * token, uint8 * crypt_hwid, uint
 	s = sec_init(sec_flags, length + 2);
 
 	out_uint8(s, LICENCE_TAG_PLATFORM_CHALLENGE_RESPONSE);
-	out_uint8(s, ((g_rdp_version >= RDP_V5) ? 3 : 2));	/* version */
+	out_uint8(s, ((g_rdp_version >= RDP_V5) ? 3 : 2)); /* version */
 	out_uint16_le(s, length);
 
 	out_uint16_le(s, 1);
@@ -221,17 +221,17 @@ licence_send_platform_challenge_response(uint8 * token, uint8 * crypt_hwid, uint
 
 /* Parse an platform challenge request packet */
 static RD_BOOL
-licence_parse_platform_challenge(STREAM s, uint8 ** token, uint8 ** signature)
+licence_parse_platform_challenge(STREAM s, uint8 **token, uint8 **signature)
 {
 	uint16 tokenlen;
 
-	in_uint8s(s, 6);	/* unknown: f8 3d 15 00 04 f6 */
+	in_uint8s(s, 6); /* unknown: f8 3d 15 00 04 f6 */
 
 	in_uint16_le(s, tokenlen);
 	if (tokenlen != LICENCE_TOKEN_SIZE)
 	{
 		logger(Protocol, Error,
-		       "license_parse_platform_challenge(), tokenlen != LICENSE_TOKEN_SIZE");
+			   "license_parse_platform_challenge(), tokenlen != LICENSE_TOKEN_SIZE");
 		return False;
 	}
 
@@ -283,7 +283,7 @@ licence_process_new_license(STREAM s)
 	uint32 length;
 	int i;
 
-	in_uint8s(s, 2);	// Skip license binary blob type
+	in_uint8s(s, 2); // Skip license binary blob type
 	in_uint16_le(s, length);
 	if (!s_check_rem(s, length))
 		return;
@@ -297,7 +297,7 @@ licence_process_new_license(STREAM s)
 	s_seek(s, before);
 
 	/* Parse NEW_LICENSE_INFO block */
-	in_uint8s(s, 4);	// skip dwVersion
+	in_uint8s(s, 4); // skip dwVersion
 
 	/* Skip strings, Scope, CompanyName and ProductId to get
 	   to the LicenseInfo which we store in license blob. */
@@ -316,15 +316,14 @@ licence_process_new_license(STREAM s)
 }
 
 /* process a licence error alert packet */
-void
-licence_process_error_alert(STREAM s)
+void licence_process_error_alert(STREAM s)
 {
 	uint32 error_code;
 	uint32 state_transition;
 
 	in_uint32(s, error_code);
 	in_uint32(s, state_transition);
-	in_uint8s(s, 4);	/* Skip error_info */
+	in_uint8s(s, 4); /* Skip error_info */
 
 	/* There is a special case in the error alert handling, when licensing is all good
 	   and the server is not sending a license to client, a "Server License Error PDU -
@@ -341,62 +340,60 @@ licence_process_error_alert(STREAM s)
 	/* handle error codes, for now, just report them */
 	switch (error_code)
 	{
-		case 0x6:	// ERR_NO_LICENSE_SERVER
-			logger(Core, Notice, "License error alert from server: No license server");
-			break;
+	case 0x6: // ERR_NO_LICENSE_SERVER
+		logger(Core, Notice, "License error alert from server: No license server");
+		break;
 
-		case 0x8:	// ERR_INVALID_CLIENT
-			logger(Core, Notice, "License error alert from server: Invalid client");
-			break;
+	case 0x8: // ERR_INVALID_CLIENT
+		logger(Core, Notice, "License error alert from server: Invalid client");
+		break;
 
-		case 0x4:	// ERR_INVALID_SCOPE
-		case 0xb:	// ERR_INVALID_PRODUCTID
-		case 0xc:	// ERR_INVALID_MESSAGE_LENGTH
-		default:
-			logger(Core, Notice,
-			       "License error alert from server: code %u, state transition %u",
-			       error_code, state_transition);
-			break;
+	case 0x4: // ERR_INVALID_SCOPE
+	case 0xb: // ERR_INVALID_PRODUCTID
+	case 0xc: // ERR_INVALID_MESSAGE_LENGTH
+	default:
+		logger(Core, Notice,
+			   "License error alert from server: code %u, state transition %u",
+			   error_code, state_transition);
+		break;
 	}
 
 	g_licence_error_result = True;
 }
 
-
 /* Process a licence packet */
-void
-licence_process(STREAM s)
+void licence_process(STREAM s)
 {
 	uint8 tag;
 
 	in_uint8(s, tag);
-	in_uint8s(s, 3);	/* version, length */
+	in_uint8s(s, 3); /* version, length */
 
 	logger(Protocol, Debug, "license_process(), processing licensing PDU (message type 0x%02x)",
-	       tag);
+		   tag);
 
 	switch (tag)
 	{
-		case LICENCE_TAG_REQUEST:
-			licence_process_request(s);
-			break;
+	case LICENCE_TAG_REQUEST:
+		licence_process_request(s);
+		break;
 
-		case LICENCE_TAG_PLATFORM_CHALLENGE:
-			licence_process_platform_challenge(s);
-			break;
+	case LICENCE_TAG_PLATFORM_CHALLENGE:
+		licence_process_platform_challenge(s);
+		break;
 
-		case LICENCE_TAG_NEW_LICENCE:
-		case LICENCE_TAG_UPGRADE_LICENCE:
-			/* we can handle new and upgrades of licences the same way. */
-			licence_process_new_license(s);
-			break;
+	case LICENCE_TAG_NEW_LICENCE:
+	case LICENCE_TAG_UPGRADE_LICENCE:
+		/* we can handle new and upgrades of licences the same way. */
+		licence_process_new_license(s);
+		break;
 
-		case LICENCE_TAG_ERROR_ALERT:
-			licence_process_error_alert(s);
-			break;
+	case LICENCE_TAG_ERROR_ALERT:
+		licence_process_error_alert(s);
+		break;
 
-		default:
-			logger(Protocol, Warning,
-			       "license_process(), unhandled license PDU tag 0x%02", tag);
+	default:
+		logger(Protocol, Warning,
+			   "license_process(), unhandled license PDU tag 0x%02", tag);
 	}
 }

@@ -33,7 +33,7 @@
 #define CTRL_RESULT_SIZE 32
 #define RDESKTOP_CTRLSOCK_STORE "/.local/share/rdesktop/ctrl"
 
-#define CTRL_HASH_FLAG_SEAMLESS  1
+#define CTRL_HASH_FLAG_SEAMLESS 1
 
 #define ERR_RESULT_OK 0x00
 #define ERR_RESULT_NO_SUCH_COMMAND 0xffffffff
@@ -56,14 +56,13 @@ typedef struct _ctrl_slave_t
 	char linebuf[CTRL_LINEBUF_SIZE];
 } _ctrl_slave_t;
 
-
 static void
 _ctrl_slave_new(int sock)
 {
 	_ctrl_slave_t *it, *ns;
 
 	/* initialize new slave list item */
-	ns = (_ctrl_slave_t *) xmalloc(sizeof(_ctrl_slave_t));
+	ns = (_ctrl_slave_t *)xmalloc(sizeof(_ctrl_slave_t));
 	memset(ns, 0, sizeof(_ctrl_slave_t));
 	ns->sock = sock;
 
@@ -126,14 +125,13 @@ _ctrl_slave_disconnect(int sock)
 			(it->next)->prev = NULL;
 
 		xfree(it);
-
 	}
 }
 
 static void
-_ctrl_command_result(_ctrl_slave_t * slave, int result)
+_ctrl_command_result(_ctrl_slave_t *slave, int result)
 {
-	char buf[64] = { 0 };
+	char buf[64] = {0};
 
 	/* translate and send result code back to client */
 	if (result == 0)
@@ -146,7 +144,7 @@ _ctrl_command_result(_ctrl_slave_t * slave, int result)
 }
 
 static void
-_ctrl_dispatch_command(_ctrl_slave_t * slave)
+_ctrl_dispatch_command(_ctrl_slave_t *slave)
 {
 	char *p;
 	char *cmd;
@@ -165,7 +163,7 @@ _ctrl_dispatch_command(_ctrl_slave_t * slave)
 
 		res = ERR_RESULT_OK;
 
-		if (seamless_send_spawn(p) == (unsigned int) -1)
+		if (seamless_send_spawn(p) == (unsigned int)-1)
 			res = 1;
 	}
 	else
@@ -188,7 +186,7 @@ _ctrl_verify_unix_socket()
 	if ((s = socket(AF_UNIX, SOCK_STREAM, 0)) < 0)
 	{
 		logger(Core, Error, "_ctrl_verify_unix_socket(), socket() failed: %s",
-		       strerror(errno));
+			   strerror(errno));
 		exit(1);
 	}
 
@@ -197,14 +195,13 @@ _ctrl_verify_unix_socket()
 	len = sizeof(saun.sun_family) + strlen(saun.sun_path);
 
 	/* test connection */
-	if (connect(s, (struct sockaddr *) &saun, len) != 0)
+	if (connect(s, (struct sockaddr *)&saun, len) != 0)
 		return False;
 
 	shutdown(s, SHUT_RDWR);
 	close(s);
 	return True;
 }
-
 
 static void
 _ctrl_create_hash(const char *user, const char *domain, const char *host, char *hash, size_t hsize)
@@ -223,33 +220,31 @@ _ctrl_create_hash(const char *user, const char *domain, const char *host, char *
 		flags = CTRL_HASH_FLAG_SEAMLESS;
 
 	rdssl_sha1_init(&sha1);
-	rdssl_sha1_update(&sha1, (uint8 *) & version, sizeof(version));
+	rdssl_sha1_update(&sha1, (uint8 *)&version, sizeof(version));
 	rdssl_sha1_update(&sha1, &delim, 1);
 
 	if (user)
-		rdssl_sha1_update(&sha1, (uint8 *) user, strlen(user));
+		rdssl_sha1_update(&sha1, (uint8 *)user, strlen(user));
 	rdssl_sha1_update(&sha1, &delim, 1);
 
 	if (domain)
-		rdssl_sha1_update(&sha1, (uint8 *) domain, strlen(domain));
+		rdssl_sha1_update(&sha1, (uint8 *)domain, strlen(domain));
 	rdssl_sha1_update(&sha1, &delim, 1);
 
 	if (host)
-		rdssl_sha1_update(&sha1, (uint8 *) host, strlen(host));
+		rdssl_sha1_update(&sha1, (uint8 *)host, strlen(host));
 	rdssl_sha1_update(&sha1, &delim, 1);
 
-	rdssl_sha1_update(&sha1, (uint8 *) & flags, sizeof(flags));
+	rdssl_sha1_update(&sha1, (uint8 *)&flags, sizeof(flags));
 	rdssl_sha1_final(&sha1, out);
 
 	sec_hash_to_string(hash, hsize, out, sizeof(out));
 }
 
-
 /** Initialize ctrl
     Ret values: <0 failure, 0 master, 1 client
  */
-int
-ctrl_init(const char *user, const char *domain, const char *host)
+int ctrl_init(const char *user, const char *domain, const char *host)
 {
 	struct stat st;
 	struct sockaddr_un saun;
@@ -306,7 +301,7 @@ ctrl_init(const char *user, const char *domain, const char *host)
 	memset(&saun, 0, sizeof(struct sockaddr_un));
 	saun.sun_family = AF_UNIX;
 	strncpy(saun.sun_path, ctrlsock_name, sizeof(saun.sun_path));
-	if (bind(ctrlsock, (struct sockaddr *) &saun, sizeof(struct sockaddr_un)) < 0)
+	if (bind(ctrlsock, (struct sockaddr *)&saun, sizeof(struct sockaddr_un)) < 0)
 	{
 		logger(Core, Error, "ctrl_init(), bind() failed: %s", strerror(errno));
 		exit(1);
@@ -324,8 +319,7 @@ ctrl_init(const char *user, const char *domain, const char *host)
 	return 0;
 }
 
-void
-ctrl_cleanup()
+void ctrl_cleanup()
 {
 	if (ctrlsock)
 	{
@@ -340,9 +334,7 @@ ctrl_is_slave()
 	return _ctrl_is_slave;
 }
 
-
-void
-ctrl_add_fds(int *n, fd_set * rfds)
+void ctrl_add_fds(int *n, fd_set *rfds)
 {
 	_ctrl_slave_t *it;
 	if (ctrlsock == 0)
@@ -350,7 +342,6 @@ ctrl_add_fds(int *n, fd_set * rfds)
 
 	FD_SET(ctrlsock, rfds);
 	*n = MAX(*n, ctrlsock);
-
 
 	/* add connected slaves to fd set */
 	it = _ctrl_slaves;
@@ -362,8 +353,7 @@ ctrl_add_fds(int *n, fd_set * rfds)
 	}
 }
 
-void
-ctrl_check_fds(fd_set * rfds, fd_set * wfds)
+void ctrl_check_fds(fd_set *rfds, fd_set *wfds)
 {
 	UNUSED(wfds);
 	int ns, res, offs;
@@ -381,11 +371,11 @@ ctrl_check_fds(fd_set * rfds, fd_set * wfds)
 	{
 		FD_CLR(ctrlsock, rfds);
 		fromlen = sizeof(fsaun);
-		ns = accept(ctrlsock, (struct sockaddr *) &fsaun, &fromlen);
+		ns = accept(ctrlsock, (struct sockaddr *)&fsaun, &fromlen);
 		if (ns < 0)
 		{
 			logger(Core, Error, "ctrl_check_fds(), accept() failed: %s",
-			       strerror(errno));
+				   strerror(errno));
 			exit(1);
 		}
 
@@ -405,7 +395,7 @@ ctrl_check_fds(fd_set * rfds, fd_set * wfds)
 
 			/* linebuffer full let's disconnect slave */
 			if (it->linebuf[CTRL_LINEBUF_SIZE - 1] != '\0' &&
-			    it->linebuf[CTRL_LINEBUF_SIZE - 1] != '\n')
+				it->linebuf[CTRL_LINEBUF_SIZE - 1] != '\n')
 			{
 				_ctrl_slave_disconnect(it->sock);
 				break;
@@ -447,8 +437,7 @@ ctrl_check_fds(fd_set * rfds, fd_set * wfds)
 	}
 }
 
-int
-ctrl_send_command(const char *cmd, const char *arg)
+int ctrl_send_command(const char *cmd, const char *arg)
 {
 	FILE *fp;
 	struct sockaddr_un saun;
@@ -472,7 +461,7 @@ ctrl_send_command(const char *cmd, const char *arg)
 	strcpy(saun.sun_path, ctrlsock_name);
 	len = sizeof(saun.sun_family) + strlen(saun.sun_path);
 
-	if (connect(s, (struct sockaddr *) &saun, len) < 0)
+	if (connect(s, (struct sockaddr *)&saun, len) < 0)
 	{
 		logger(Core, Error, "ctrl_send_command(), connect() failed: %s", strerror(errno));
 		exit(1);
@@ -510,7 +499,7 @@ ctrl_send_command(const char *cmd, const char *arg)
 			ret = -1;
 	}
 
-      bail_out:
+bail_out:
 	xfree(escaped);
 	shutdown(s, SHUT_RDWR);
 	close(s);

@@ -26,7 +26,7 @@ extern RDP_VERSION g_rdp_version;
 
 /* Read field indicating which parameters are present */
 static void
-rdp_in_present(STREAM s, uint32 * present, uint8 flags, int size)
+rdp_in_present(STREAM s, uint32 *present, uint8 flags, int size)
 {
 	uint8 bits;
 	int i;
@@ -54,7 +54,7 @@ rdp_in_present(STREAM s, uint32 * present, uint8 flags, int size)
 
 /* Read a co-ordinate (16-bit, or 8-bit delta) */
 static void
-rdp_in_coord(STREAM s, sint16 * coord, RD_BOOL delta)
+rdp_in_coord(STREAM s, sint16 *coord, RD_BOOL delta)
 {
 	sint8 change;
 
@@ -71,12 +71,12 @@ rdp_in_coord(STREAM s, sint16 * coord, RD_BOOL delta)
 
 /* Parse a delta co-ordinate in polyline/polygon order form */
 static int
-parse_delta(uint8 * buffer, int *offset)
+parse_delta(uint8 *buffer, int *offset)
 {
 	int value = buffer[(*offset)++];
 	int two_byte = value & 0x80;
 
-	if (value & 0x40)	/* sign bit */
+	if (value & 0x40) /* sign bit */
 		value |= ~0x3f;
 	else
 		value &= 0x3f;
@@ -89,7 +89,7 @@ parse_delta(uint8 * buffer, int *offset)
 
 /* Read a colour entry */
 static void
-rdp_in_colour(STREAM s, uint32 * colour)
+rdp_in_colour(STREAM s, uint32 *colour)
 {
 	uint32 i;
 	in_uint8(s, i);
@@ -102,7 +102,7 @@ rdp_in_colour(STREAM s, uint32 * colour)
 
 /* Parse bounds information */
 static void
-rdp_parse_bounds(STREAM s, BOUNDS * bounds)
+rdp_parse_bounds(STREAM s, BOUNDS *bounds)
 {
 	uint8 present;
 
@@ -131,7 +131,7 @@ rdp_parse_bounds(STREAM s, BOUNDS * bounds)
 
 /* Parse a pen */
 static void
-rdp_parse_pen(STREAM s, PEN * pen, uint32 present)
+rdp_parse_pen(STREAM s, PEN *pen, uint32 present)
 {
 	if (present & 1)
 		in_uint8(s, pen->style);
@@ -144,7 +144,7 @@ rdp_parse_pen(STREAM s, PEN * pen, uint32 present)
 }
 
 static void
-setup_brush(BRUSH * out_brush, BRUSH * in_brush)
+setup_brush(BRUSH *out_brush, BRUSH *in_brush)
 {
 	BRUSHDATA *brush_data;
 	uint8 cache_idx;
@@ -159,7 +159,7 @@ setup_brush(BRUSH * out_brush, BRUSH * in_brush)
 		if ((brush_data == NULL) || (brush_data->data == NULL))
 		{
 			logger(Graphics, Error, "setup_brush(), error getting brush data, style %x",
-			       out_brush->style);
+				   out_brush->style);
 			out_brush->bd = NULL;
 			memset(out_brush->pattern, 0, 8);
 		}
@@ -173,7 +173,7 @@ setup_brush(BRUSH * out_brush, BRUSH * in_brush)
 
 /* Parse a brush */
 static void
-rdp_parse_brush(STREAM s, BRUSH * brush, uint32 present)
+rdp_parse_brush(STREAM s, BRUSH *brush, uint32 present)
 {
 	if (present & 1)
 		in_uint8(s, brush->xorigin);
@@ -193,7 +193,7 @@ rdp_parse_brush(STREAM s, BRUSH * brush, uint32 present)
 
 /* Process a destination blt order */
 static void
-process_destblt(STREAM s, DESTBLT_ORDER * os, uint32 present, RD_BOOL delta)
+process_destblt(STREAM s, DESTBLT_ORDER *os, uint32 present, RD_BOOL delta)
 {
 	if (present & 0x01)
 		rdp_in_coord(s, &os->x, delta);
@@ -211,14 +211,14 @@ process_destblt(STREAM s, DESTBLT_ORDER * os, uint32 present, RD_BOOL delta)
 		in_uint8(s, os->opcode);
 
 	logger(Graphics, Debug, "process_destblt(), op=0x%x, x=%d, y=%d, cx=%d, cy=%d",
-	       os->opcode, os->x, os->y, os->cx, os->cy);
+		   os->opcode, os->x, os->y, os->cx, os->cy);
 
 	ui_destblt(ROP2_S(os->opcode), os->x, os->y, os->cx, os->cy);
 }
 
 /* Process a pattern blt order */
 static void
-process_patblt(STREAM s, PATBLT_ORDER * os, uint32 present, RD_BOOL delta)
+process_patblt(STREAM s, PATBLT_ORDER *os, uint32 present, RD_BOOL delta)
 {
 	BRUSH brush;
 
@@ -246,19 +246,19 @@ process_patblt(STREAM s, PATBLT_ORDER * os, uint32 present, RD_BOOL delta)
 	rdp_parse_brush(s, &os->brush, present >> 7);
 
 	logger(Graphics, Debug,
-	       "process_patblt(), op=0x%x, x=%d, y=%d, cx=%d, cy=%d, bs=%d, bg=0x%x, fg=0x%x)",
-	       os->opcode, os->x, os->y, os->cx, os->cy, os->brush.style, os->bgcolour,
-	       os->fgcolour);
+		   "process_patblt(), op=0x%x, x=%d, y=%d, cx=%d, cy=%d, bs=%d, bg=0x%x, fg=0x%x)",
+		   os->opcode, os->x, os->y, os->cx, os->cy, os->brush.style, os->bgcolour,
+		   os->fgcolour);
 
 	setup_brush(&brush, &os->brush);
 
 	ui_patblt(ROP2_P(os->opcode), os->x, os->y, os->cx, os->cy,
-		  &brush, os->bgcolour, os->fgcolour);
+			  &brush, os->bgcolour, os->fgcolour);
 }
 
 /* Process a screen blt order */
 static void
-process_screenblt(STREAM s, SCREENBLT_ORDER * os, uint32 present, RD_BOOL delta)
+process_screenblt(STREAM s, SCREENBLT_ORDER *os, uint32 present, RD_BOOL delta)
 {
 	if (present & 0x0001)
 		rdp_in_coord(s, &os->x, delta);
@@ -282,15 +282,15 @@ process_screenblt(STREAM s, SCREENBLT_ORDER * os, uint32 present, RD_BOOL delta)
 		rdp_in_coord(s, &os->srcy, delta);
 
 	logger(Graphics, Debug,
-	       "process_screenblt(), op=0x%x, x=%d, y=%d, cx=%d, cy=%d, srcx=%d, srcy=%d)",
-	       os->opcode, os->x, os->y, os->cx, os->cy, os->srcx, os->srcy);
+		   "process_screenblt(), op=0x%x, x=%d, y=%d, cx=%d, cy=%d, srcx=%d, srcy=%d)",
+		   os->opcode, os->x, os->y, os->cx, os->cy, os->srcx, os->srcy);
 
 	ui_screenblt(ROP2_S(os->opcode), os->x, os->y, os->cx, os->cy, os->srcx, os->srcy);
 }
 
 /* Process a line order */
 static void
-process_line(STREAM s, LINE_ORDER * os, uint32 present, RD_BOOL delta)
+process_line(STREAM s, LINE_ORDER *os, uint32 present, RD_BOOL delta)
 {
 	if (present & 0x0001)
 		in_uint16_le(s, os->mixmode);
@@ -316,7 +316,7 @@ process_line(STREAM s, LINE_ORDER * os, uint32 present, RD_BOOL delta)
 	rdp_parse_pen(s, &os->pen, present >> 7);
 
 	logger(Graphics, Debug, "process_line(), op=0x%x, sx=%d, sy=%d, dx=%d, dy=%d, fg=0x%x)",
-	       os->opcode, os->startx, os->starty, os->endx, os->endy, os->pen.colour);
+		   os->opcode, os->startx, os->starty, os->endx, os->endy, os->pen.colour);
 
 	if (os->opcode < 0x01 || os->opcode > 0x10)
 	{
@@ -329,7 +329,7 @@ process_line(STREAM s, LINE_ORDER * os, uint32 present, RD_BOOL delta)
 
 /* Process an opaque rectangle order */
 static void
-process_rect(STREAM s, RECT_ORDER * os, uint32 present, RD_BOOL delta)
+process_rect(STREAM s, RECT_ORDER *os, uint32 present, RD_BOOL delta)
 {
 	uint32 i;
 	if (present & 0x01)
@@ -363,14 +363,14 @@ process_rect(STREAM s, RECT_ORDER * os, uint32 present, RD_BOOL delta)
 	}
 
 	logger(Graphics, Debug, "process_rect(), x=%d, y=%d, cx=%d, cy=%d, fg=0x%x",
-	       os->x, os->y, os->cx, os->cy, os->colour);
+		   os->x, os->y, os->cx, os->cy, os->colour);
 
 	ui_rect(os->x, os->y, os->cx, os->cy, os->colour);
 }
 
 /* Process a desktop save order */
 static void
-process_desksave(STREAM s, DESKSAVE_ORDER * os, uint32 present, RD_BOOL delta)
+process_desksave(STREAM s, DESKSAVE_ORDER *os, uint32 present, RD_BOOL delta)
 {
 	int width, height;
 
@@ -393,7 +393,7 @@ process_desksave(STREAM s, DESKSAVE_ORDER * os, uint32 present, RD_BOOL delta)
 		in_uint8(s, os->action);
 
 	logger(Graphics, Debug, "process_desksave(), l=%d, t=%d, r=%d, b=%d, off=%d, op=%d",
-	       os->left, os->top, os->right, os->bottom, os->offset, os->action);
+		   os->left, os->top, os->right, os->bottom, os->offset, os->action);
 
 	width = os->right - os->left + 1;
 	height = os->bottom - os->top + 1;
@@ -406,7 +406,7 @@ process_desksave(STREAM s, DESKSAVE_ORDER * os, uint32 present, RD_BOOL delta)
 
 /* Process a memory blt order */
 static void
-process_memblt(STREAM s, MEMBLT_ORDER * os, uint32 present, RD_BOOL delta)
+process_memblt(STREAM s, MEMBLT_ORDER *os, uint32 present, RD_BOOL delta)
 {
 	RD_HBITMAP bitmap;
 
@@ -441,8 +441,8 @@ process_memblt(STREAM s, MEMBLT_ORDER * os, uint32 present, RD_BOOL delta)
 		in_uint16_le(s, os->cache_idx);
 
 	logger(Graphics, Debug,
-	       "process_memblt(), op=0x%x, x=%d, y=%d, cx=%d, cy=%d, id=%d, idx=%d", os->opcode,
-	       os->x, os->y, os->cx, os->cy, os->cache_id, os->cache_idx);
+		   "process_memblt(), op=0x%x, x=%d, y=%d, cx=%d, cy=%d, id=%d, idx=%d", os->opcode,
+		   os->x, os->y, os->cx, os->cy, os->cache_id, os->cache_idx);
 
 	bitmap = cache_get_bitmap(os->cache_id, os->cache_idx);
 	if (bitmap == NULL)
@@ -453,7 +453,7 @@ process_memblt(STREAM s, MEMBLT_ORDER * os, uint32 present, RD_BOOL delta)
 
 /* Process a 3-way blt order */
 static void
-process_triblt(STREAM s, TRIBLT_ORDER * os, uint32 present, RD_BOOL delta)
+process_triblt(STREAM s, TRIBLT_ORDER *os, uint32 present, RD_BOOL delta)
 {
 	RD_HBITMAP bitmap;
 	BRUSH brush;
@@ -500,9 +500,9 @@ process_triblt(STREAM s, TRIBLT_ORDER * os, uint32 present, RD_BOOL delta)
 		in_uint16_le(s, os->unknown);
 
 	logger(Graphics, Debug,
-	       "process_triblt(), op=0x%x, x=%d, y=%d, cx=%d, cy=%d, id=%d, idx=%d, bs=%d, bg=0x%x, fg=0x%x",
-	       os->opcode, os->x, os->y, os->cx, os->cy, os->cache_id, os->cache_idx,
-	       os->brush.style, os->bgcolour, os->fgcolour);
+		   "process_triblt(), op=0x%x, x=%d, y=%d, cx=%d, cy=%d, id=%d, idx=%d, bs=%d, bg=0x%x, fg=0x%x",
+		   os->opcode, os->x, os->y, os->cx, os->cy, os->cache_id, os->cache_idx,
+		   os->brush.style, os->bgcolour, os->fgcolour);
 
 	bitmap = cache_get_bitmap(os->cache_id, os->cache_idx);
 	if (bitmap == NULL)
@@ -511,12 +511,12 @@ process_triblt(STREAM s, TRIBLT_ORDER * os, uint32 present, RD_BOOL delta)
 	setup_brush(&brush, &os->brush);
 
 	ui_triblt(os->opcode, os->x, os->y, os->cx, os->cy,
-		  bitmap, os->srcx, os->srcy, &brush, os->bgcolour, os->fgcolour);
+			  bitmap, os->srcx, os->srcy, &brush, os->bgcolour, os->fgcolour);
 }
 
 /* Process a polygon order */
 static void
-process_polygon(STREAM s, POLYGON_ORDER * os, uint32 present, RD_BOOL delta)
+process_polygon(STREAM s, POLYGON_ORDER *os, uint32 present, RD_BOOL delta)
 {
 	int index, data, next;
 	uint8 flags = 0;
@@ -547,8 +547,8 @@ process_polygon(STREAM s, POLYGON_ORDER * os, uint32 present, RD_BOOL delta)
 	}
 
 	logger(Graphics, Debug,
-	       "process_polygon(), x=%d, y=%d, op=0x%x, fm=%d, fg=0x%x, n=%d, sz=%d", os->x, os->y,
-	       os->opcode, os->fillmode, os->fgcolour, os->npoints, os->datasize);
+		   "process_polygon(), x=%d, y=%d, op=0x%x, fm=%d, fg=0x%x, n=%d, sz=%d", os->x, os->y,
+		   os->opcode, os->fillmode, os->fgcolour, os->npoints, os->datasize);
 
 	if (os->opcode < 0x01 || os->opcode > 0x10)
 	{
@@ -556,7 +556,7 @@ process_polygon(STREAM s, POLYGON_ORDER * os, uint32 present, RD_BOOL delta)
 		return;
 	}
 
-	points = (RD_POINT *) xmalloc((os->npoints + 1) * sizeof(RD_POINT));
+	points = (RD_POINT *)xmalloc((os->npoints + 1) * sizeof(RD_POINT));
 	memset(points, 0, (os->npoints + 1) * sizeof(RD_POINT));
 
 	points[0].x = os->x;
@@ -580,7 +580,7 @@ process_polygon(STREAM s, POLYGON_ORDER * os, uint32 present, RD_BOOL delta)
 
 	if (next - 1 == os->npoints)
 		ui_polygon(os->opcode - 1, os->fillmode, points, os->npoints + 1, NULL, 0,
-			   os->fgcolour);
+				   os->fgcolour);
 	else
 		logger(Graphics, Error, "process_polygon(), polygon parse error");
 
@@ -589,7 +589,7 @@ process_polygon(STREAM s, POLYGON_ORDER * os, uint32 present, RD_BOOL delta)
 
 /* Process a polygon2 order */
 static void
-process_polygon2(STREAM s, POLYGON2_ORDER * os, uint32 present, RD_BOOL delta)
+process_polygon2(STREAM s, POLYGON2_ORDER *os, uint32 present, RD_BOOL delta)
 {
 	int index, data, next;
 	uint8 flags = 0;
@@ -626,9 +626,9 @@ process_polygon2(STREAM s, POLYGON2_ORDER * os, uint32 present, RD_BOOL delta)
 	}
 
 	logger(Graphics, Debug,
-	       "process_polygon2(), x=%d, y=%d, op=0x%x, fm=%d, bs=%d, bg=0x%x, fg=0x%x, n=%d, sz=%d)",
-	       os->x, os->y, os->opcode, os->fillmode, os->brush.style, os->bgcolour, os->fgcolour,
-	       os->npoints, os->datasize);
+		   "process_polygon2(), x=%d, y=%d, op=0x%x, fm=%d, bs=%d, bg=0x%x, fg=0x%x, n=%d, sz=%d)",
+		   os->x, os->y, os->opcode, os->fillmode, os->brush.style, os->bgcolour, os->fgcolour,
+		   os->npoints, os->datasize);
 
 	if (os->opcode < 0x01 || os->opcode > 0x10)
 	{
@@ -638,7 +638,7 @@ process_polygon2(STREAM s, POLYGON2_ORDER * os, uint32 present, RD_BOOL delta)
 
 	setup_brush(&brush, &os->brush);
 
-	points = (RD_POINT *) xmalloc((os->npoints + 1) * sizeof(RD_POINT));
+	points = (RD_POINT *)xmalloc((os->npoints + 1) * sizeof(RD_POINT));
 	memset(points, 0, (os->npoints + 1) * sizeof(RD_POINT));
 
 	points[0].x = os->x;
@@ -662,7 +662,7 @@ process_polygon2(STREAM s, POLYGON2_ORDER * os, uint32 present, RD_BOOL delta)
 
 	if (next - 1 == os->npoints)
 		ui_polygon(os->opcode - 1, os->fillmode, points, os->npoints + 1,
-			   &brush, os->bgcolour, os->fgcolour);
+				   &brush, os->bgcolour, os->fgcolour);
 	else
 		logger(Graphics, Error, "process_polygon2(), polygon parse error");
 
@@ -671,7 +671,7 @@ process_polygon2(STREAM s, POLYGON2_ORDER * os, uint32 present, RD_BOOL delta)
 
 /* Process a polyline order */
 static void
-process_polyline(STREAM s, POLYLINE_ORDER * os, uint32 present, RD_BOOL delta)
+process_polyline(STREAM s, POLYLINE_ORDER *os, uint32 present, RD_BOOL delta)
 {
 	int index, next, data;
 	uint8 flags = 0;
@@ -700,7 +700,7 @@ process_polyline(STREAM s, POLYLINE_ORDER * os, uint32 present, RD_BOOL delta)
 	}
 
 	logger(Graphics, Debug, "process_polyline(), x=%d, y=%d, op=0x%x, fg=0x%x, n=%d, sz=%d)",
-	       os->x, os->y, os->opcode, os->fgcolour, os->lines, os->datasize);
+		   os->x, os->y, os->opcode, os->fgcolour, os->lines, os->datasize);
 
 	if (os->opcode < 0x01 || os->opcode > 0x10)
 	{
@@ -708,7 +708,7 @@ process_polyline(STREAM s, POLYLINE_ORDER * os, uint32 present, RD_BOOL delta)
 		return;
 	}
 
-	points = (RD_POINT *) xmalloc((os->lines + 1) * sizeof(RD_POINT));
+	points = (RD_POINT *)xmalloc((os->lines + 1) * sizeof(RD_POINT));
 	memset(points, 0, (os->lines + 1) * sizeof(RD_POINT));
 
 	points[0].x = os->x;
@@ -742,7 +742,7 @@ process_polyline(STREAM s, POLYLINE_ORDER * os, uint32 present, RD_BOOL delta)
 
 /* Process an ellipse order */
 static void
-process_ellipse(STREAM s, ELLIPSE_ORDER * os, uint32 present, RD_BOOL delta)
+process_ellipse(STREAM s, ELLIPSE_ORDER *os, uint32 present, RD_BOOL delta)
 {
 	if (present & 0x01)
 		rdp_in_coord(s, &os->left, delta);
@@ -766,16 +766,16 @@ process_ellipse(STREAM s, ELLIPSE_ORDER * os, uint32 present, RD_BOOL delta)
 		rdp_in_colour(s, &os->fgcolour);
 
 	logger(Graphics, Debug,
-	       "process_ellipse(), l=%d, t=%d, r=%d, b=%d, op=0x%x, fm=%d, fg=0x%x", os->left,
-	       os->top, os->right, os->bottom, os->opcode, os->fillmode, os->fgcolour);
+		   "process_ellipse(), l=%d, t=%d, r=%d, b=%d, op=0x%x, fm=%d, fg=0x%x", os->left,
+		   os->top, os->right, os->bottom, os->opcode, os->fillmode, os->fgcolour);
 
 	ui_ellipse(os->opcode - 1, os->fillmode, os->left, os->top, os->right - os->left,
-		   os->bottom - os->top, NULL, 0, os->fgcolour);
+			   os->bottom - os->top, NULL, 0, os->fgcolour);
 }
 
 /* Process an ellipse2 order */
 static void
-process_ellipse2(STREAM s, ELLIPSE2_ORDER * os, uint32 present, RD_BOOL delta)
+process_ellipse2(STREAM s, ELLIPSE2_ORDER *os, uint32 present, RD_BOOL delta)
 {
 	BRUSH brush;
 
@@ -806,19 +806,19 @@ process_ellipse2(STREAM s, ELLIPSE2_ORDER * os, uint32 present, RD_BOOL delta)
 	rdp_parse_brush(s, &os->brush, present >> 8);
 
 	logger(Graphics, Debug,
-	       "process_ellipse2(), l=%d, t=%d, r=%d, b=%d, op=0x%x, fm=%d, bs=%d, bg=0x%x, fg=0x%x",
-	       os->left, os->top, os->right, os->bottom, os->opcode, os->fillmode, os->brush.style,
-	       os->bgcolour, os->fgcolour);
+		   "process_ellipse2(), l=%d, t=%d, r=%d, b=%d, op=0x%x, fm=%d, bs=%d, bg=0x%x, fg=0x%x",
+		   os->left, os->top, os->right, os->bottom, os->opcode, os->fillmode, os->brush.style,
+		   os->bgcolour, os->fgcolour);
 
 	setup_brush(&brush, &os->brush);
 
 	ui_ellipse(os->opcode - 1, os->fillmode, os->left, os->top, os->right - os->left,
-		   os->bottom - os->top, &brush, os->bgcolour, os->fgcolour);
+			   os->bottom - os->top, &brush, os->bgcolour, os->fgcolour);
 }
 
 /* Process a text order */
 static void
-process_text2(STREAM s, TEXT2_ORDER * os, uint32 present, RD_BOOL delta)
+process_text2(STREAM s, TEXT2_ORDER *os, uint32 present, RD_BOOL delta)
 {
 	UNUSED(delta);
 	BRUSH brush;
@@ -880,18 +880,18 @@ process_text2(STREAM s, TEXT2_ORDER * os, uint32 present, RD_BOOL delta)
 	}
 
 	logger(Graphics, Debug,
-	       "process_text2(), x=%d, y=%d, cl=%d, ct=%d, cr=%d, cb=%d, bl=%d, bt=%d, br=%d, bb=%d, bs=%d, bg=0x%x, fg=0x%x, font=%d, fl=0x%x, op=0x%x, mix=%d, n=%d",
-	       os->x, os->y, os->clipleft, os->cliptop, os->clipright, os->clipbottom, os->boxleft,
-	       os->boxtop, os->boxright, os->boxbottom, os->brush.style, os->bgcolour, os->fgcolour,
-	       os->font, os->flags, os->opcode, os->mixmode, os->length);
+		   "process_text2(), x=%d, y=%d, cl=%d, ct=%d, cr=%d, cb=%d, bl=%d, bt=%d, br=%d, bb=%d, bs=%d, bg=0x%x, fg=0x%x, font=%d, fl=0x%x, op=0x%x, mix=%d, n=%d",
+		   os->x, os->y, os->clipleft, os->cliptop, os->clipright, os->clipbottom, os->boxleft,
+		   os->boxtop, os->boxright, os->boxbottom, os->brush.style, os->bgcolour, os->fgcolour,
+		   os->font, os->flags, os->opcode, os->mixmode, os->length);
 
 	setup_brush(&brush, &os->brush);
 
 	ui_draw_text(os->font, os->flags, os->opcode - 1, os->mixmode, os->x, os->y,
-		     os->clipleft, os->cliptop, os->clipright - os->clipleft,
-		     os->clipbottom - os->cliptop, os->boxleft, os->boxtop,
-		     os->boxright - os->boxleft, os->boxbottom - os->boxtop,
-		     &brush, os->bgcolour, os->fgcolour, os->text, os->length);
+				 os->clipleft, os->cliptop, os->clipright - os->clipleft,
+				 os->clipbottom - os->cliptop, os->boxleft, os->boxtop,
+				 os->boxright - os->boxleft, os->boxbottom - os->boxtop,
+				 &brush, os->bgcolour, os->fgcolour, os->text, os->length);
 }
 
 /* Process a raw bitmap cache order */
@@ -905,7 +905,7 @@ process_raw_bmpcache(STREAM s)
 	int y;
 
 	in_uint8(s, cache_id);
-	in_uint8s(s, 1);	/* pad */
+	in_uint8s(s, 1); /* pad */
 	in_uint8(s, width);
 	in_uint8(s, height);
 	in_uint8(s, bpp);
@@ -915,12 +915,12 @@ process_raw_bmpcache(STREAM s)
 	in_uint8p(s, data, bufsize);
 
 	logger(Graphics, Debug, "process_raw_bpmcache(), cx=%d, cy=%d, id=%d, idx=%d", width,
-	       height, cache_id, cache_idx);
-	inverted = (uint8 *) xmalloc(width * height * Bpp);
+		   height, cache_id, cache_idx);
+	inverted = (uint8 *)xmalloc(width * height * Bpp);
 	for (y = 0; y < height; y++)
 	{
 		memcpy(&inverted[(height - y - 1) * (width * Bpp)], &data[y * (width * Bpp)],
-		       width * Bpp);
+			   width * Bpp);
 	}
 
 	bitmap = ui_create_bitmap(width, height, inverted);
@@ -939,15 +939,15 @@ process_bmpcache(STREAM s)
 	uint16 bufsize, pad2, row_size, final_size;
 	uint8 pad1;
 
-	pad2 = row_size = final_size = 0xffff;	/* Shut the compiler up */
+	pad2 = row_size = final_size = 0xffff; /* Shut the compiler up */
 
 	in_uint8(s, cache_id);
-	in_uint8(s, pad1);	/* pad */
+	in_uint8(s, pad1); /* pad */
 	in_uint8(s, width);
 	in_uint8(s, height);
 	in_uint8(s, bpp);
 	Bpp = (bpp + 7) / 8;
-	in_uint16_le(s, bufsize);	/* bufsize */
+	in_uint16_le(s, bufsize); /* bufsize */
 	in_uint16_le(s, cache_idx);
 
 	if (g_rdp_version >= RDP_V5)
@@ -958,20 +958,19 @@ process_bmpcache(STREAM s)
 	{
 
 		/* Begin compressedBitmapData */
-		in_uint16_le(s, pad2);	/* pad */
+		in_uint16_le(s, pad2); /* pad */
 		in_uint16_le(s, size);
-		/*      in_uint8s(s, 4);  *//* row_size, final_size */
+		/*      in_uint8s(s, 4);  */ /* row_size, final_size */
 		in_uint16_le(s, row_size);
 		in_uint16_le(s, final_size);
-
 	}
 	in_uint8p(s, data, size);
 	logger(Graphics, Debug,
-	       "process_bmpcache(), cx=%d, cy=%d, id=%d, idx=%d, bpp=%d, size=%d, pad1=%d, bufsize=%d, pad2=%d, rs=%d, fs=%d",
-	       width, height, cache_id, cache_idx, bpp, size, pad1, bufsize, pad2, row_size,
-	       final_size);
+		   "process_bmpcache(), cx=%d, cy=%d, id=%d, idx=%d, bpp=%d, size=%d, pad1=%d, bufsize=%d, pad2=%d, rs=%d, fs=%d",
+		   width, height, cache_id, cache_idx, bpp, size, pad1, bufsize, pad2, row_size,
+		   final_size);
 
-	bmpdata = (uint8 *) xmalloc(width * height * Bpp);
+	bmpdata = (uint8 *)xmalloc(width * height * Bpp);
 
 	if (bitmap_decompress(bmpdata, width, height, data, size, Bpp))
 	{
@@ -996,7 +995,7 @@ process_bmpcache2(STREAM s, uint16 flags, RD_BOOL compressed)
 	uint16 cache_idx, bufsize;
 	uint8 *data, *bmpdata, *bitmap_id;
 
-	bitmap_id = NULL;	/* prevent compiler warning */
+	bitmap_id = NULL; /* prevent compiler warning */
 	cache_id = flags & ID_MASK;
 	Bpp = ((flags & MODE_MASK) >> MODE_SHIFT) - 2;
 
@@ -1029,17 +1028,17 @@ process_bmpcache2(STREAM s, uint16 flags, RD_BOOL compressed)
 	in_uint8p(s, data, bufsize);
 
 	logger(Graphics, Debug,
-	       "process_bmpcache2(), compr=%d, flags=%x, cx=%d, cy=%d, id=%d, idx=%d, Bpp=%d, bs=%d",
-	       compressed, flags, width, height, cache_id, cache_idx, Bpp, bufsize);
+		   "process_bmpcache2(), compr=%d, flags=%x, cx=%d, cy=%d, id=%d, idx=%d, Bpp=%d, bs=%d",
+		   compressed, flags, width, height, cache_id, cache_idx, Bpp, bufsize);
 
-	bmpdata = (uint8 *) xmalloc(width * height * Bpp);
+	bmpdata = (uint8 *)xmalloc(width * height * Bpp);
 
 	if (compressed)
 	{
 		if (!bitmap_decompress(bmpdata, width, height, data, bufsize, Bpp))
 		{
 			logger(Graphics, Error,
-			       "process_bmpcache2(), failed to decompress bitmap data");
+				   "process_bmpcache2(), failed to decompress bitmap data");
 			xfree(bmpdata);
 			return;
 		}
@@ -1048,7 +1047,7 @@ process_bmpcache2(STREAM s, uint16 flags, RD_BOOL compressed)
 	{
 		for (y = 0; y < height; y++)
 			memcpy(&bmpdata[(height - y - 1) * (width * Bpp)],
-			       &data[y * (width * Bpp)], width * Bpp);
+				   &data[y * (width * Bpp)], width * Bpp);
 	}
 
 	bitmap = ui_create_bitmap(width, height, bmpdata);
@@ -1058,7 +1057,7 @@ process_bmpcache2(STREAM s, uint16 flags, RD_BOOL compressed)
 		cache_put_bitmap(cache_id, cache_idx, bitmap);
 		if (flags & PERSIST)
 			pstcache_save_bitmap(cache_id, cache_idx, bitmap_id, width, height,
-					     width * height * Bpp, bmpdata);
+								 width * height * Bpp, bmpdata);
 	}
 	else
 	{
@@ -1081,7 +1080,7 @@ process_colcache(STREAM s)
 	in_uint8(s, cache_id);
 	in_uint16_le(s, map.ncolours);
 
-	map.colours = (COLOURENTRY *) xmalloc(sizeof(COLOURENTRY) * map.ncolours);
+	map.colours = (COLOURENTRY *)xmalloc(sizeof(COLOURENTRY) * map.ncolours);
 
 	for (i = 0; i < map.ncolours; i++)
 	{
@@ -1089,7 +1088,7 @@ process_colcache(STREAM s)
 		in_uint8(s, entry->blue);
 		in_uint8(s, entry->green);
 		in_uint8(s, entry->red);
-		in_uint8s(s, 1);	/* pad */
+		in_uint8s(s, 1); /* pad */
 	}
 
 	logger(Graphics, Debug, "process_colcache(), id=%d, n=%d", cache_id, map.ncolours);
@@ -1134,7 +1133,7 @@ process_fontcache(STREAM s)
 }
 
 static void
-process_compressed_8x8_brush_data(uint8 * in, uint8 * out, int Bpp)
+process_compressed_8x8_brush_data(uint8 *in, uint8 *out, int Bpp)
 {
 	int x, y, pal_index, in_index, shift, do2, i;
 	uint8 *pal;
@@ -1181,11 +1180,11 @@ process_brushcache(STREAM s, uint16 flags)
 	in_uint8(s, colour_code);
 	in_uint8(s, width);
 	in_uint8(s, height);
-	in_uint8(s, type);	/* type, 0x8x = cached */
+	in_uint8(s, type); /* type, 0x8x = cached */
 	in_uint8(s, size);
 
 	logger(Graphics, Debug, "process_brushcache(), idx=%d, wd=%d, ht=%d, type=0x%x sz=%d",
-	       cache_idx, width, height, type, size);
+		   cache_idx, width, height, type, size);
 
 	if ((width == 8) && (height == 8))
 	{
@@ -1205,8 +1204,8 @@ process_brushcache(STREAM s, uint16 flags)
 			else
 			{
 				logger(Graphics, Warning,
-				       "process_brushcache(), incompatible brush, colour_code %d size %d",
-				       colour_code, size);
+					   "process_brushcache(), incompatible brush, colour_code %d size %d",
+					   colour_code, size);
 			}
 			cache_put_brush_data(1, cache_idx, &brush_data);
 		}
@@ -1230,15 +1229,15 @@ process_brushcache(STREAM s, uint16 flags)
 		else
 		{
 			logger(Graphics, Warning,
-			       "process_brushcache(), incompatible brush, colour_code %d size %d",
-			       colour_code, size);
+				   "process_brushcache(), incompatible brush, colour_code %d size %d",
+				   colour_code, size);
 		}
 	}
 	else
 	{
 		logger(Graphics, Warning,
-		       "process_brushcache(), incompatible brush, width height %d %d", width,
-		       height);
+			   "process_brushcache(), incompatible brush, width height %d %d", width,
+			   height);
 	}
 }
 
@@ -1256,12 +1255,12 @@ process_secondary_order(STREAM s)
 	struct stream packet = *s;
 
 	in_uint16_le(s, length);
-	in_uint16_le(s, flags);	/* used by bmpcache2 */
+	in_uint16_le(s, flags); /* used by bmpcache2 */
 	in_uint8(s, type);
 
-	length += 13;  /* MS-RDPEGDI is ridiculous and says that you need to add 13 to this
+	length += 13; /* MS-RDPEGDI is ridiculous and says that you need to add 13 to this
 			  field to get the total packet length. "For historical reasons". */
-	length -= 6;   /* Subtract six bytes of headers and you'll get the size of the remaining
+	length -= 6;  /* Subtract six bytes of headers and you'll get the size of the remaining
 			  order data. */
 
 	if (!s_check_rem(s, length))
@@ -1273,45 +1272,44 @@ process_secondary_order(STREAM s)
 
 	switch (type)
 	{
-		case RDP_ORDER_RAW_BMPCACHE:
-			process_raw_bmpcache(s);
-			break;
+	case RDP_ORDER_RAW_BMPCACHE:
+		process_raw_bmpcache(s);
+		break;
 
-		case RDP_ORDER_COLCACHE:
-			process_colcache(s);
-			break;
+	case RDP_ORDER_COLCACHE:
+		process_colcache(s);
+		break;
 
-		case RDP_ORDER_BMPCACHE:
-			process_bmpcache(s);
-			break;
+	case RDP_ORDER_BMPCACHE:
+		process_bmpcache(s);
+		break;
 
-		case RDP_ORDER_FONTCACHE:
-			process_fontcache(s);
-			break;
+	case RDP_ORDER_FONTCACHE:
+		process_fontcache(s);
+		break;
 
-		case RDP_ORDER_RAW_BMPCACHE2:
-			process_bmpcache2(s, flags, False);	/* uncompressed */
-			break;
+	case RDP_ORDER_RAW_BMPCACHE2:
+		process_bmpcache2(s, flags, False); /* uncompressed */
+		break;
 
-		case RDP_ORDER_BMPCACHE2:
-			process_bmpcache2(s, flags, True);	/* compressed */
-			break;
+	case RDP_ORDER_BMPCACHE2:
+		process_bmpcache2(s, flags, True); /* compressed */
+		break;
 
-		case RDP_ORDER_BRUSHCACHE:
-			process_brushcache(s, flags);
-			break;
+	case RDP_ORDER_BRUSHCACHE:
+		process_brushcache(s, flags);
+		break;
 
-		default:
-			logger(Graphics, Warning,
-			       "process_secondary_order(), unhandled secondary order %d", type);
+	default:
+		logger(Graphics, Warning,
+			   "process_secondary_order(), unhandled secondary order %d", type);
 	}
 
 	s_seek(s, next_order);
 }
 
 /* Process an order PDU */
-void
-process_orders(STREAM s, uint16 num_orders)
+void process_orders(STREAM s, uint16 num_orders)
 {
 	RDP_ORDER_STATE *os = &g_order_state;
 	uint32 present;
@@ -1342,21 +1340,21 @@ process_orders(STREAM s, uint16 num_orders)
 
 			switch (os->order_type)
 			{
-				case RDP_ORDER_TRIBLT:
-				case RDP_ORDER_TEXT2:
-					size = 3;
-					break;
+			case RDP_ORDER_TRIBLT:
+			case RDP_ORDER_TEXT2:
+				size = 3;
+				break;
 
-				case RDP_ORDER_PATBLT:
-				case RDP_ORDER_MEMBLT:
-				case RDP_ORDER_LINE:
-				case RDP_ORDER_POLYGON2:
-				case RDP_ORDER_ELLIPSE2:
-					size = 2;
-					break;
+			case RDP_ORDER_PATBLT:
+			case RDP_ORDER_MEMBLT:
+			case RDP_ORDER_LINE:
+			case RDP_ORDER_POLYGON2:
+			case RDP_ORDER_ELLIPSE2:
+				size = 2;
+				break;
 
-				default:
-					size = 1;
+			default:
+				size = 1;
 			}
 
 			rdp_in_present(s, &present, order_flags, size);
@@ -1367,77 +1365,77 @@ process_orders(STREAM s, uint16 num_orders)
 					rdp_parse_bounds(s, &os->bounds);
 
 				ui_set_clip(os->bounds.left,
-					    os->bounds.top,
-					    os->bounds.right -
-					    os->bounds.left + 1,
-					    os->bounds.bottom - os->bounds.top + 1);
+							os->bounds.top,
+							os->bounds.right -
+								os->bounds.left + 1,
+							os->bounds.bottom - os->bounds.top + 1);
 			}
 
 			delta = order_flags & RDP_ORDER_DELTA;
 
 			switch (os->order_type)
 			{
-				case RDP_ORDER_DESTBLT:
-					process_destblt(s, &os->destblt, present, delta);
-					break;
+			case RDP_ORDER_DESTBLT:
+				process_destblt(s, &os->destblt, present, delta);
+				break;
 
-				case RDP_ORDER_PATBLT:
-					process_patblt(s, &os->patblt, present, delta);
-					break;
+			case RDP_ORDER_PATBLT:
+				process_patblt(s, &os->patblt, present, delta);
+				break;
 
-				case RDP_ORDER_SCREENBLT:
-					process_screenblt(s, &os->screenblt, present, delta);
-					break;
+			case RDP_ORDER_SCREENBLT:
+				process_screenblt(s, &os->screenblt, present, delta);
+				break;
 
-				case RDP_ORDER_LINE:
-					process_line(s, &os->line, present, delta);
-					break;
+			case RDP_ORDER_LINE:
+				process_line(s, &os->line, present, delta);
+				break;
 
-				case RDP_ORDER_RECT:
-					process_rect(s, &os->rect, present, delta);
-					break;
+			case RDP_ORDER_RECT:
+				process_rect(s, &os->rect, present, delta);
+				break;
 
-				case RDP_ORDER_DESKSAVE:
-					process_desksave(s, &os->desksave, present, delta);
-					break;
+			case RDP_ORDER_DESKSAVE:
+				process_desksave(s, &os->desksave, present, delta);
+				break;
 
-				case RDP_ORDER_MEMBLT:
-					process_memblt(s, &os->memblt, present, delta);
-					break;
+			case RDP_ORDER_MEMBLT:
+				process_memblt(s, &os->memblt, present, delta);
+				break;
 
-				case RDP_ORDER_TRIBLT:
-					process_triblt(s, &os->triblt, present, delta);
-					break;
+			case RDP_ORDER_TRIBLT:
+				process_triblt(s, &os->triblt, present, delta);
+				break;
 
-				case RDP_ORDER_POLYGON:
-					process_polygon(s, &os->polygon, present, delta);
-					break;
+			case RDP_ORDER_POLYGON:
+				process_polygon(s, &os->polygon, present, delta);
+				break;
 
-				case RDP_ORDER_POLYGON2:
-					process_polygon2(s, &os->polygon2, present, delta);
-					break;
+			case RDP_ORDER_POLYGON2:
+				process_polygon2(s, &os->polygon2, present, delta);
+				break;
 
-				case RDP_ORDER_POLYLINE:
-					process_polyline(s, &os->polyline, present, delta);
-					break;
+			case RDP_ORDER_POLYLINE:
+				process_polyline(s, &os->polyline, present, delta);
+				break;
 
-				case RDP_ORDER_ELLIPSE:
-					process_ellipse(s, &os->ellipse, present, delta);
-					break;
+			case RDP_ORDER_ELLIPSE:
+				process_ellipse(s, &os->ellipse, present, delta);
+				break;
 
-				case RDP_ORDER_ELLIPSE2:
-					process_ellipse2(s, &os->ellipse2, present, delta);
-					break;
+			case RDP_ORDER_ELLIPSE2:
+				process_ellipse2(s, &os->ellipse2, present, delta);
+				break;
 
-				case RDP_ORDER_TEXT2:
-					process_text2(s, &os->text2, present, delta);
-					break;
+			case RDP_ORDER_TEXT2:
+				process_text2(s, &os->text2, present, delta);
+				break;
 
-				default:
-					logger(Graphics, Warning,
-					       "process_orders(), unhandled order type %d",
-					       os->order_type);
-					return;
+			default:
+				logger(Graphics, Warning,
+					   "process_orders(), unhandled order type %d",
+					   os->order_type);
+				return;
 			}
 
 			if (order_flags & RDP_ORDER_BOUNDS)
@@ -1452,12 +1450,10 @@ process_orders(STREAM s, uint16 num_orders)
 		logger(Graphics, Error, "process_orders(), %d bytes remaining",
 		       (int) (g_next_packet - s_tell(s)));
 #endif
-
 }
 
 /* Reset order state */
-void
-reset_order_state(void)
+void reset_order_state(void)
 {
 	memset(&g_order_state, 0, sizeof(g_order_state));
 	g_order_state.order_type = RDP_ORDER_PATBLT;

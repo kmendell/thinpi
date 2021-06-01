@@ -2,7 +2,7 @@
 
 All notable changes that are (so far planned, or being worked on) for this version will be noted in this file
 
-## 0.2.0 - In Progress
+## 0.3.0
 - [CONFIG] Remove Server function to become functional - Commit: 0c9fd30b35 - Tested - Implemented - Complete
 - [CONFIG] Allow RDP graphic/setting options to be configured - In Progress
 - [BUILD] Create Build Image Script - In Progress

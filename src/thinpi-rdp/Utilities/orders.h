@@ -17,14 +17,14 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#define RDP_ORDER_STANDARD   0x01
-#define RDP_ORDER_SECONDARY  0x02
-#define RDP_ORDER_BOUNDS     0x04
-#define RDP_ORDER_CHANGE     0x08
-#define RDP_ORDER_DELTA      0x10
+#define RDP_ORDER_STANDARD 0x01
+#define RDP_ORDER_SECONDARY 0x02
+#define RDP_ORDER_BOUNDS 0x04
+#define RDP_ORDER_CHANGE 0x08
+#define RDP_ORDER_DELTA 0x10
 #define RDP_ORDER_LASTBOUNDS 0x20
-#define RDP_ORDER_SMALL      0x40
-#define RDP_ORDER_TINY       0x80
+#define RDP_ORDER_SMALL 0x40
+#define RDP_ORDER_TINY 0x80
 
 enum RDP_ORDER_TYPE
 {
@@ -63,8 +63,7 @@ typedef struct _DESTBLT_ORDER
 	sint16 cy;
 	uint8 opcode;
 
-}
-DESTBLT_ORDER;
+} DESTBLT_ORDER;
 
 typedef struct _PATBLT_ORDER
 {
@@ -77,8 +76,7 @@ typedef struct _PATBLT_ORDER
 	uint32 fgcolour;
 	BRUSH brush;
 
-}
-PATBLT_ORDER;
+} PATBLT_ORDER;
 
 typedef struct _SCREENBLT_ORDER
 {
@@ -90,8 +88,7 @@ typedef struct _SCREENBLT_ORDER
 	sint16 srcx;
 	sint16 srcy;
 
-}
-SCREENBLT_ORDER;
+} SCREENBLT_ORDER;
 
 typedef struct _LINE_ORDER
 {
@@ -104,8 +101,7 @@ typedef struct _LINE_ORDER
 	uint8 opcode;
 	PEN pen;
 
-}
-LINE_ORDER;
+} LINE_ORDER;
 
 typedef struct _RECT_ORDER
 {
@@ -115,8 +111,7 @@ typedef struct _RECT_ORDER
 	sint16 cy;
 	uint32 colour;
 
-}
-RECT_ORDER;
+} RECT_ORDER;
 
 typedef struct _DESKSAVE_ORDER
 {
@@ -127,8 +122,7 @@ typedef struct _DESKSAVE_ORDER
 	sint16 bottom;
 	uint8 action;
 
-}
-DESKSAVE_ORDER;
+} DESKSAVE_ORDER;
 
 typedef struct _TRIBLT_ORDER
 {
@@ -147,8 +141,7 @@ typedef struct _TRIBLT_ORDER
 	uint16 cache_idx;
 	uint16 unknown;
 
-}
-TRIBLT_ORDER;
+} TRIBLT_ORDER;
 
 typedef struct _MEMBLT_ORDER
 {
@@ -163,8 +156,7 @@ typedef struct _MEMBLT_ORDER
 	sint16 srcy;
 	uint16 cache_idx;
 
-}
-MEMBLT_ORDER;
+} MEMBLT_ORDER;
 
 #define MAX_DATA 256
 
@@ -179,8 +171,7 @@ typedef struct _POLYGON_ORDER
 	uint8 datasize;
 	uint8 data[MAX_DATA];
 
-}
-POLYGON_ORDER;
+} POLYGON_ORDER;
 
 typedef struct _POLYGON2_ORDER
 {
@@ -195,8 +186,7 @@ typedef struct _POLYGON2_ORDER
 	uint8 datasize;
 	uint8 data[MAX_DATA];
 
-}
-POLYGON2_ORDER;
+} POLYGON2_ORDER;
 
 typedef struct _POLYLINE_ORDER
 {
@@ -208,8 +198,7 @@ typedef struct _POLYLINE_ORDER
 	uint8 datasize;
 	uint8 data[MAX_DATA];
 
-}
-POLYLINE_ORDER;
+} POLYLINE_ORDER;
 
 typedef struct _ELLIPSE_ORDER
 {
@@ -221,8 +210,7 @@ typedef struct _ELLIPSE_ORDER
 	uint8 fillmode;
 	uint32 fgcolour;
 
-}
-ELLIPSE_ORDER;
+} ELLIPSE_ORDER;
 
 typedef struct _ELLIPSE2_ORDER
 {
@@ -236,8 +224,7 @@ typedef struct _ELLIPSE2_ORDER
 	uint32 bgcolour;
 	uint32 fgcolour;
 
-}
-ELLIPSE2_ORDER;
+} ELLIPSE2_ORDER;
 
 #define MAX_TEXT 256
 
@@ -263,8 +250,7 @@ typedef struct _TEXT2_ORDER
 	uint8 length;
 	uint8 text[MAX_TEXT];
 
-}
-TEXT2_ORDER;
+} TEXT2_ORDER;
 
 typedef struct _RDP_ORDER_STATE
 {
@@ -286,8 +272,7 @@ typedef struct _RDP_ORDER_STATE
 	ELLIPSE2_ORDER ellipse2;
 	TEXT2_ORDER text2;
 
-}
-RDP_ORDER_STATE;
+} RDP_ORDER_STATE;
 
 typedef struct _RDP_RAW_BMPCACHE_ORDER
 {
@@ -300,8 +285,7 @@ typedef struct _RDP_RAW_BMPCACHE_ORDER
 	uint16 cache_idx;
 	uint8 *data;
 
-}
-RDP_RAW_BMPCACHE_ORDER;
+} RDP_RAW_BMPCACHE_ORDER;
 
 typedef struct _RDP_BMPCACHE_ORDER
 {
@@ -318,20 +302,19 @@ typedef struct _RDP_BMPCACHE_ORDER
 	uint16 final_size;
 	uint8 *data;
 
-}
-RDP_BMPCACHE_ORDER;
+} RDP_BMPCACHE_ORDER;
 
 /* RDP_BMPCACHE2_ORDER */
-#define ID_MASK			0x0007
-#define MODE_MASK		0x0038
-#define SQUARE			0x0080
-#define PERSIST			0x0100
-#define FLAG_51_UNKNOWN		0x0800
+#define ID_MASK 0x0007
+#define MODE_MASK 0x0038
+#define SQUARE 0x0080
+#define PERSIST 0x0100
+#define FLAG_51_UNKNOWN 0x0800
 
-#define MODE_SHIFT		3
+#define MODE_SHIFT 3
 
-#define LONG_FORMAT		0x80
-#define BUFSIZE_MASK		0x3FFF	/* or 0x1FFF? */
+#define LONG_FORMAT 0x80
+#define BUFSIZE_MASK 0x3FFF /* or 0x1FFF? */
 
 #define MAX_GLYPH 32
 
@@ -344,8 +327,7 @@ typedef struct _RDP_FONT_GLYPH
 	uint16 height;
 	uint8 data[MAX_GLYPH];
 
-}
-RDP_FONT_GLYPH;
+} RDP_FONT_GLYPH;
 
 #define MAX_GLYPHS 256
 
@@ -355,13 +337,11 @@ typedef struct _RDP_FONTCACHE_ORDER
 	uint8 nglyphs;
 	RDP_FONT_GLYPH glyphs[MAX_GLYPHS];
 
-}
-RDP_FONTCACHE_ORDER;
+} RDP_FONTCACHE_ORDER;
 
 typedef struct _RDP_COLCACHE_ORDER
 {
 	uint8 cache_id;
 	COLOURMAP map;
 
-}
-RDP_COLCACHE_ORDER;
+} RDP_COLCACHE_ORDER;

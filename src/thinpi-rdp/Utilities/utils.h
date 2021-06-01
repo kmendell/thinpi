@@ -32,14 +32,14 @@ int utils_locale_to_utf8(const char *src, size_t is, char *dest, size_t os);
 int utils_mkdir_safe(const char *path, int mask);
 int utils_mkdir_p(const char *path, int mask);
 void utils_calculate_dpi_scale_factors(uint32 width, uint32 height, uint32 dpi,
-				       uint32 * physwidth, uint32 * physheight,
-				       uint32 * desktopscale, uint32 * devicescale);
-void utils_apply_session_size_limitations(uint32 * width, uint32 * height);
+									   uint32 *physwidth, uint32 *physheight,
+									   uint32 *desktopscale, uint32 *devicescale);
+void utils_apply_session_size_limitations(uint32 *width, uint32 *height);
 
-const char* util_dialog_choice(const char *message, ...);
+const char *util_dialog_choice(const char *message, ...);
 
 int utils_cert_handle_exception(gnutls_session_t session, unsigned int status,
-							    RD_BOOL hostname_mismatch, const char *hostname);
+								RD_BOOL hostname_mismatch, const char *hostname);
 
 typedef enum log_level_t
 {
@@ -47,7 +47,7 @@ typedef enum log_level_t
 	Verbose,
 	Warning,
 	Error,
-	Notice			/* special message level for end user messages with prefix */
+	Notice /* special message level for end user messages with prefix */
 } log_level_t;
 
 typedef enum log_subject_t

@@ -23,24 +23,24 @@
 #define MAX_DVC_CHANNELS 20
 #define INVALID_CHANNEL ((uint32)-1)
 
-#define DYNVC_CREATE_REQ		0x01
-#define DYNVC_DATA_FIRST		0x02
-#define DYNVC_DATA			0x03
-#define DYNVC_CLOSE			0x04
-#define DYNVC_CAPABILITIES              0x05
-#define DYNVC_DATA_FIRST_COMPRESSED	0x06
-#define DYNVC_DATA_COMPRESSED		0x07
-#define DYNVC_SOFT_SYNC_REQUEST		0x08
-#define DYNVC_SOFT_SYNC_RESPONSE	0x09
+#define DYNVC_CREATE_REQ 0x01
+#define DYNVC_DATA_FIRST 0x02
+#define DYNVC_DATA 0x03
+#define DYNVC_CLOSE 0x04
+#define DYNVC_CAPABILITIES 0x05
+#define DYNVC_DATA_FIRST_COMPRESSED 0x06
+#define DYNVC_DATA_COMPRESSED 0x07
+#define DYNVC_SOFT_SYNC_REQUEST 0x08
+#define DYNVC_SOFT_SYNC_RESPONSE 0x09
 
 typedef union dvc_hdr_t
 {
 	uint8 data;
 	struct
 	{
-		uint8 cbid:2;
-		uint8 sp:2;
-		uint8 cmd:4;
+		uint8 cbid : 2;
+		uint8 sp : 2;
+		uint8 cmd : 4;
 	} hdr;
 } dvc_hdr_t;
 
@@ -130,7 +130,7 @@ dvc_channels_add(const char *name, dvc_channel_process_fn handler, uint32 channe
 	if (dvc_channels_exists(name) == True)
 	{
 		logger(Core, Warning, "dvc_channels_add(), channel with name '%s' already exists",
-		       name);
+			   name);
 		return False;
 	}
 
@@ -143,14 +143,14 @@ dvc_channels_add(const char *name, dvc_channel_process_fn handler, uint32 channe
 			channels[i].handler = handler;
 			channels[i].channel_id = channel_id;
 			logger(Core, Debug,
-			       "dvc_channels_add(), Added hash=%x, channel_id=%d, name=%s, handler=%p",
-			       hash, channel_id, name, handler);
+				   "dvc_channels_add(), Added hash=%x, channel_id=%d, name=%s, handler=%p",
+				   hash, channel_id, name, handler);
 			return True;
 		}
 	}
 
 	logger(Core, Warning,
-	       "dvc_channels_add(), Failed to add channel, maximum number of channels are being used");
+		   "dvc_channels_add(), Failed to add channel, maximum number of channels are being used");
 	return False;
 }
 
@@ -167,7 +167,7 @@ dvc_channels_set_id(const char *name, uint32 channel_id)
 		if (channels[i].hash == hash)
 		{
 			logger(Core, Debug, "dvc_channels_set_id(), name = '%s', channel_id = %d",
-			       name, channel_id);
+				   name, channel_id);
 			channels[i].channel_id = channel_id;
 			return 0;
 		}
@@ -200,13 +200,12 @@ dvc_channels_register(const char *name, dvc_channel_process_fn handler)
 	return dvc_channels_add(name, handler, INVALID_CHANNEL);
 }
 
-
 static STREAM
 dvc_init_packet(dvc_hdr_t hdr, uint32 channelid, size_t length)
 {
 	STREAM s;
 
-	length += 1;		/* add 1 byte hdr */
+	length += 1; /* add 1 byte hdr */
 
 	if (channelid != INVALID_CHANNEL)
 	{
@@ -219,7 +218,7 @@ dvc_init_packet(dvc_hdr_t hdr, uint32 channelid, size_t length)
 	}
 
 	s = channel_init(dvc_channel, length);
-	out_uint8(s, hdr.data);	/* DVC header */
+	out_uint8(s, hdr.data); /* DVC header */
 
 	if (channelid != INVALID_CHANNEL)
 	{
@@ -240,8 +239,7 @@ dvc_init_packet(dvc_hdr_t hdr, uint32 channelid, size_t length)
 	return s;
 }
 
-void
-dvc_send(const char *name, STREAM s)
+void dvc_send(const char *name, STREAM s)
 {
 	STREAM ls;
 	dvc_hdr_t hdr;
@@ -251,7 +249,7 @@ dvc_send(const char *name, STREAM s)
 	if (channel_id == INVALID_CHANNEL)
 	{
 		logger(Core, Error, "dvc_send(), Trying to send data on invalid channel '%s'",
-		       name);
+			   name);
 		return;
 	}
 
@@ -271,7 +269,6 @@ dvc_send(const char *name, STREAM s)
 	s_free(ls);
 }
 
-
 static void
 dvc_send_capabilities_response()
 {
@@ -284,11 +281,11 @@ dvc_send_capabilities_response()
 	hdr.hdr.cmd = DYNVC_CAPABILITIES;
 
 	logger(Protocol, Debug,
-	       "dvc_send_capabilities_response(), offering support for dvc %d", supportedversion);
+		   "dvc_send_capabilities_response(), offering support for dvc %d", supportedversion);
 
 	s = dvc_init_packet(hdr, -1, 3);
-	out_uint8(s, 0x00);	/* pad */
-	out_uint16_le(s, supportedversion);	/* version */
+	out_uint8(s, 0x00);					/* pad */
+	out_uint16_le(s, supportedversion); /* version */
 
 	s_mark_end(s);
 
@@ -302,8 +299,8 @@ dvc_process_caps_pdu(STREAM s)
 	uint16 version;
 
 	/* VERSION1 */
-	in_uint8s(s, 1);	/* pad */
-	in_uint16_le(s, version);	/* version */
+	in_uint8s(s, 1);		  /* pad */
+	in_uint16_le(s, version); /* version */
 
 	logger(Protocol, Debug, "dvc_process_caps(), server supports dvc %d", version);
 
@@ -316,7 +313,7 @@ dvc_send_create_response(RD_BOOL success, dvc_hdr_t hdr, uint32 channelid)
 	STREAM s;
 
 	logger(Protocol, Debug, "dvc_send_create_response(), %s request to create channelid %d",
-	       (success ? "granted" : "denied"), channelid);
+		   (success ? "granted" : "denied"), channelid);
 	s = dvc_init_packet(hdr, channelid, 4);
 	out_uint32_le(s, success ? 0 : -1);
 	s_mark_end(s);
@@ -336,7 +333,7 @@ dvc_process_create_pdu(STREAM s, dvc_hdr_t hdr)
 	in_ansi_string(s, name, sizeof(name));
 
 	logger(Protocol, Debug, "dvc_process_create(), server requests channelid = %d, name = '%s'",
-	       channelid, name);
+		   channelid, name);
 
 	if (dvc_channels_exists(name))
 	{
@@ -349,7 +346,6 @@ dvc_process_create_pdu(STREAM s, dvc_hdr_t hdr)
 	{
 		dvc_send_create_response(False, hdr, channelid);
 	}
-
 }
 
 static uint32
@@ -357,19 +353,19 @@ dvc_in_channelid(STREAM s, dvc_hdr_t hdr)
 {
 	uint32 id;
 
-	id = (uint32) - 1;
+	id = (uint32)-1;
 
 	switch (hdr.hdr.cbid)
 	{
-		case 0:
-			in_uint8(s, id);
-			break;
-		case 1:
-			in_uint16_le(s, id);
-			break;
-		case 2:
-			in_uint32_le(s, id);
-			break;
+	case 0:
+		in_uint8(s, id);
+		break;
+	case 1:
+		in_uint16_le(s, id);
+		break;
+	case 2:
+		in_uint32_le(s, id);
+		break;
 	}
 	return id;
 }
@@ -385,7 +381,7 @@ dvc_process_data_pdu(STREAM s, dvc_hdr_t hdr)
 	if (ch == NULL)
 	{
 		logger(Protocol, Warning,
-		       "dvc_process_data(), Received data on unregistered channel %d", channelid);
+			   "dvc_process_data(), Received data on unregistered channel %d", channelid);
 		return;
 	}
 
@@ -404,12 +400,11 @@ dvc_process_close_pdu(STREAM s, dvc_hdr_t hdr)
 	if (!dvc_channels_remove_by_id(channelid))
 	{
 		logger(Protocol, Warning,
-		       "dvc_process_close_pdu(), Received close request for unregistered channel %d",
-		       channelid);
+			   "dvc_process_close_pdu(), Received close request for unregistered channel %d",
+			   channelid);
 		return;
 	}
 }
-
 
 static void
 dvc_process_pdu(STREAM s)
@@ -420,22 +415,22 @@ dvc_process_pdu(STREAM s)
 
 	switch (hdr.hdr.cmd)
 	{
-		case DYNVC_CAPABILITIES:
-			dvc_process_caps_pdu(s);
-			break;
-		case DYNVC_CREATE_REQ:
-			dvc_process_create_pdu(s, hdr);
-			break;
+	case DYNVC_CAPABILITIES:
+		dvc_process_caps_pdu(s);
+		break;
+	case DYNVC_CREATE_REQ:
+		dvc_process_create_pdu(s, hdr);
+		break;
 
-		case DYNVC_DATA:
-			dvc_process_data_pdu(s, hdr);
-			break;
+	case DYNVC_DATA:
+		dvc_process_data_pdu(s, hdr);
+		break;
 
-		case DYNVC_CLOSE:
-			dvc_process_close_pdu(s, hdr);
-			break;
+	case DYNVC_CLOSE:
+		dvc_process_close_pdu(s, hdr);
+		break;
 
-#if 0				/* Unimplemented */
+#if 0 /* Unimplemented */
 
 		case DYNVC_DATA_FIRST:
 			break;
@@ -450,10 +445,10 @@ dvc_process_pdu(STREAM s)
 
 #endif
 
-		default:
-			logger(Protocol, Warning, "dvc_process_pdu(), Unhandled command type 0x%x",
-			       hdr.hdr.cmd);
-			break;
+	default:
+		logger(Protocol, Warning, "dvc_process_pdu(), Unhandled command type 0x%x",
+			   hdr.hdr.cmd);
+		break;
 	}
 }
 
@@ -462,8 +457,8 @@ dvc_init()
 {
 	memset(channels, 0, sizeof(channels));
 	dvc_channel = channel_register("drdynvc",
-				       CHANNEL_OPTION_INITIALIZED | CHANNEL_OPTION_ENCRYPT_RDP,
-				       dvc_process_pdu);
+								   CHANNEL_OPTION_INITIALIZED | CHANNEL_OPTION_ENCRYPT_RDP,
+								   dvc_process_pdu);
 
 	return (dvc_channel != NULL);
 }

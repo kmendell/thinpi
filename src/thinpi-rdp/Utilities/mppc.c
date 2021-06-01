@@ -51,11 +51,9 @@
 /* more information is available in         */
 /* http://www.ietf.org/ietf/IPR/hifn-ipr-draft-friend-tls-lzs-compression.txt */
 
-
 RDPCOMP g_mppc_dict;
 
-int
-mppc_expand(uint8 * data, uint32 clen, uint8 ctype, uint32 * roff, uint32 * rlen)
+int mppc_expand(uint8 *data, uint32 clen, uint8 ctype, uint32 *roff, uint32 *rlen)
 {
 	int k, walker_len = 0, walker;
 	uint32 i = 0;
@@ -120,7 +118,7 @@ mppc_expand(uint8 * data, uint32 clen, uint8 ctype, uint32 * roff, uint32 * rlen
 			}
 			if (next_offset >= RDP_MPPC_DICT_SIZE)
 				return -1;
-			dict[next_offset++] = (((uint32) walker) >> ((uint32) 24));
+			dict[next_offset++] = (((uint32)walker) >> ((uint32)24));
 			walker <<= 8;
 			walker_len -= 8;
 			continue;
@@ -146,7 +144,7 @@ mppc_expand(uint8 * data, uint32 clen, uint8 ctype, uint32 * roff, uint32 * rlen
 			}
 			if (next_offset >= RDP_MPPC_DICT_SIZE)
 				return -1;
-			dict[next_offset++] = (uint8) (walker >> 24 | 0x80);
+			dict[next_offset++] = (uint8)(walker >> 24 | 0x80);
 			walker <<= 8;
 			walker_len -= 8;
 			continue;
@@ -171,63 +169,63 @@ mppc_expand(uint8 * data, uint32 clen, uint8 ctype, uint32 * roff, uint32 * rlen
 			   320-2367: 1110 followed by lower 11 bits of the value ( value - 320 )
 			   2368-65535: 110 followed by lower 16 bits of the value ( value - 2368 )
 			 */
-			switch (((uint32) walker) >> ((uint32) 29))
+			switch (((uint32)walker) >> ((uint32)29))
 			{
-				case 7:	/* - 63 */
-					for (; walker_len < 9; walker_len += 8)
-					{
-						if (i >= clen)
-							return -1;
-						walker |= (data[i++] & 0xff) << (24 - walker_len);
-					}
-					walker <<= 3;
-					match_off = ((uint32) walker) >> ((uint32) 26);
-					walker <<= 6;
-					walker_len -= 9;
-					break;
+			case 7: /* - 63 */
+				for (; walker_len < 9; walker_len += 8)
+				{
+					if (i >= clen)
+						return -1;
+					walker |= (data[i++] & 0xff) << (24 - walker_len);
+				}
+				walker <<= 3;
+				match_off = ((uint32)walker) >> ((uint32)26);
+				walker <<= 6;
+				walker_len -= 9;
+				break;
 
-				case 6:	/* 64 - 319 */
-					for (; walker_len < 11; walker_len += 8)
-					{
-						if (i >= clen)
-							return -1;
-						walker |= (data[i++] & 0xff) << (24 - walker_len);
-					}
+			case 6: /* 64 - 319 */
+				for (; walker_len < 11; walker_len += 8)
+				{
+					if (i >= clen)
+						return -1;
+					walker |= (data[i++] & 0xff) << (24 - walker_len);
+				}
 
-					walker <<= 3;
-					match_off = (((uint32) walker) >> ((uint32) 24)) + 64;
-					walker <<= 8;
-					walker_len -= 11;
-					break;
+				walker <<= 3;
+				match_off = (((uint32)walker) >> ((uint32)24)) + 64;
+				walker <<= 8;
+				walker_len -= 11;
+				break;
 
-				case 5:
-				case 4:	/* 320 - 2367 */
-					for (; walker_len < 13; walker_len += 8)
-					{
-						if (i >= clen)
-							return -1;
-						walker |= (data[i++] & 0xff) << (24 - walker_len);
-					}
+			case 5:
+			case 4: /* 320 - 2367 */
+				for (; walker_len < 13; walker_len += 8)
+				{
+					if (i >= clen)
+						return -1;
+					walker |= (data[i++] & 0xff) << (24 - walker_len);
+				}
 
-					walker <<= 2;
-					match_off = (((uint32) walker) >> ((uint32) 21)) + 320;
-					walker <<= 11;
-					walker_len -= 13;
-					break;
+				walker <<= 2;
+				match_off = (((uint32)walker) >> ((uint32)21)) + 320;
+				walker <<= 11;
+				walker_len -= 13;
+				break;
 
-				default:	/* 2368 - 65535 */
-					for (; walker_len < 17; walker_len += 8)
-					{
-						if (i >= clen)
-							return -1;
-						walker |= (data[i++] & 0xff) << (24 - walker_len);
-					}
+			default: /* 2368 - 65535 */
+				for (; walker_len < 17; walker_len += 8)
+				{
+					if (i >= clen)
+						return -1;
+					walker |= (data[i++] & 0xff) << (24 - walker_len);
+				}
 
-					walker <<= 1;
-					match_off = (((uint32) walker) >> ((uint32) 16)) + 2368;
-					walker <<= 16;
-					walker_len -= 17;
-					break;
+				walker <<= 1;
+				match_off = (((uint32)walker) >> ((uint32)16)) + 2368;
+				walker <<= 16;
+				walker_len -= 17;
+				break;
 			}
 		}
 		else
@@ -237,48 +235,48 @@ mppc_expand(uint8 * data, uint32 clen, uint8 ctype, uint32 * roff, uint32 * rlen
 			   64-319: 1110 followed by the lower 8 bits of the value ( value - 64 )
 			   320-8191: 110 followed by the lower 13 bits of the value ( value - 320 )
 			 */
-			switch (((uint32) walker) >> ((uint32) 30))
+			switch (((uint32)walker) >> ((uint32)30))
 			{
-				case 3:	/* - 63 */
-					if (walker_len < 8)
-					{
-						if (i >= clen)
-							return -1;
-						walker |= (data[i++] & 0xff) << (24 - walker_len);
-						walker_len += 8;
-					}
-					walker <<= 2;
-					match_off = ((uint32) walker) >> ((uint32) 26);
-					walker <<= 6;
-					walker_len -= 8;
-					break;
+			case 3: /* - 63 */
+				if (walker_len < 8)
+				{
+					if (i >= clen)
+						return -1;
+					walker |= (data[i++] & 0xff) << (24 - walker_len);
+					walker_len += 8;
+				}
+				walker <<= 2;
+				match_off = ((uint32)walker) >> ((uint32)26);
+				walker <<= 6;
+				walker_len -= 8;
+				break;
 
-				case 2:	/* 64 - 319 */
-					for (; walker_len < 10; walker_len += 8)
-					{
-						if (i >= clen)
-							return -1;
-						walker |= (data[i++] & 0xff) << (24 - walker_len);
-					}
+			case 2: /* 64 - 319 */
+				for (; walker_len < 10; walker_len += 8)
+				{
+					if (i >= clen)
+						return -1;
+					walker |= (data[i++] & 0xff) << (24 - walker_len);
+				}
 
-					walker <<= 2;
-					match_off = (((uint32) walker) >> ((uint32) 24)) + 64;
-					walker <<= 8;
-					walker_len -= 10;
-					break;
+				walker <<= 2;
+				match_off = (((uint32)walker) >> ((uint32)24)) + 64;
+				walker <<= 8;
+				walker_len -= 10;
+				break;
 
-				default:	/* 320 - 8191 */
-					for (; walker_len < 14; walker_len += 8)
-					{
-						if (i >= clen)
-							return -1;
-						walker |= (data[i++] & 0xff) << (24 - walker_len);
-					}
+			default: /* 320 - 8191 */
+				for (; walker_len < 14; walker_len += 8)
+				{
+					if (i >= clen)
+						return -1;
+					walker |= (data[i++] & 0xff) << (24 - walker_len);
+				}
 
-					match_off = (walker >> 18) + 320;
-					walker <<= 14;
-					walker_len -= 14;
-					break;
+				match_off = (walker >> 18) + 320;
+				walker <<= 14;
+				walker_len -= 14;
+				break;
 			}
 		}
 		if (walker_len == 0)
@@ -292,7 +290,7 @@ mppc_expand(uint8 * data, uint32 clen, uint8 ctype, uint32 * roff, uint32 * rlen
 		/* decode length of match */
 		match_len = 0;
 		if (walker >= 0)
-		{		/* special case - length of 3 is in bit 0 */
+		{ /* special case - length of 3 is in bit 0 */
 			match_len = 3;
 			walker <<= 1;
 			walker_len--;
@@ -315,7 +313,7 @@ mppc_expand(uint8 * data, uint32 clen, uint8 ctype, uint32 * roff, uint32 * rlen
 			   i.e. 4097 is encoded as: 111111111110 000000000001
 			   meaning 4096 + 1...
 			 */
-			match_bits = big ? 14 : 11;	/* 11 or 14 bits of value at most */
+			match_bits = big ? 14 : 11; /* 11 or 14 bits of value at most */
 			do
 			{
 				walker <<= 1;
@@ -332,8 +330,7 @@ mppc_expand(uint8 * data, uint32 clen, uint8 ctype, uint32 * roff, uint32 * rlen
 				{
 					return -1;
 				}
-			}
-			while (1);
+			} while (1);
 			match_len = (big ? 16 : 13) - match_bits;
 			walker <<= 1;
 			if (--walker_len < match_len)
@@ -364,10 +361,8 @@ mppc_expand(uint8 * data, uint32 clen, uint8 ctype, uint32 * roff, uint32 * rlen
 		do
 		{
 			dict[next_offset++] = dict[k++];
-		}
-		while (--match_len != 0);
-	}
-	while (1);
+		} while (--match_len != 0);
+	} while (1);
 
 	/* store history offset */
 	g_mppc_dict.roff = next_offset;

@@ -29,7 +29,7 @@
 typedef int RD_BOOL;
 
 #ifndef True
-#define True  (1)
+#define True (1)
 #define False (0)
 #endif
 
@@ -53,7 +53,6 @@ typedef void *RD_HGLYPH;
 typedef void *RD_HCOLOURMAP;
 typedef void *RD_HCURSOR;
 
-
 typedef enum _RDP_VERSION
 {
 	RDP_V4 = 4,
@@ -61,12 +60,10 @@ typedef enum _RDP_VERSION
 	RDP_V6 = 6
 } RDP_VERSION;
 
-
 typedef struct _RD_POINT
 {
 	sint16 x, y;
-}
-RD_POINT;
+} RD_POINT;
 
 typedef struct _COLOURENTRY
 {
@@ -74,16 +71,14 @@ typedef struct _COLOURENTRY
 	uint8 green;
 	uint8 blue;
 
-}
-COLOURENTRY;
+} COLOURENTRY;
 
 typedef struct _COLOURMAP
 {
 	uint16 ncolours;
 	COLOURENTRY *colours;
 
-}
-COLOURMAP;
+} COLOURMAP;
 
 typedef struct _BOUNDS
 {
@@ -92,8 +87,7 @@ typedef struct _BOUNDS
 	sint16 right;
 	sint16 bottom;
 
-}
-BOUNDS;
+} BOUNDS;
 
 typedef struct _PEN
 {
@@ -101,8 +95,7 @@ typedef struct _PEN
 	uint8 width;
 	uint32 colour;
 
-}
-PEN;
+} PEN;
 
 /* this is whats in the brush cache */
 typedef struct _BRUSHDATA
@@ -110,8 +103,7 @@ typedef struct _BRUSHDATA
 	uint32 colour_code;
 	uint32 data_size;
 	uint8 *data;
-}
-BRUSHDATA;
+} BRUSHDATA;
 
 typedef struct _BRUSH
 {
@@ -120,8 +112,7 @@ typedef struct _BRUSH
 	uint8 style;
 	uint8 pattern[8];
 	BRUSHDATA *bd;
-}
-BRUSH;
+} BRUSH;
 
 typedef struct _FONTGLYPH
 {
@@ -131,16 +122,14 @@ typedef struct _FONTGLYPH
 	uint16 height;
 	RD_HBITMAP pixmap;
 
-}
-FONTGLYPH;
+} FONTGLYPH;
 
 typedef struct _DATABLOB
 {
 	void *data;
 	int size;
 
-}
-DATABLOB;
+} DATABLOB;
 
 typedef struct _key_translation
 {
@@ -148,10 +137,9 @@ typedef struct _key_translation
 	uint8 scancode;
 	uint16 modifiers;
 	/* For sequences. If keysym is nonzero, the fields above are not used. */
-	uint32 seq_keysym;	/* Really KeySym */
+	uint32 seq_keysym; /* Really KeySym */
 	struct _key_translation *next;
-}
-key_translation;
+} key_translation;
 
 typedef struct _key_translation_entry
 {
@@ -160,8 +148,7 @@ typedef struct _key_translation_entry
 	uint32 keysym;
 	/* This will be non-NULL if there has been a hash collision */
 	struct _key_translation_entry *next;
-}
-key_translation_entry;
+} key_translation_entry;
 
 typedef struct _VCHANNEL
 {
@@ -169,9 +156,8 @@ typedef struct _VCHANNEL
 	char name[8];
 	uint32 flags;
 	struct stream in;
-	void (*process) (STREAM);
-}
-VCHANNEL;
+	void (*process)(STREAM);
+} VCHANNEL;
 
 /* PSTCACHE */
 typedef uint8 HASH_KEY[8];
@@ -183,8 +169,7 @@ typedef struct _PSTCACHE_CELLHEADER
 	uint8 width, height;
 	uint16 length;
 	uint32 stamp;
-}
-CELLHEADER;
+} CELLHEADER;
 
 #define MAX_CBSIZE 256
 
@@ -206,8 +191,7 @@ typedef struct _RDPCOMP
 	uint32 roff;
 	uint8 hist[RDP_MPPC_DICT_SIZE];
 	struct stream ns;
-}
-RDPCOMP;
+} RDPCOMP;
 
 /* RDPDR */
 typedef uint32 RD_NTSTATUS;
@@ -215,18 +199,21 @@ typedef uint32 RD_NTHANDLE;
 
 typedef struct _DEVICE_FNS
 {
-	RD_NTSTATUS(*create) (uint32 device, uint32 desired_access, uint32 share_mode,
-			      uint32 create_disposition, uint32 flags_and_attributes,
-			      char *filename, RD_NTHANDLE * handle);
-	RD_NTSTATUS(*close) (RD_NTHANDLE handle);
-	RD_NTSTATUS(*read) (RD_NTHANDLE handle, uint8 * data, uint32 length, uint64 offset,
-			    uint32 * result);
-	RD_NTSTATUS(*write) (RD_NTHANDLE handle, uint8 * data, uint32 length, uint64 offset,
-			     uint32 * result);
-	RD_NTSTATUS(*device_control) (RD_NTHANDLE handle, uint32 request, STREAM in, STREAM out);
-}
-DEVICE_FNS;
-
+	RD_NTSTATUS (*create)
+	(uint32 device, uint32 desired_access, uint32 share_mode,
+	 uint32 create_disposition, uint32 flags_and_attributes,
+	 char *filename, RD_NTHANDLE *handle);
+	RD_NTSTATUS (*close)
+	(RD_NTHANDLE handle);
+	RD_NTSTATUS (*read)
+	(RD_NTHANDLE handle, uint8 *data, uint32 length, uint64 offset,
+	 uint32 *result);
+	RD_NTSTATUS (*write)
+	(RD_NTHANDLE handle, uint8 *data, uint32 length, uint64 offset,
+	 uint32 *result);
+	RD_NTSTATUS (*device_control)
+	(RD_NTHANDLE handle, uint32 request, STREAM in, STREAM out);
+} DEVICE_FNS;
 
 typedef struct rdpdr_device_info
 {
@@ -235,14 +222,12 @@ typedef struct rdpdr_device_info
 	char name[8];
 	char *local_path;
 	void *pdevice_data;
-}
-RDPDR_DEVICE;
+} RDPDR_DEVICE;
 
 typedef struct rdpdr_disk_device_info
 {
 	char name[PATH_MAX];
-}
-DISK_DEVICE;
+} DISK_DEVICE;
 
 typedef struct rdpdr_serial_device_info
 {
@@ -261,8 +246,7 @@ typedef struct rdpdr_serial_device_info
 	uint8 chars[6];
 	struct termios *ptermios, *pold_termios;
 	int event_txempty, event_cts, event_dsr, event_rlsd, event_pending;
-}
-SERIAL_DEVICE;
+} SERIAL_DEVICE;
 
 typedef struct rdpdr_parallel_device_info
 {
@@ -276,8 +260,7 @@ typedef struct rdpdr_parallel_device_info
 		write_total_timeout_multiplier,
 		write_total_timeout_constant, posix_wait_mask, bloblen;
 	uint8 *blob;
-}
-PARALLEL_DEVICE;
+} PARALLEL_DEVICE;
 
 typedef struct rdpdr_printer_info
 {
@@ -286,8 +269,7 @@ typedef struct rdpdr_printer_info
 	uint32 bloblen;
 	uint8 *blob;
 	RD_BOOL default_printer;
-}
-PRINTER;
+} PRINTER;
 
 typedef struct notify_data
 {
@@ -295,8 +277,7 @@ typedef struct notify_data
 	time_t status_time;
 	time_t total_time;
 	unsigned int num_entries;
-}
-NOTIFY;
+} NOTIFY;
 
 typedef struct fileinfo
 {
@@ -308,10 +289,9 @@ typedef struct fileinfo
 	RD_BOOL delete_on_close;
 	NOTIFY notify;
 	uint32 info_class;
-}
-FILEINFO;
+} FILEINFO;
 
-typedef RD_BOOL(*str_handle_lines_t) (const char *line, void *data);
+typedef RD_BOOL (*str_handle_lines_t)(const char *line, void *data);
 
 typedef enum
 {
