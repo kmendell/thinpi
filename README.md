@@ -50,6 +50,36 @@ Once built Navigate to that local path and copy all files and folders to the roo
 
 If you encounter any errors please open a issue and email getthinpi@gmail.com
 
+## Running with WSL
+
+Download WSL for Windows 10 https://aka.ms/wslinstall
+
+Download Ubuntu 20.04 LTS from the MS Store
+
+Download GWSL from the MS Store
+
+Enable Display/Audio Auto Exporting Under GWSL Distro Tools
+
+Run this command under the linux instance 
+
+```bash
+git clone https://github.com/kmendell/thinpi.git
+
+cd thinpi
+
+sudo scripts/tpdepends
+
+make all
+
+sudo make install 
+
+/thinpi/thinpi-config
+
+or
+
+/thinpi/thinpi-manager
+```
+
 ## Github Branch Tags
 
 Each Version of ThinPi will get its own branch or "tag"
