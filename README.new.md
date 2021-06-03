@@ -1,6 +1,6 @@
 
 <h1 align="center">
-  <img src="https://raw.githubusercontent.com/create-go-app/cli/master/.github/images/cgapp_logo%402x.png" width="224px"/><br/>
+  <img src="https://github.com/kmendell/thinpi/raw/master/assets/logo/icon-colors.png" width="150px"/><br/>
   ThinPi
 </h1>
 <p align="center">Open Source Thin Client for the Raspberry Pi built in <b>C</b>
@@ -15,39 +15,42 @@ Run the Following Command in The Terminal to Download, Compile, and Install all 
 wget -O ~/thinpi.sh https://thinpi.kmprojects.us/thinpi.sh && bash ~/thinpi.sh
 ```
 
-Also, macOS and GNU/Linux users available way to install via [Homebrew](https://brew.sh/):
+ThinPi is also able to run on WSL
 
 ```bash
-# Tap a new formula:
-brew tap create-go-app/cli
+##Get the latest master source code
+git clone --recursive https://github.com/kmendell/thinpi.git
+##Change to the ThinPi Directory
+cd thinpi
+##Run the Dpendencies Install and FS Setup Command
+sudo scripts/tpdepends
+##Make the project
+make all
+##Install ThinPi to the Linux Container
+sudo make install
 
-# Installation:
-brew install create-go-app/cli/cgapp
+##Run Either the Configuration Manager or the Connection Manager
+/thinpi/thinpi-config
+or
+/thinpi/thinpi-manager
 ```
 
-Let's create a new project via **interactive console UI** (or **CUI** for short) in current folder:
+**Build With Docker**
 
 ```bash
-cgapp create
-```
 
-Next, open the generated Ansible inventory file (called `hosts.ini`) and fill in the variables according to your server configuration. And you're ready to **automatically deploy** this project:
-
-```bash
-cgapp deploy
 ```
+***/local/path*** is where you want to save the files compiled to on the host computer 
 
 That's all you need to know to start! 🎉
 
 ### 🐳 Docker-way to quick start
 
-If you don't want to install Create Go App CLI to your system, you feel free to using our official [Docker image](https://hub.docker.com/r/koddr/cgapp) and run CLI from isolated container:
-
 ```bash
-docker run --rm -it -v ${PWD}:${PWD} -w ${PWD} koddr/cgapp:latest [COMMAND]
+docker run -it -v /local/path:/thinpi kmendell/tpdocker:build
 ```
 
-> 🔔 Please note: the `deploy` command is currently **unavailable** in this image.
+> 🔔 ***/local/path*** is where you want to save the files compiled to on the host computer 
 
 ## 📖 Project Wiki
 
