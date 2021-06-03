@@ -1,0 +1,3 @@
+[submodule "scripts/builder"]
+	path = scripts/builder
+	url = https://github.com/kmendell/build-raspbian-image.git
