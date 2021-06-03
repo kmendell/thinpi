@@ -42,54 +42,32 @@ That's all you need to get ThinPi Installed! 🎉
 docker run -it -v /local/path:/thinpi kmendell/tpdocker:build
 ```
 
-> 🔔 ***/local/path*** is where you want to save the files compiled to on the host computer 
+> 🔔 ***/local/path*** is where the contents of the build will go on the host machine 
 
 ## 📖 Project Wiki
 
 The best way to better explore all the features of the **Create Go App CLI** is to read the project [Wiki](https://github.com/create-go-app/cli/wiki) and take part in [Discussions](https://github.com/create-go-app/cli/discussions) and/or [Issues](https://github.com/create-go-app/cli/issues). Yes, the most frequently asked questions (_FAQ_) are also [here](https://github.com/create-go-app/cli/wiki/FAQ).
 
-## ⚙️ Commands & Options
+## ⚙️ Commands & Options - TODO
 
-### `create`
-
-CLI command for create a new project with the interactive console UI.
-
-```bash
-cgapp create [OPTION]
-```
-
-| Option | Description                                              | Type   | Default | Required? |
-| ------ | -------------------------------------------------------- | ------ | ------- | --------- |
-| `-t`   | Enables to define custom backend and frontend templates. | `bool` | `false` | No        |
-
-![cgapp_create](https://user-images.githubusercontent.com/11155743/116796937-38160080-aae9-11eb-8e21-fb1be2750aa4.gif)
-
-- 📺 Full demo video: https://recordit.co/OQAwkZBrjN
-- 📖 Docs: https://github.com/create-go-app/cli/wiki/Command-create
+### `tpcli`
+-u	: Updates the ThinPi Filesystem to the Latest Code
+-ua  : Updates the host system using APT
+-d	: Deletes all ThinPi Configuration Files
+-i pkg	: Installs a package from APT pkg is the package
+-r pkg	: Installs a package from APT pkg is the package
+--reboot
+--adduser user
+--deluser user
+--man-start	: Starts ThinPi Connection Manager
+--config-start  : Starts ThinPi Configuration Manager
 
 ### `deploy`
 
-CLI command for deploy Docker containers with your project via Ansible to the remote server.
-
-> 🔔 Make sure that you have [Python 3.8+](https://www.python.org/downloads/) and [Ansible 2.9+](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-ansible-on-specific-operating-systems) installed on your computer.
-
-```bash
-cgapp deploy [OPTION]
-```
-
-| Option | Description                                                                                            | Type   | Default | Required? |
-| ------ | ------------------------------------------------------------------------------------------------------ | ------ | ------- | --------- |
-| `-k`   | Prompt you to provide the remote user sudo password (_a standard Ansible `--ask-become-pass` option_). | `bool` | `false` | No        |
-
-![cgapp_deploy](https://user-images.githubusercontent.com/11155743/116796941-3c421e00-aae9-11eb-9575-d72550814d7a.gif)
-
-- 📺 Full demo video: https://recordit.co/ishTf0Au1x
-- 📖 Docs: https://github.com/create-go-app/cli/wiki/Command-deploy
 
 ## 📝 Production-ready project templates
 
 ## 🚚 ThinPi Web Console
-
 
 ## ⭐️ Project assistance
 
