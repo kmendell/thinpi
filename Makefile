@@ -26,11 +26,11 @@ cli: src/thinpi/cli/tpcli.c
 
 tprdp:
 	@echo "[THINPI] - Building tprdp ..."
-	cd src/thinpi-rdp; \
+	cd src/tprdp; \
 	autoreconf -i; \
 	./configure --disable-credssp --disable-smartcard; \
 	make --no-print-directory
-	cp src/thinpi-rdp/rdesktop  output/usr/bin/tprdp
+	cp src/tprdp/tprdp  output/usr/bin/tprdp
 
 tpupdate:
 	shc -f src/thinpi/tpupdate/tpupdate
