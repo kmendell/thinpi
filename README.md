@@ -2,6 +2,8 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/kmendell/thinpi?label=Repo%20Size)
 ![GitHub issues](https://img.shields.io/github/issues/kmendell/thinpi)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/kmendell/thinpi?label=Version)
+![GitHub forks](https://img.shields.io/github/forks/kmendell/thinpi?style=social)
+![Github All Contributors](https://img.shields.io/github/all-contributors/kmendell/thinpi/master)
 <div align="center">
 <br><img height="50%" width="50%" src="assets/logo/logo-colors@2x.png"></img>
 </div>
