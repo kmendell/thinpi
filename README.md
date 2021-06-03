@@ -5,6 +5,7 @@
 ![GitHub forks](https://img.shields.io/github/forks/kmendell/thinpi?style=social)
 ![GitHub contributors](https://img.shields.io/github/contributors/kmendell/thinpi)
 ![Website](https://img.shields.io/website?down_color=red&down_message=offline&up_color=green&up_message=online&url=https%3A%2F%2Fthinpi.kmprojects.us)
+![GitHub branch checks state](https://img.shields.io/github/checks-status/kmendell/thinpi/master)
 <div align="center">
 <br><img height="50%" width="50%" src="assets/logo/logo-colors@2x.png"></img>
 </div>
