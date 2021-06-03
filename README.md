@@ -1,4 +1,4 @@
-![GitHub all releases](https://img.shields.io/github/downloads/kmendell/thinpi/total?label=Downloads)
+   ![GitHub all releases](https://img.shields.io/github/downloads/kmendell/thinpi/total?label=Downloads)
 ![GitHub repo size](https://img.shields.io/github/repo-size/kmendell/thinpi?label=Repo%20Size)
 ![GitHub issues](https://img.shields.io/github/issues/kmendell/thinpi)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/kmendell/thinpi?label=Version)
