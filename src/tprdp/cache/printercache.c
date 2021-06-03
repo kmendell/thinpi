@@ -1,0 +1,301 @@
+
+
+/* According to the W2K RDP Printer Redirection WhitePaper, a data
+ * blob is sent to the client after the configuration of the printer
+ * is changed at the server.
+ *
+ * This data blob is saved to the registry. The client returns this
+ * data blob in a new session with the printer announce data.
+ * The data is not interpreted by the client.
+ */
+
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <string.h>
+#include "../tprdp.h"
+
+static RD_BOOL
+printercache_mkdir(char *base, char *printer)
+{
+	char *path;
+
+	path = (char *) xmalloc(strlen(base) + sizeof("/.rdesktop/rdpdr/") + strlen(printer) + 1);
+
+	sprintf(path, "%s/.rdesktop", base);
+	if ((mkdir(path, 0700) == -1) && errno != EEXIST)
+	{
+		logger(Core, Error, "printercache_mkdir(), mkdir() failed: %s", strerror(errno));
+		xfree(path);
+		return False;
+	}
+
+	strcat(path, "/rdpdr");
+	if ((mkdir(path, 0700) == -1) && errno != EEXIST)
+	{
+		logger(Core, Error, "printercache_mkdir(), mkdir() failed: %s", strerror(errno));
+		xfree(path);
+		return False;
+	}
+
+	strcat(path, "/");
+	strcat(path, printer);
+	if ((mkdir(path, 0700) == -1) && errno != EEXIST)
+	{
+		logger(Core, Error, "printercache_mkdir(), mkdir() failed: %s", strerror(errno));
+		xfree(path);
+		return False;
+	}
+
+	xfree(path);
+	return True;
+}
+
+static RD_BOOL
+printercache_unlink_blob(char *printer)
+{
+	char *path;
+	char *home;
+
+	if (printer == NULL)
+		return False;
+
+	home = getenv("HOME");
+	if (home == NULL)
+		return False;
+
+	path = (char *) xmalloc(strlen(home) + sizeof("/.rdesktop/rdpdr/") + strlen(printer) +
+				sizeof("/AutoPrinterCacheData") + 1);
+
+	sprintf(path, "%s/.rdesktop/rdpdr/%s/AutoPrinterCacheData", home, printer);
+
+	if (unlink(path) < 0)
+	{
+		xfree(path);
+		return False;
+	}
+
+	sprintf(path, "%s/.rdesktop/rdpdr/%s", home, printer);
+
+	if (rmdir(path) < 0)
+	{
+		xfree(path);
+		return False;
+	}
+
+	xfree(path);
+	return True;
+}
+
+
+static RD_BOOL
+printercache_rename_blob(char *printer, char *new_printer)
+{
+	char *printer_path;
+	char *new_printer_path;
+	int printer_maxlen;
+
+	char *home;
+
+	if (printer == NULL)
+		return False;
+
+	home = getenv("HOME");
+	if (home == NULL)
+		return False;
+
+	printer_maxlen =
+		(strlen(printer) >
+		 strlen(new_printer) ? strlen(printer) : strlen(new_printer)) + strlen(home) +
+		sizeof("/.rdesktop/rdpdr/") + 1;
+
+	printer_path = (char *) xmalloc(printer_maxlen);
+	new_printer_path = (char *) xmalloc(printer_maxlen);
+
+	sprintf(printer_path, "%s/.rdesktop/rdpdr/%s", home, printer);
+	sprintf(new_printer_path, "%s/.rdesktop/rdpdr/%s", home, new_printer);
+
+	logger(Core, Debug, "printercache_rename_blob(), printer_path=%s, new_printer_path=%s",
+	       printer_path, new_printer_path);
+	if (rename(printer_path, new_printer_path) < 0)
+	{
+		logger(Core, Error, "printercache_rename_blob(), rename() failed: %s",
+		       strerror(errno));
+		xfree(printer_path);
+		xfree(new_printer_path);
+		return False;
+	}
+
+	xfree(printer_path);
+	xfree(new_printer_path);
+	return True;
+}
+
+
+int
+printercache_load_blob(char *printer_name, uint8 ** data)
+{
+	char *home, *path;
+	struct stat st;
+	int fd, length;
+
+	if (printer_name == NULL)
+		return 0;
+
+	*data = NULL;
+
+	home = getenv("HOME");
+	if (home == NULL)
+		return 0;
+
+	path = (char *) xmalloc(strlen(home) + sizeof("/.rdesktop/rdpdr/") + strlen(printer_name) +
+				sizeof("/AutoPrinterCacheData") + 1);
+	sprintf(path, "%s/.rdesktop/rdpdr/%s/AutoPrinterCacheData", home, printer_name);
+
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
+	{
+		xfree(path);
+		return 0;
+	}
+
+	if (fstat(fd, &st))
+	{
+		xfree(path);
+		return 0;
+	}
+
+	*data = (uint8 *) xmalloc(st.st_size);
+	length = read(fd, *data, st.st_size);
+	close(fd);
+	xfree(path);
+	return length;
+}
+
+static void
+printercache_save_blob(char *printer_name, uint8 * data, uint32 length)
+{
+	char *home, *path;
+	int fd;
+
+	if (printer_name == NULL)
+		return;
+
+	home = getenv("HOME");
+	if (home == NULL)
+		return;
+
+	if (!printercache_mkdir(home, printer_name))
+		return;
+
+	path = (char *) xmalloc(strlen(home) + sizeof("/.rdesktop/rdpdr/") + strlen(printer_name) +
+				sizeof("/AutoPrinterCacheData") + 1);
+	sprintf(path, "%s/.rdesktop/rdpdr/%s/AutoPrinterCacheData", home, printer_name);
+
+	fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	if (fd == -1)
+	{
+		logger(Core, Error, "printercache_save_blob(), open() failed: %s", strerror(errno));
+		xfree(path);
+		return;
+	}
+
+	if (write(fd, data, length) != length)
+	{
+		logger(Core, Error, "printercache_save_blob(), write() failed: %s",
+		       strerror(errno));
+		unlink(path);
+	}
+
+	close(fd);
+	xfree(path);
+}
+
+void
+printercache_process(STREAM s)
+{
+	uint32 type, printer_length, driver_length, printer_unicode_length, blob_length;
+	char device_name[9], *printer, *driver;
+	size_t blob_start;
+	unsigned char *blob;
+
+	printer = driver = NULL;
+
+	in_uint32_le(s, type);
+	switch (type)
+	{
+		case 4:	/* rename item */
+			in_uint8(s, printer_length);
+			in_uint8s(s, 0x3);	/* padding */
+			in_uint8(s, driver_length);
+			in_uint8s(s, 0x3);	/* padding */
+
+			/* NOTE - 'driver' doesn't contain driver, it contains the new printer name */
+
+			rdp_in_unistr(s, printer_length, &printer, &printer_length);
+			rdp_in_unistr(s, driver_length, &driver, &driver_length);
+
+			if (printer != NULL && driver != NULL)
+				printercache_rename_blob(printer, driver);
+
+			free(printer);
+			free(driver);
+			break;
+
+		case 3:	/* delete item */
+			in_uint8(s, printer_unicode_length);
+			in_uint8s(s, 0x3);	/* padding */
+			rdp_in_unistr(s, printer_unicode_length, &printer, &printer_unicode_length);
+			if (printer)
+				printercache_unlink_blob(printer);
+			free(printer);
+			break;
+
+		case 2:	/* save printer data */
+			in_uint32_le(s, printer_unicode_length);
+			in_uint32_le(s, blob_length);
+
+			if (printer_unicode_length < 2 * 255)
+			{
+				rdp_in_unistr(s, printer_unicode_length, &printer,
+					      &printer_unicode_length);
+				if (printer) {
+					in_uint8p(s, blob, blob_length);
+					printercache_save_blob(printer, blob, blob_length);
+				}
+				free(printer);
+			}
+			break;
+
+		case 1:	/* save device data */
+			in_uint8a(s, device_name, 5);	/* get LPTx/COMx name */
+
+			/* need to fetch this data so that we can get the length of the packet to store. */
+			blob_start = s_tell(s);
+			in_uint8s(s, 0x2);	/* ??? */
+			in_uint8s(s, 0x2)	/* pad?? */
+				in_uint32_be(s, driver_length);
+			in_uint32_be(s, printer_length);
+			in_uint8s(s, 0x7)	/* pad?? */
+				/* next is driver in unicode */
+				/* next is printer in unicode */
+				/* TODO: figure out how to use this information when reconnecting */
+				/* actually - all we need to store is the driver and printer */
+				/* and figure out what the first word is. */
+				/* rewind stream so that we can save this blob   */
+				/* length is driver_length + printer_length + 19 */
+				/* rewind stream */
+			s_seek(s, blob_start);
+
+			blob_length = driver_length + printer_length + 19;
+			in_uint8p(s, blob, blob_length);
+			printercache_save_blob(device_name, blob, blob_length);
+			break;
+		default:
+			logger(Protocol, Warning,
+			       "printercache_process(), unhandled packet type %d", type);
+			break;
+	}
+}
