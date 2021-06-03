@@ -12,7 +12,7 @@
 Run the Following Command in The Terminal to Download, Compile, and Install all Dependencies and ThinPi Files
 
 ```bash
-wget -O ~/thinpi.sh https://thinpi.kmprojects.us/thinpi.sh && bash ~/thinpi.sh
+bash -c "$(curl -fsSL https://thinpi.kmprojects.us/install.sh)"
 ```
 
 ThinPi is also able to run on WSL
@@ -142,7 +142,7 @@ cgapp deploy [OPTION]
 
 ## ⭐️ Project assistance
 
-If you want to say **thank you** or/and support active development of `Create Go App CLI`:
+If you want to say **thank you** or/and support active development of `ThinPi`:
 
 - Add a [GitHub Star](https://github.com/create-go-app/cli) to the project.
 - Tweet about project [on your Twitter](https://twitter.com/intent/tweet?text=%E2%9C%A8%20Create%20a%20new%20production-ready%20project%20with%20%23Golang%20backend%2C%20%23JavaScript%20or%20%23TypeScript%20frontend%2C%20%23Docker%20and%20%23Ansible%20deploy%20automation%20by%20running%20one%20command.%20%0A%0AFocus%20on%20writing%20code%20and%20thinking%20of%20business-logic%21%0AThe%20CLI%20will%20take%20care%20of%20the%20rest.%0A%0Ahttps%3A%2F%2Fgithub.com%2Fcreate-go-app%2Fcli).
@@ -153,4 +153,4 @@ Together, we can make this project **better** every day! 😘
 
 ## ⚠️ License
 
-`Create Go App CLI` is free and open-source software licensed under the [Apache 2.0 License](https://github.com/create-go-app/cli/blob/master/LICENSE). Official [logo](https://github.com/create-go-app/cli/wiki/Logo) was created by [Vic Shóstak](https://shostak.dev/) and distributed under [Creative Commons](https://creativecommons.org/licenses/by-sa/4.0/) license (CC BY-SA 4.0 International).
+`ThinPi` is free and open-source software licensed under the [Apache 2.0 License](https://github.com/kmendell/thinpi/blob/master/LICENSE), and distributed under [Creative Commons](https://creativecommons.org/licenses/by-sa/4.0/) license (CC BY-SA 4.0 International).
