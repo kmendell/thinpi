@@ -1,4 +1,0 @@
--i * : where * is the package you want to install
--d * : where * is the package you want to remove
--e config : edit the server config file via nano
--s update : runs tpupdate

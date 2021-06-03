@@ -25,10 +25,11 @@
             <property name="margin_left">20</property>
             <property name="margin_right">20</property>
             <property name="margin_top">75</property>
+            <property name="margin_bottom">20</property>
             <property name="label" translatable="yes">This is a unsecure connection, do you want to connect anyways??</property>
           </object>
           <packing>
-            <property name="expand">False</property>
+            <property name="expand">True</property>
             <property name="fill">True</property>
             <property name="position">0</property>
           </packing>
@@ -37,8 +38,9 @@
           <object class="GtkBox" id="buttonHolder">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_bottom">50</property>
             <child>
-              <object class="GtkButton" id="agreeButton">
+              <object class="GtkButton" id="yesBtn">
                 <property name="label" translatable="yes">Connect</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -53,7 +55,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="cancelButton">
+              <object class="GtkButton" id="noBtn">
                 <property name="label" translatable="yes">Cancel </property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>

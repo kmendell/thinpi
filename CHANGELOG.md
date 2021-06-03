@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## 0.3.0 
 - [WSL] Compatible with WSL
+- [GUI] Added TOFU Dialog when connecting to new SSL Server
+- [CLI] Rewrote the CLI so it takes single arguments - ***WIP***
+- [RDP] Rewrote tprdp in someplaces, restructured files, and renamed varibles for thinpi use
 
 ## 0.2.0 - RC
 - [RDP] Switched to a custom tpdp implementation (rdesktop)

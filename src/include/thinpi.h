@@ -10,6 +10,8 @@ extern gchar *screenResValue;
 extern  gchar *ipToAdd;
 extern  gchar *nameToAdd;
 
+extern char *tofuResp;
+
 extern GtkComboBoxText *serverField;
 extern GtkWidget *wrongCredentialsMessage;
 extern GtkEntry *usernameTextbox;
@@ -27,3 +29,4 @@ extern void openConnection(gchar *u, gchar *p, gchar *s);
 extern void setUserInfo();
 int checkForUpdates();
 int SearchFile(char *name, char *str);
+extern char openTOFUDialog();

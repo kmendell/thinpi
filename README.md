@@ -1,3 +1,5 @@
+![GitHub all releases](https://img.shields.io/github/downloads/kmendell/thinpi/total?label=Downloads)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/kmendell/thinpi?label=Repo%20Size)
 <div align="center">
 <br><img height="50%" width="50%" src="assets/logo/logo-colors@2x.png"></img>
 </div>
@@ -63,7 +65,7 @@ Enable Display/Audio Auto Exporting Under GWSL Distro Tools
 Run this command under the linux instance 
 
 ```bash
-git clone https://github.com/kmendell/thinpi.git
+git clone --recursive https://github.com/kmendell/thinpi.git
 
 cd thinpi
 
@@ -80,6 +82,7 @@ or
 /thinpi/thinpi-manager
 ```
 
+***This also can be the way to build manually***
 ## Github Branch Tags
 
 Each Version of ThinPi will get its own branch or "tag"
