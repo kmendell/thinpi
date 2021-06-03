@@ -51,16 +51,16 @@ The best way to better explore all the features of the **Create Go App CLI** is 
 ## ⚙️ Commands & Options - TODO
 
 ### `tpcli`
--u	: Updates the ThinPi Filesystem to the Latest Code
--ua  : Updates the host system using APT
--d	: Deletes all ThinPi Configuration Files
--i pkg	: Installs a package from APT pkg is the package
--r pkg	: Installs a package from APT pkg is the package
---reboot
---adduser user
---deluser user
---man-start	: Starts ThinPi Connection Manager
---config-start  : Starts ThinPi Configuration Manager
+-u	: Updates the ThinPi Filesystem to the Latest Code<br>
+-ua  : Updates the host system using APT<br>
+-d	: Deletes all ThinPi Configuration Files<br>
+-i pkg	: Installs a package from APT pkg is the package<br>
+-r pkg	: Installs a package from APT pkg is the package<br>
+--reboot<br>
+--adduser user<br>
+--deluser user<br>
+--man-start	: Starts ThinPi Connection Manager<br>
+--config-start  : Starts ThinPi Configuration Manager<br>
 
 ### `deploy`
 
