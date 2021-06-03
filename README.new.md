@@ -88,57 +88,8 @@ cgapp deploy [OPTION]
 
 ## 📝 Production-ready project templates
 
-### Backend
+## 🚚 ThinPi Web Console
 
-- Backend template with Golang built-in [net/http](https://golang.org/pkg/net/http/) package:
-  - [`net/http`](https://github.com/create-go-app/net_http-go-template) — simple REST API with CRUD and JWT auth.
-- Backend template with [Fiber](https://github.com/gofiber/fiber):
-  - [`fiber`](https://github.com/create-go-app/fiber-go-template) — complex REST API with CRUD, JWT auth with renew token, DB and cache.
-
-### Frontend
-
-- Pure JavaScript frontend template:
-  - `vanilla` — generated template with pure JavaScript app.
-  - `vanilla-ts` — generated template with pure TypeScript app.
-- Frontend template with [React](https://reactjs.org/):
-  - `react` — generated template with a common React app.
-  - `react-ts` — generated template with a TypeScript version of the React app.
-- Frontend template with [Preact](https://preactjs.com/):
-  - `preact` — generated template with a common Preact app.
-  - `preact-ts` — generated template with a TypeScript version of the Preact app.
-- Frontend template with [Vue.js](https://vuejs.org/):
-  - `vue` — generated template with a common Vue.js app.
-  - `vue-ts` — generated template with a TypeScript version of the Vue.js app.
-- Frontend template with [Svelte](https://svelte.dev/):
-  - `svelte` — generated template with a common Svelte app.
-  - `svelte-ts` — generated template with a TypeScript version of the Svelte app.
-- Frontend template with [Lit](https://lit.dev/) web components:
-  - `lit-element` — generated template with a common Lit app.
-  - `lit-element-ts` — generated template a TypeScript version of the Lit app.
-
-> ☝️ Frontend part will be generate using awesome tool [Vite.js](https://vitejs.dev/) under the hood. So, you'll always get the latest version of `React`, `Preact`, `Vue`, `Svelte`, `Lit` or pure JavaScript/TypeScript templates for your project!
-
-## 🚚 Pre-configured Ansible roles
-
-### Web/Proxy server
-
-- Roles for run Docker container with [Traefik Proxy](https://traefik.io/traefik/):
-  - `traefik` — configured Traefik container with a simple ACME challenge via CA server.
-  - `traefik-acme-dns` — configured Traefik container with a complex ACME challenge via DNS provider.
-- Roles for run Docker container with [Nginx](https://nginx.org):
-  - `nginx` — pure Nginx container with "the best practice" configuration.
-
-> ✌️ Since Create Go App CLI `v2.0.0`, we're recommend to use **Traefik Proxy** as default proxy server for your projects. The main reason: this proxy provides _automatic_ SSL certificates from Let's Encrypt out of the box. Also, Traefik was built on the Docker ecosystem and has a _really good looking_ and _useful_ Web UI.
-
-### Database
-
-- Roles for run Docker container with [PostgreSQL](https://postgresql.org/):
-  - `postgres` — configured PostgreSQL container with apply migrations for backend.
-
-### Cache (key-value storage)
-
-- Roles for run Docker container with [Redis](https://redis.io/):
-  - `redis` — configured Redis container for backend.
 
 ## ⭐️ Project assistance
 
