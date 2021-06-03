@@ -1,100 +1,72 @@
-   ![GitHub all releases](https://img.shields.io/github/downloads/kmendell/thinpi/total?label=Downloads)
-![GitHub repo size](https://img.shields.io/github/repo-size/kmendell/thinpi?label=Repo%20Size)
-![GitHub issues](https://img.shields.io/github/issues/kmendell/thinpi)
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/kmendell/thinpi?label=Version)
-![GitHub forks](https://img.shields.io/github/forks/kmendell/thinpi?style=social)
-![GitHub contributors](https://img.shields.io/github/contributors/kmendell/thinpi)
-![Website](https://img.shields.io/website?down_color=red&down_message=offline&up_color=green&up_message=online&url=https%3A%2F%2Fthinpi.kmprojects.us)
-![GitHub branch checks state](https://img.shields.io/github/checks-status/kmendell/thinpi/master)
-<div align="center">
-<br><img height="50%" width="50%" src="assets/logo/logo-colors@2x.png"></img>
-</div>
 
-# Thinpi
+<h1 align="center">
+  <img src="https://github.com/kmendell/thinpi/raw/master/assets/logo/icon-colors.png" width="150px"/><br/>
+  ThinPi
+</h1>
+<p align="center">Open Source Thin Client for the Raspberry Pi built in <b>C</b>
 
-ThinPi is a open source Thin Client for the Raspberry Pi 4
+<p align="center"><a href="https://github.com/create-go-app/cli/releases" target="_blank"><img src="https://img.shields.io/badge/version-v0.2.0-blue?style=for-the-badge&logo=none" alt="cli version" /></a>&nbsp;<a href="https://pkg.go.dev/github.com/create-go-app/cli/v2?tab=doc" target="_blank"><img src="https://img.shields.io/badge/C-C17+-00ADD8?style=for-the-badge&logo=C" alt="go version" /></a><a href="" target="_blank">&nbsp;<img src="https://img.shields.io/badge/license-apache_2.0-red?style=for-the-badge&logo=none" alt="license" /></p>
 
-ThinPi Can Connect to any Machine that has a RDP Server Running 
+## ⚡️ Quick start
 
-Currently RDP is only supported in the future pottentially will add citrix based support and so on
-
-Developed and Maintained By: Kyle Mendell
-
-ThinPi is a Debian Based arm32v7 based OS by default, Build for arm64 will be available soon
-
-
-
-## Building
-
-**If you build manually and dont use docker, you will have to run the scripts in the scripts folder to ensure dependencies are installed**
-
-**ThinPi Now Uses Docker as a Build Context**
+Run the Following Command in The Terminal to Download, Compile, and Install all Dependencies and ThinPi Files
 
 ```bash
-
-docker pull kmendell/tpdocker:build
-
-docker run -it -v /local/path:/thinpi kmendell/tpdocker:build
-
+sudo bash -c "$(curl -fsSL https://thinpi.kmprojects.us/install.sh)"
 ```
 
-/local/path is where you want the output of the ThinPi FS to save too 
-
-Once built Navigate to that local path and copy all files and folders to the root of the SD Card of the Raspberry Pi
-
-### Docker tag options:
-
-```
-:build - Build the latest stable source code of ThinPi
-
-:testing - Build the absolute latest (nightly) builds of ThinPi
-
-:latest - Same thing as build
-
-:alpha - Build the not stable but not nightly builds of ThinPi
-```
-
-**This Docker Context will EVENTUALLY build the complete .img - Currently it does not**
-
-If you encounter any errors please open a issue and email getthinpi@gmail.com
-
-## Running with WSL
-
-Download WSL for Windows 10 https://aka.ms/wslinstall
-
-Download Ubuntu 20.04 LTS from the MS Store
-
-Download GWSL from the MS Store
-
-Enable Display/Audio Auto Exporting Under GWSL Distro Tools
-
-Run this command under the linux instance 
+ThinPi is also able to run on WSL
 
 ```bash
+##Get the latest master source code
 git clone --recursive https://github.com/kmendell/thinpi.git
-
+##Change to the ThinPi Directory
 cd thinpi
-
+##Run the Dpendencies Install and FS Setup Command
 sudo scripts/tpdepends
-
+##Make the project
 make all
+##Install ThinPi to the Linux Container
+sudo make install
 
-sudo make install 
-
+##Run Either the Configuration Manager or the Connection Manager
 /thinpi/thinpi-config
-
 or
-
 /thinpi/thinpi-manager
 ```
+That's all you need to get ThinPi Installed! 🎉
 
-***This also can be the way to build manually***
-## Github Branch Tags
+### 🐳 Docker-way to quick start
 
-Each Version of ThinPi will get its own branch or "tag"
+```bash
+docker run -it -v /local/path:/thinpi kmendell/tpdocker:build
+```
 
-Any features in a development/testing phase will first be pushed to master then once stable will be pushed to the correct version tag
+> 🔔 ***/local/path*** is where the contents of the build will go on the host machine 
 
-## Contributing
+## ⚙️ Commands & Options - TODO
 
-Email: getthinpi@gmail.com to join the team and discuss certain changes or improvements
+### `tpcli`
+-u	: Updates the ThinPi Filesystem to the Latest Code<br>
+-ua  : Updates the host system using APT<br>
+-d	: Deletes all ThinPi Configuration Files<br>
+-i pkg	: Installs a package from APT pkg is the package<br>
+-r pkg	: Installs a package from APT pkg is the package<br>
+--reboot<br>
+--adduser user<br>
+--deluser user<br>
+--man-start	: Starts ThinPi Connection Manager<br>
+--config-start  : Starts ThinPi Configuration Manager<br>
+
+### `deploy`
+
+
+## 📝 Production-ready project templates
+
+## 🚚 ThinPi Web Console
+
+## ⭐️ Project assistance
+
+## ⚠️ License
+
+`ThinPi` is free and open-source software licensed under the [Apache 2.0 License](https://github.com/kmendell/thinpi/blob/master/LICENSE), and distributed under [Creative Commons](https://creativecommons.org/licenses/by-sa/4.0/) license (CC BY-SA 4.0 International).
