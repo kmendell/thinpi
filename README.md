@@ -1,5 +1,5 @@
 ![GitHub all releases](https://img.shields.io/github/downloads/kmendell/thinpi/total?label=Downloads)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/kmendell/thinpi?label=Repo%20Size)
+![GitHub repo size](https://img.shields.io/github/repo-size/kmendell/thinpi?label=Repo%20Size)
 ![GitHub issues](https://img.shields.io/github/issues/kmendell/thinpi)
 <div align="center">
 <br><img height="50%" width="50%" src="assets/logo/logo-colors@2x.png"></img>
