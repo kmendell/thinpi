@@ -58,20 +58,13 @@ docker run -it -v /local/path:/thinpi kmendell/tpdocker:build
 --man-start	: Starts ThinPi Connection Manager<br>
 --config-start  : Starts ThinPi Configuration Manager<br>
 
-### `deploy`
-
-
-## 📝 Production-ready project templates
-
-## 🚚 ThinPi Web Console
+## 📝 ThinPi Web Console
 
 Certain Aspects of ThinPi can be Controlled via a Browser
 
 Navigate to 0.0.0.0/dashboard to view the web based dashboard
 
 > 🔔 0.0.0.0 should be replaced with the local ip of the device
-
-## ⭐️ Project assistance
 
 ## ⚠️ License
 
