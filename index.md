@@ -48,16 +48,17 @@ docker run -it -v /local/path:/thinpi kmendell/tpdocker:build
 ## ⚙️ Commands & Options - TODO
 
 ### `tpcli`
--u	: Updates the ThinPi Filesystem to the Latest Code<br>
--ua  : Updates the host system using APT<br>
--d	: Deletes all ThinPi Configuration Files<br>
--i pkg	: Installs a package from APT pkg is the package<br>
--r pkg	: Installs a package from APT pkg is the package<br>
---reboot<br>
---adduser user<br>
---deluser user<br>
---man-start	: Starts ThinPi Connection Manager<br>
---config-start  : Starts ThinPi Configuration Manager<br>
+  
+`tpcli -u` Update ThinPi Project<br>
+`tpcli -ua` Update APT Packages<br>
+`tpcli -d` Remove all ThinPi Configuration<br>
+`tpcli -i packagename` Install APT Package<br>
+`tpcli -r packagename` Remove APT Package<br>
+`tpcli --reboot` Reboot System<br>
+`tpcli --adduser username` Add new Linux User<br>
+`tpcli --deluser username` Remove Linux User<br>
+`tpcli --man-start` Start Connection Manager<br>
+`tpcli --config-start` Start Config Utility<br>
 
 ## 📝 ThinPi Web Console
 
