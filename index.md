@@ -6,7 +6,7 @@
 <p align="center">Open Source Thin Client for the Raspberry Pi built in <b>C</b>
 
 <p align="center">
-  <a href="https://github.com/kmendell/thinpi/releases" target="_blank"><img src="https://img.shields.io/badge/download-v0.2.0-pink?style=for-the-badge&logo=none" alt="thinpi version" /></a>
+  <a href="https://github.com/kmendell/thinpi/releases" target="_blank"><img src="https://img.shields.io/badge/download-v0.2.0-FC427B?style=for-the-badge&logo=none" alt="thinpi version" /></a>
 
 ## ⚡️ Quick start
 
