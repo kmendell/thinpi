@@ -9,13 +9,7 @@
 
 ## ⚡️ Quick start
 
-Run the Following Command in The Terminal to Download, Compile, and Install all Dependencies and ThinPi Files
-
-```bash
-sudo bash -c "$(curl -fsSL https://kmendell.github.io/thinpi/install.sh)"
-```
-
-ThinPi is also able to run on WSL
+Run the Following Commands in The Terminal to Download, Compile, and Install all Dependencies and ThinPi Files
 
 ```bash
 ##Get the latest master source code
