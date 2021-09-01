@@ -28,6 +28,15 @@ sudo make install
 or
 /thinpi/thinpi-manager
 ```
+or
+  
+Download the thinpi_start.sh from this repo
+  
+```bash
+chmod +x ./thinpi_start.sh
+sudo ./thinpi_start.sh
+```
+  
 That's all you need to get ThinPi Installed! 🎉
 
 ### 🐳 Docker-way to quick start
