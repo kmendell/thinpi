@@ -1,7 +1,0 @@
-[tpentry]
-host: 0.0.0.0
-username: username
-password: password
-domain: domain.com
-drives: /mnt/home/username
-[end]

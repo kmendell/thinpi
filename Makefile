@@ -5,7 +5,7 @@ TARGET = output/thinpi/thinpi-*
 ODIR = output/thinpi
 
 
-all: manager config cli tprdp tpupdate http
+all: manager config cli tprdp tpupdate http inireader
 
 manager: src/thinpi/manager.c src/thinpi/rdp.c src/thinpi/helpers.c src/thinpi/tpconfig.c
 	@echo "[THINPI] - Building connect-manager ..."
@@ -23,6 +23,10 @@ cli: src/thinpi/cli/tpcli.c
 	@echo "[THINPI] - Building thinpi-cli ..."
 	$(CC) -w src/thinpi/cli/tpcli.c -o output/usr/bin/tpcli
 	@echo "[THINPI] - CLI Tool Built"
+
+inireader:
+	@echo "[THINPI] - Building inireader ..."
+	$(CC) -w src/thinpi/readconfig.c src/include/ini.c -o $(ODIR)/thinpi-ini
 
 tprdp:
 	@echo "[THINPI] - Building tprdp ..."
