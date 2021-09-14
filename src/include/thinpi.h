@@ -31,7 +31,7 @@ int checkForUpdates();
 int SearchFile(char *name, char *str);
 extern char openTOFUDialog();
 
-typedef struct
+extern typedef struct
 {
     int version;
     const char* type;
