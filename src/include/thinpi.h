@@ -25,13 +25,19 @@ extern GtkEntry *screenResTextbox;
 extern void closeThinPiManager (GtkWidget *wid, gpointer ptr);
 extern void hideErrorMessage(GtkWidget *wid, gpointer ptr);
 extern void getServerConfig();
+extern void iniConfigBeta();
 extern void openConnection(gchar *u, gchar *p, gchar *s);
 extern void setUserInfo();
 int checkForUpdates();
 int SearchFile(char *name, char *str);
 extern char openTOFUDialog();
 
-extern typedef struct
+//INI Returns
+extern char* configName;
+extern char* configServer;
+extern char* configScreen;
+
+typedef struct
 {
     int version;
     const char* type;
@@ -41,4 +47,7 @@ extern typedef struct
     const char* printers;
     const char* drives;
     const char* res;
+	const char* domain;
 } configuration;
+
+extern configuration tpsconfig;

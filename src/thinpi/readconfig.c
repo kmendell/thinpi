@@ -1,10 +1,11 @@
+#include <gtk/gtk.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include "../include/ini.h"
 #include "../include/thinpi.h"
 
-typedef struct configuration;
+configuration tpsconfig;
+char *configName;
 
 static int handler(void* connection, const char* section, const char* name,
                    const char* value)
@@ -34,13 +35,16 @@ static int handler(void* connection, const char* section, const char* name,
 
 int main(int argc, char* argv[])
 {
-    configuration config;
+	
+	configuration config;
 
-    if (ini_parse("test.ini", handler, &config) < 0) {
-        printf("Can't load 'test.ini'\n");
+    if (ini_parse("/thinpi/config/thinpi.ini", handler, &tpsconfig) < 0) {
+        printf("Can't load 'thinpi.ini'\n");
         return 1;
     }
-    printf("Config loaded from 'test.ini': version=%d, name=%s, ip=%s, usb=%s, printers=%s, drives=%s, res=%s\n",
-        config.version, config.name, config.ip, config.usb, config.printers, config.drives, config.res);
-    return 0;
+    printf("Config loaded from 'thinpi.ini': version=%d, name=%s, ip=%s, usb=%s, printers=%s, drives=%s, res=%s\n",
+        tpsconfig.version, tpsconfig.name, tpsconfig.ip, tpsconfig.usb, tpsconfig.printers, tpsconfig.drives, tpsconfig.res);
+    //configServer = tpsconfig.ip;
+	configName = tpsconfig.name;
+	return 1;
 }

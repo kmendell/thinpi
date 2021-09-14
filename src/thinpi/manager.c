@@ -13,6 +13,7 @@ void main(int argc, char *argv[])
 {
 
 	gtk_init(&argc, &argv);
+	
 
 	GtkBuilder *builder = gtk_builder_new();
 	//update to fs all directorys will now /thinpi/*
@@ -25,7 +26,9 @@ void main(int argc, char *argv[])
 	serverList = (GtkComboBoxText *)gtk_builder_get_object(builder, "serverSelect");
 	wrongCredentialsMessage = (GtkWidget *)gtk_builder_get_object(builder, "wrongLabel");
 
-	getServerConfig();
+	//getServerConfig();
+	iniConfigBeta();
+	
 
 	g_signal_connect(btn, "clicked", G_CALLBACK(handleClick), NULL);
 

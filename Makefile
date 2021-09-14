@@ -5,18 +5,18 @@ TARGET = output/thinpi/thinpi-*
 ODIR = output/thinpi
 
 
-all: manager config cli tprdp tpupdate http inireader
+all: manager config cli tprdp tpupdate http
 
-manager: src/thinpi/manager.c src/thinpi/rdp.c src/thinpi/helpers.c src/thinpi/tpconfig.c
+manager: src/thinpi/manager.c src/thinpi/rdp.c src/thinpi/helpers.c src/thinpi/tpconfig.c src/include/ini.c
 	@echo "[THINPI] - Building connect-manager ..."
-	$(CC) -w src/thinpi/manager.c src/thinpi/rdp.c src/thinpi/helpers.c $(CFLAGS)  -o $(ODIR)/thinpi-manager
-	$(CC) -w src/thinpi/tptofu.c src/thinpi/helpers.c $(CFLAGS) -o $(ODIR)/thinpi-tofu
+	$(CC) -w src/thinpi/manager.c src/thinpi/rdp.c src/thinpi/helpers.c src/include/ini.c $(CFLAGS)  -o $(ODIR)/thinpi-manager
+	$(CC) -w src/thinpi/tptofu.c src/thinpi/helpers.c src/include/ini.c $(CFLAGS) -o $(ODIR)/thinpi-tofu
 	cp src/Interface/connect-manager.glade output/thinpi/Interface/connect-manager.glade
 	cp src/Interface/tofu.glade output/thinpi/Interface/tofu.glade
 
 config:
 	@echo "[THINPI] - Building config-manager ..."
-	$(CC) -w src/thinpi/tpconfig.c src/thinpi/helpers.c $(CFLAGS) -o $(ODIR)/thinpi-config
+	$(CC) -w src/thinpi/tpconfig.c src/thinpi/helpers.c src/include/ini.c $(CFLAGS) -o $(ODIR)/thinpi-config
 	cp src/Interface/addserver.glade output/thinpi/Interface/addserver.glade
 
 cli: src/thinpi/cli/tpcli.c
@@ -26,7 +26,7 @@ cli: src/thinpi/cli/tpcli.c
 
 inireader:
 	@echo "[THINPI] - Building inireader ..."
-	$(CC) -w src/thinpi/readconfig.c src/include/ini.c -o $(ODIR)/thinpi-ini
+	$(CC) -w src/thinpi/readconfig.c src/include/ini.c $(CFLAGS) -o $(ODIR)/thinpi-ini
 
 tprdp:
 	@echo "[THINPI] - Building tprdp ..."
@@ -57,8 +57,8 @@ install:
 	cp -r output/thinpi/* /thinpi
 	cp -r output/var/www/html/* /var/www/html/
 	chmod -R 0777 /thinpi
-	chown -R pi /thinpi
-	sudo chown pi:root /usr/bin/thinpi-cli
+	chown -R root /thinpi
+	sudo chown root:root /usr/bin/thinpi-cli
 	sudo chmod 0777 /usr/bin/thinpi-cli
 
 docker:
