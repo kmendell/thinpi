@@ -13,7 +13,6 @@ sudo useradd -m -p thinpipassword -s /bin/bash thinpi
 cd /home/thinpi
 git clone https://github.com/kmendell/thinpi.git
 cd thinpi
-sudo scripts/tpdepends
 sudo scripts/tpsetup
 sudo make all
 sudo make install
