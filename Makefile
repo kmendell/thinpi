@@ -73,4 +73,6 @@ uninstall:
 
 clean:
 	$(RM) $(TARGET)
+	cd src/tprdp; \
+	rm *.o
 
