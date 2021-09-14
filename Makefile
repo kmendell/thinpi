@@ -24,10 +24,6 @@ cli: src/thinpi/cli/tpcli.c
 	$(CC) -w src/thinpi/cli/tpcli.c -o output/usr/bin/tpcli
 	@echo "[THINPI] - CLI Tool Built"
 
-inireader:
-	@echo "[THINPI] - Building inireader ..."
-	$(CC) -w src/thinpi/readconfig.c src/include/ini.c $(CFLAGS) -o $(ODIR)/thinpi-ini
-
 tprdp:
 	@echo "[THINPI] - Building tprdp ..."
 	cd src/tprdp; \
