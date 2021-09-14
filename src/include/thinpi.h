@@ -30,3 +30,15 @@ extern void setUserInfo();
 int checkForUpdates();
 int SearchFile(char *name, char *str);
 extern char openTOFUDialog();
+
+typedef struct
+{
+    int version;
+    const char* type;
+    const char* name;
+    const char* ip;
+    const char* usb;
+    const char* printers;
+    const char* drives;
+    const char* res;
+} configuration;
