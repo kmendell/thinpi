@@ -2,18 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../include/ini.h"
+#include "../include/thinpi.h"
 
-typedef struct
-{
-    int version;
-    const char* type;
-    const char* name;
-    const char* ip;
-    const char* usb;
-    const char* printers;
-    const char* drives;
-    const char* res;
-} configuration;
+typedef struct configuration;
 
 static int handler(void* connection, const char* section, const char* name,
                    const char* value)
