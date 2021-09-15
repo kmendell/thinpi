@@ -5,7 +5,7 @@
 #include "../include/thinpi.h"
 #include "./ini/minIni.h"
 
-#define sizearray(a)  (sizeof(a) / sizeof((a)[0]))
+#define sizearray(a) (sizeof(a) / sizeof((a)[0]))
 
 const char inifile[] = "/thinpi/test.ini";
 #define MAX 10
@@ -53,7 +53,6 @@ void main(int argc, char *argv[])
     configScreenTextbox = (GtkEntry *)gtk_builder_get_object(builder, "screenResTextbox");
 
     getiniConfigBeta();
-    printf("%s, %s, %s\n", configServer, configName, configScreen);
 
     arr_config[0].name = configName;
     arr_config[0].res = configScreen;
@@ -62,8 +61,6 @@ void main(int argc, char *argv[])
     arr_config[0].usb = configUSB;
     arr_config[0].printers = configPrinters;
     arr_config[0].drives = configDrives;
-
-    // printf("%s, %s, %s\n", arr_config[0].name, arr_config[0].ip, arr_config[0].res);
 
     gtk_entry_set_text(configNameTextbox, configName);
     gtk_entry_set_text(configIPTextbox, configServer);
@@ -88,32 +85,34 @@ void main(int argc, char *argv[])
     gtk_main();
 }
 
-void addNewServer() {
+void addNewServer()
+{
 
-  char str[100];
-  char usb[100];
-  char prin[100];
-  char home[100];
-  long n;
-  int s, k;
-  char section[50];
-  sprintf(usb, "%d", usbActive);
-  sprintf(prin, "%d", printerActive);
-  sprintf(home, "%d", homeActive);
+    char str[100];
+    char usb[100];
+    char prin[100];
+    char home[100];
+    long n;
+    int s, k;
+    char section[50];
+    sprintf(usb, "%d", usbActive);
+    sprintf(prin, "%d", printerActive);
+    sprintf(home, "%d", homeActive);
 
-  /* string writing */
-  n = ini_puts("Connection", "ip", gtk_entry_get_text(configIPTextbox), inifile);
-  n = ini_puts("Connection", "name", gtk_entry_get_text(configNameTextbox), inifile);
-  if (strcmp(gtk_entry_get_text(configScreenTextbox), "") == 0) {
-      n = ini_puts("Connection", "res",  "1920x1080", inifile);
-  } else {
-      n = ini_puts("Connection", "res",  gtk_entry_get_text(configScreenTextbox), inifile);
-  }
-  n = ini_puts("Connection", "usb", usb, inifile);
-  n = ini_puts("Connection", "printers", prin, inifile);
-  n = ini_puts("Connection", "drives", home, inifile);
-  n = ini_puts("Connection", "domain",  gtk_entry_get_text(configDomainTextbox), inifile);
-  /* ----- */
+    n = ini_puts("Connection", "ip", gtk_entry_get_text(configIPTextbox), inifile);
+    n = ini_puts("Connection", "name", gtk_entry_get_text(configNameTextbox), inifile);
+    if (strcmp(gtk_entry_get_text(configScreenTextbox), "") == 0)
+    {
+        n = ini_puts("Connection", "res", "1920x1080", inifile);
+    }
+    else
+    {
+        n = ini_puts("Connection", "res", gtk_entry_get_text(configScreenTextbox), inifile);
+    }
+    n = ini_puts("Connection", "usb", usb, inifile);
+    n = ini_puts("Connection", "printers", prin, inifile);
+    n = ini_puts("Connection", "drives", home, inifile);
+    n = ini_puts("Connection", "domain", gtk_entry_get_text(configDomainTextbox), inifile);
 
     printf("[THINPI] - Server Added\n");
 }
@@ -121,13 +120,16 @@ void addNewServer() {
 void handle(GtkWidget *wid, gpointer ptr)
 {
     g_print("button event: %s\n", ptr);
-    if (strcmp(ptr, "addButton") == 0) {
-        if (strcmp(gtk_button_get_label(addButton), "Add and Save") == 0) {
+    if (strcmp(ptr, "addButton") == 0)
+    {
+        if (strcmp(gtk_button_get_label(addButton), "Add and Save") == 0)
+        {
             addNewServer();
-        } else {
+        }
+        else
+        {
             printf("Server Edited\n");
         }
-        
     }
 }
 
@@ -136,11 +138,16 @@ void checkHandle(GtkCheckButton *wid, gpointer ptr)
     gboolean active;
     g_object_get(wid, "active", &active, NULL);
     g_print("%s value: %d\n", ptr, active);
-    if (strcmp("usb", ptr) == 0) {
+    if (strcmp("usb", ptr) == 0)
+    {
         usbActive = active;
-    } else if (strcmp("home", ptr) == 0) {
+    }
+    else if (strcmp("home", ptr) == 0)
+    {
         homeActive = active;
-    } else if (strcmp("printer", ptr) == 0) {
+    }
+    else if (strcmp("printer", ptr) == 0)
+    {
         printerActive = active;
     }
 }

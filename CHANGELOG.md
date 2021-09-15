@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 - [CLI] Rewrote the CLI so it takes single arguments - ***WIP***
 - [RDP] Rewrote tprdp in someplaces, restructured files, and renamed varibles for thinpi use
 - [CONFIG] Removed text based server file and implemented .ini config files (removed stable config manager from master until a new gui has been built for ini files)
+- [CONFIG] Adding Server through the new config manager now works, however only one server is able to be added currently
+- [CONFIG] Added minIni source from github to help manag ini writing and removing servers
 
 ## 0.2.0 - RC
 - [RDP] Switched to a custom tpdp implementation (rdesktop)
