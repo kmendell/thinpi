@@ -43,8 +43,6 @@ http:
 	gcc -w src/thinpi-http/default.c -o src/thinpi-http/build/default.cgi
 	cp -r src/thinpi-http/build/* output/var/www/html/
 	cp src/thinpi-http/index.cgi output/var/www/html/index.cgi
-
-dashboard:
 	@echo "[THINPI] - Installing HTTP Dashboard ..."
 	cp -r src/thinpi-http/dashboard/* /var/www/html/dashboard/
 
@@ -61,14 +59,13 @@ docker:
 	cp -r output/* /thinpi/
 	cp -r src/thinpi-http/dashboard/ /thinpi/var/www/html/
 	
-git:
-	git add . -f && git commit -m "Commit From Make Script (AUTOMATED)" && git push origin master -f
-	
 uninstall:
 	rm -Rf /thinpi
 
 clean:
 	$(RM) $(TARGET)
 	cd src/tprdp; \
-	rm *.o
+	rm -Rf *.o
+	cd src/Interface; \
+	rm -Rf *.glade~
 
