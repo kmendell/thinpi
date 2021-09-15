@@ -5,7 +5,7 @@ TARGET = output/thinpi/thinpi-*
 ODIR = output/thinpi
 
 
-all: manager cli tprdp tpupdate http
+all: manager tprdp extras
 
 manager: src/thinpi/manager.c src/thinpi/rdp.c src/thinpi/helpers.c src/include/ini.c
 	@echo "[THINPI] - Building connect-manager ..."
@@ -19,11 +19,6 @@ config:
 	$(CC) -w src/thinpi/configmanager.c src/thinpi/helpers.c src/include/ini.c src/thinpi/ini/minIni.c $(CFLAGS) -o $(ODIR)/thinpi-config
 	cp src/Interface/configmanager.glade output/thinpi/Interface/configmanager.glade
 
-cli: src/thinpi/cli/tpcli.c
-	@echo "[THINPI] - Building thinpi-cli ..."
-	$(CC) -w src/thinpi/cli/tpcli.c -o output/usr/bin/tpcli
-	@echo "[THINPI] - CLI Tool Built"
-
 tprdp:
 	@echo "[THINPI] - Building tprdp ..."
 	cd src/tprdp; \
@@ -32,19 +27,23 @@ tprdp:
 	make --no-print-directory
 	cp src/tprdp/tprdp  output/usr/bin/tprdp
 
-tpupdate:
-	shc -f src/thinpi/tpupdate/tpupdate
-	cp src/thinpi/tpupdate/tpupdate.x output/usr/bin/tpupdate
-
-http:
-	@echo "[THINPI] - Building http data..."
+extras: 
+	@echo "[THINPI] - Building thinpi-cli ..."
+	$(CC) -w src/thinpi/cli/tpcli.c -o output/usr/bin/tpcli
+	@echo "[THINPI] - CLI Tool Built"
+	@echo "[THINPI] - Installing Base HTTP Data ..."
 	gcc -w src/thinpi-http/reboot.c -o src/thinpi-http/build/reboot.cgi
 	gcc -w src/thinpi-http/shutdown.c -o src/thinpi-http/build/shutdown.cgi
 	gcc -w src/thinpi-http/default.c -o src/thinpi-http/build/default.cgi
 	cp -r src/thinpi-http/build/* output/var/www/html/
 	cp src/thinpi-http/index.cgi output/var/www/html/index.cgi
+	@echo "[THINPI] - Installed HTTP Base Data"
 	@echo "[THINPI] - Installing HTTP Dashboard ..."
 	cp -r src/thinpi-http/dashboard/* /var/www/html/dashboard/
+	shc -f src/thinpi/tpupdate/tpupdate
+	cp src/thinpi/tpupdate/tpupdate.x output/usr/bin/tpupdate
+	@echo "[THINPI] - Installed HTTP Dashboard"
+
 
 install: 
 	cp -r output/usr/bin/* /usr/bin/
@@ -54,13 +53,6 @@ install:
 	chown -R root /thinpi
 	sudo chown root:root /usr/bin/thinpi-cli
 	sudo chmod 0777 /usr/bin/thinpi-cli
-
-docker:
-	cp -r output/* /thinpi/
-	cp -r src/thinpi-http/dashboard/ /thinpi/var/www/html/
-	
-uninstall:
-	rm -Rf /thinpi
 
 clean:
 	$(RM) $(TARGET)
