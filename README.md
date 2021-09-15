@@ -41,11 +41,7 @@ That's all you need to get ThinPi Installed! 🎉
 
 ### 🐳 Docker-way to quick start
 
-```bash
-docker run -it -v /local/path:/thinpi kmendell/tpdocker:build
-```
-
-> 🔔 ***/local/path*** is where the contents of the build will go on the host machine 
+> 🔔 Docker Building Support is Currently on hold while we work on the new update
 
 ## ⚙️ Commands & Options - TODO
 
