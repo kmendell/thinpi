@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file.
 - [GUI] Added TOFU Dialog when connecting to new SSL Server
 - [CLI] Rewrote the CLI so it takes single arguments - ***WIP***
 - [RDP] Rewrote tprdp in someplaces, restructured files, and renamed varibles for thinpi use
-- [CONFIG] Removed text based server file and implemented .ini config files (removed config manager from master until a new gui has been built for ini files)
+- [CONFIG] Removed text based server file and implemented .ini config files (removed stable config manager from master until a new gui has been built for ini files)
 
 ## 0.2.0 - RC
 - [RDP] Switched to a custom tpdp implementation (rdesktop)
