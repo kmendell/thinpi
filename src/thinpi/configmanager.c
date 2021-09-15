@@ -119,7 +119,6 @@ void addNewServer()
 
 void handle(GtkWidget *wid, gpointer ptr)
 {
-    g_print("button event: %s\n", ptr);
     if (strcmp(ptr, "addButton") == 0)
     {
         if (strcmp(gtk_button_get_label(addButton), "Add and Save") == 0)
@@ -137,7 +136,6 @@ void checkHandle(GtkCheckButton *wid, gpointer ptr)
 {
     gboolean active;
     g_object_get(wid, "active", &active, NULL);
-    g_print("%s value: %d\n", ptr, active);
     if (strcmp("usb", ptr) == 0)
     {
         usbActive = active;

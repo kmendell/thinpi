@@ -13,7 +13,6 @@ void main(int argc, char *argv[])
 {
 
 	gtk_init(&argc, &argv);
-	
 
 	GtkBuilder *builder = gtk_builder_new();
 	//update to fs all directorys will now /thinpi/*
@@ -21,14 +20,19 @@ void main(int argc, char *argv[])
 
 	GtkWindow *window1 = (GtkWindow *)gtk_builder_get_object(builder, "thinpiMain");
 	GtkWidget *btn = (GtkWidget *)gtk_builder_get_object(builder, "connect");
+	GtkWidget *settingsButton = (GtkWidget *)gtk_builder_get_object(builder, "settingsButton");
+	GtkWidget *openConfigButton = (GtkWidget *)gtk_builder_get_object(builder, "openConfigButton");
 	usernameTextbox = (GtkEntry *)gtk_builder_get_object(builder, "uname");
 	passwordTextbox = (GtkEntry *)gtk_builder_get_object(builder, "pword");
 	serverList = (GtkComboBoxText *)gtk_builder_get_object(builder, "serverSelect");
 	wrongCredentialsMessage = (GtkWidget *)gtk_builder_get_object(builder, "wrongLabel");
+	copyrightLabel = (GtkWidget *)gtk_builder_get_object(builder, "copyrightLabel");
+
+	gtk_label_set_label(copyrightLabel, "ThinPi v0.3.0-dev build 2021915 - Copyright KM Projects 2021");
 
 	//getServerConfig();
 	iniConfigBeta();
-	
+
 	g_signal_connect(btn, "clicked", G_CALLBACK(handleClick), NULL);
 
 	g_signal_connect(window1, "delete_event", G_CALLBACK(closeThinPiManager), NULL);
