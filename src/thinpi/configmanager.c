@@ -3,6 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../include/thinpi.h"
+#include "./ini/minIni.h"
+
+#define sizearray(a)  (sizeof(a) / sizeof((a)[0]))
+
+const char inifile[] = "/thinpi/test.ini";
 #define MAX 10
 
 GtkEntry *configIPTextbox;
@@ -13,12 +18,19 @@ GtkComboBoxText *configServerList;
 GtkEntry *configDomainTextbox;
 GtkCheckButton *configPrinterSelect;
 GtkCheckButton *configHomeSelect;
+GtkWidget *addButton;
+GtkWidget *removeButton;
 
 configuration arr_config[2];
+
+gboolean usbActive;
+gboolean printerActive;
+gboolean homeActive;
 
 void handle(GtkWidget *wid, gpointer ptr);
 void checkHandle(GtkCheckButton *wid, gpointer ptr);
 void listHandle(GtkComboBox *widget, gpointer user_data);
+void addNewServer();
 
 void main(int argc, char *argv[])
 {
@@ -29,8 +41,8 @@ void main(int argc, char *argv[])
     gtk_builder_add_from_file(builder, "/thinpi/Interface/configmanager.glade", NULL);
 
     GtkWindow *configWindow = (GtkWindow *)gtk_builder_get_object(builder, "configWindow");
-    GtkWidget *addButton = (GtkWidget *)gtk_builder_get_object(builder, "addButton");
-    GtkWidget *removeButton = (GtkWidget *)gtk_builder_get_object(builder, "removeButton");
+    addButton = (GtkWidget *)gtk_builder_get_object(builder, "addButton");
+    removeButton = (GtkWidget *)gtk_builder_get_object(builder, "removeButton");
     configServerList = (GtkComboBoxText *)gtk_builder_get_object(builder, "configServerList");
     configNameTextbox = (GtkEntry *)gtk_builder_get_object(builder, "serverNameTextbox");
     configIPTextbox = (GtkEntry *)gtk_builder_get_object(builder, "ipaddressTextbox");
@@ -76,9 +88,37 @@ void main(int argc, char *argv[])
     gtk_main();
 }
 
+void addNewServer() {
+
+  char str[100];
+  char usb[100];
+  char prin[100];
+  char home[100];
+  long n;
+  int s, k;
+  char section[50];
+  sprintf(usb, "%d", usbActive);
+  sprintf(prin, "%d", printerActive);
+  sprintf(home, "%d", homeActive);
+
+  /* string writing */
+  n = ini_puts("Connection", "ip", gtk_entry_get_text(configIPTextbox), inifile);
+  n = ini_puts("Connection", "name", gtk_entry_get_text(configNameTextbox), inifile);
+  n = ini_puts("Connection", "res",  gtk_entry_get_text(configScreenTextbox), inifile);
+  n = ini_puts("Connection", "usb", usb, inifile);
+  n = ini_puts("Connection", "printers", prin, inifile);
+  n = ini_puts("Connection", "drives", home, inifile);
+  n = ini_puts("Connection", "domain",  gtk_entry_get_text(configDomainTextbox), inifile);
+  /* ----- */
+
+}
+
 void handle(GtkWidget *wid, gpointer ptr)
 {
     g_print("button event: %s\n", ptr);
+    if (strcmp(ptr, "addButton") == 0) {
+        addNewServer();
+    }
 }
 
 void checkHandle(GtkCheckButton *wid, gpointer ptr)
@@ -86,6 +126,13 @@ void checkHandle(GtkCheckButton *wid, gpointer ptr)
     gboolean active;
     g_object_get(wid, "active", &active, NULL);
     g_print("%s value: %d\n", ptr, active);
+    if (strcmp("usb", ptr) == 0) {
+        usbActive = active;
+    } else if (strcmp("home", ptr) == 0) {
+        homeActive = active;
+    } else if (strcmp("printer", ptr) == 0) {
+        printerActive = active;
+    }
 }
 
 void listHandle(GtkComboBox *widget, gpointer user_data)
@@ -95,6 +142,7 @@ void listHandle(GtkComboBox *widget, gpointer user_data)
 
     if (strcmp("<Add New>", stext) == 0)
     {
+        gtk_button_set_label(addButton, "Add and Save");
         gtk_entry_set_text(configNameTextbox, "");
         gtk_entry_set_text(configIPTextbox, "");
         gtk_entry_set_text(configDomainTextbox, "");
@@ -112,6 +160,7 @@ void listHandle(GtkComboBox *widget, gpointer user_data)
         {
             if (strcmp(arr_config[i].name, stext) == 0)
             {
+                gtk_button_set_label(addButton, "Edit and Save");
                 gtk_entry_set_text(configNameTextbox, arr_config[i].name);
                 gtk_entry_set_text(configIPTextbox, arr_config[i].ip);
                 gtk_entry_set_text(configScreenTextbox, arr_config[i].res);

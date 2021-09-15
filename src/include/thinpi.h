@@ -40,6 +40,9 @@ extern int *configDrives;
 extern int *configUSB;
 extern int *configPrinters;
 extern char *configDomain;
+extern gboolean usbActive;
+extern gboolean printerActive;
+extern gboolean homeActive;
 extern void getiniConfigBeta();
 
 typedef struct

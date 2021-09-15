@@ -16,7 +16,7 @@ manager: src/thinpi/manager.c src/thinpi/rdp.c src/thinpi/helpers.c src/include/
 
 config:
 	@echo "[THINPI] - Building config-manager ..."
-	$(CC) -w src/thinpi/configmanager.c src/thinpi/helpers.c src/include/ini.c $(CFLAGS) -o $(ODIR)/thinpi-config
+	$(CC) -w src/thinpi/configmanager.c src/thinpi/helpers.c src/include/ini.c src/thinpi/ini/minIni.c $(CFLAGS) -o $(ODIR)/thinpi-config
 	cp src/Interface/configmanager.glade output/thinpi/Interface/configmanager.glade
 
 cli: src/thinpi/cli/tpcli.c
