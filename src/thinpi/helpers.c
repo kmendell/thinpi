@@ -19,6 +19,10 @@ GtkComboBoxText *serverList;
 char *configName;
 char *configServer;
 char *configScreen;
+char *configDrives;
+char *configUSB;
+char *configPrinters;
+char *configDomain;
 
 configuration tpsconfig;
 
@@ -106,6 +110,27 @@ void iniConfigBeta()
 	configName = tpsconfig.name;
 	configScreen = tpsconfig.res;
 	gtk_combo_box_text_append(serverList, NULL, configName);
+
+}
+
+void getiniConfigBeta()
+{
+	
+	configuration config;
+
+    if (ini_parse("/thinpi/config/thinpi.ini", handler, &tpsconfig) < 0) {
+        printf("Can't load 'thinpi.ini'\n");
+        return 1;
+    }
+    printf("Config loaded from 'thinpi.ini'\n");
+    configServer = tpsconfig.ip;
+	configName = tpsconfig.name;
+	configScreen = tpsconfig.res;
+    configDomain = tpsconfig.domain;
+    configUSB = tpsconfig.usb;
+    configPrinters = tpsconfig.printers;
+    configDrives = tpsconfig.drives;
+
 
 }
 

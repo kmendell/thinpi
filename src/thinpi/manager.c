@@ -29,7 +29,6 @@ void main(int argc, char *argv[])
 	//getServerConfig();
 	iniConfigBeta();
 	
-
 	g_signal_connect(btn, "clicked", G_CALLBACK(handleClick), NULL);
 
 	g_signal_connect(window1, "delete_event", G_CALLBACK(closeThinPiManager), NULL);

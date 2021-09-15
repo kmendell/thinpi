@@ -18,9 +18,9 @@ extern GtkEntry *usernameTextbox;
 extern GtkEntry *passwordTextbox;
 extern GtkComboBoxText *serverList;
 
-extern GtkEntry *ipaddressTextbox;
-extern GtkEntry *displaynameTextbox;
-extern GtkEntry *screenResTextbox;
+extern GtkEntry *configIPTextbox;
+extern GtkEntry *configNameTextbox;
+extern GtkEntry *configScreenTextbox;
 
 extern void closeThinPiManager (GtkWidget *wid, gpointer ptr);
 extern void hideErrorMessage(GtkWidget *wid, gpointer ptr);
@@ -36,6 +36,11 @@ extern char openTOFUDialog();
 extern char* configName;
 extern char* configServer;
 extern char* configScreen;
+extern char *configDrives;
+extern char *configUSB;
+extern char *configPrinters;
+extern char *configDomain;
+extern void getiniConfigBeta();
 
 typedef struct
 {
