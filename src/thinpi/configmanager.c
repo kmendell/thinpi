@@ -11,8 +11,10 @@ GtkEntry *configScreenTextbox;
 GtkCheckButton *configUsbSelect;
 GtkComboBoxText *configServerList;
 GtkEntry *configDomainTextbox;
+GtkCheckButton *configPrinterSelect;
+GtkCheckButton *configHomeSelect;
 
-    configuration arr_config[2];
+configuration arr_config[2];
 
 void handle(GtkWidget *wid, gpointer ptr);
 void checkHandle(GtkCheckButton *wid, gpointer ptr);
@@ -21,23 +23,22 @@ void listHandle(GtkComboBox *widget, gpointer user_data);
 void main(int argc, char *argv[])
 {
 
+    gtk_init(&argc, &argv);
 
-	gtk_init(&argc, &argv);
+    GtkBuilder *builder = gtk_builder_new();
+    gtk_builder_add_from_file(builder, "/thinpi/Interface/configmanager.glade", NULL);
 
-	GtkBuilder *builder = gtk_builder_new();
-	gtk_builder_add_from_file(builder, "/thinpi/Interface/configmanager.glade", NULL);
-
-	GtkWindow *configWindow = (GtkWindow *)gtk_builder_get_object(builder, "configWindow");
-	GtkWidget *addButton = (GtkWidget *)gtk_builder_get_object(builder, "addButton");
-	GtkWidget *removeButton = (GtkWidget *)gtk_builder_get_object(builder, "removeButton");
+    GtkWindow *configWindow = (GtkWindow *)gtk_builder_get_object(builder, "configWindow");
+    GtkWidget *addButton = (GtkWidget *)gtk_builder_get_object(builder, "addButton");
+    GtkWidget *removeButton = (GtkWidget *)gtk_builder_get_object(builder, "removeButton");
     configServerList = (GtkComboBoxText *)gtk_builder_get_object(builder, "configServerList");
-	configNameTextbox = (GtkEntry *)gtk_builder_get_object(builder, "serverNameTextbox");
-	configIPTextbox = (GtkEntry *)gtk_builder_get_object(builder, "ipaddressTextbox");
+    configNameTextbox = (GtkEntry *)gtk_builder_get_object(builder, "serverNameTextbox");
+    configIPTextbox = (GtkEntry *)gtk_builder_get_object(builder, "ipaddressTextbox");
     configDomainTextbox = (GtkEntry *)gtk_builder_get_object(builder, "domainNameTextbox");
     configUsbSelect = (GtkCheckButton *)gtk_builder_get_object(builder, "usbCheckbox");
-    GtkCheckButton *configPrinterSelect = (GtkCheckButton *)gtk_builder_get_object(builder, "printerCheckbox");
-    GtkCheckButton *configHomeSelect = (GtkCheckButton *)gtk_builder_get_object(builder, "homefolderCheckbox");
-	configScreenTextbox = (GtkEntry *)gtk_builder_get_object(builder, "screenResTextbox");
+    configPrinterSelect = (GtkCheckButton *)gtk_builder_get_object(builder, "printerCheckbox");
+    configHomeSelect = (GtkCheckButton *)gtk_builder_get_object(builder, "homefolderCheckbox");
+    configScreenTextbox = (GtkEntry *)gtk_builder_get_object(builder, "screenResTextbox");
 
     getiniConfigBeta();
     printf("%s, %s, %s\n", configServer, configName, configScreen);
@@ -46,7 +47,9 @@ void main(int argc, char *argv[])
     arr_config[0].res = configScreen;
     arr_config[0].ip = configServer;
     arr_config[0].domain = configDomain;
-
+    arr_config[0].usb = configUSB;
+    arr_config[0].printers = configPrinters;
+    arr_config[0].drives = configDrives;
 
     // printf("%s, %s, %s\n", arr_config[0].name, arr_config[0].ip, arr_config[0].res);
 
@@ -54,11 +57,14 @@ void main(int argc, char *argv[])
     gtk_entry_set_text(configIPTextbox, configServer);
     gtk_entry_set_text(configScreenTextbox, configScreen);
     gtk_entry_set_text(configDomainTextbox, configDomain);
+    gtk_toggle_button_set_active(configUsbSelect, configUSB);
+    gtk_toggle_button_set_active(configPrinterSelect, configPrinters);
+    gtk_toggle_button_set_active(configHomeSelect, configDrives);
     gtk_combo_box_text_append(configServerList, NULL, configName);
     gtk_combo_box_text_append(configServerList, NULL, "<Add New>");
     gtk_combo_box_set_active(configServerList, 0);
 
-	g_signal_connect(configWindow, "delete_event", G_CALLBACK(closeThinPiManager), NULL);
+    g_signal_connect(configWindow, "delete_event", G_CALLBACK(closeThinPiManager), NULL);
     g_signal_connect(addButton, "clicked", G_CALLBACK(handle), "addButton");
     g_signal_connect(removeButton, "clicked", G_CALLBACK(handle), "removeButton");
     g_signal_connect(configUsbSelect, "toggled", G_CALLBACK(checkHandle), "usb");
@@ -66,45 +72,54 @@ void main(int argc, char *argv[])
     g_signal_connect(configHomeSelect, "toggled", G_CALLBACK(checkHandle), "home");
     g_signal_connect(configServerList, "changed", G_CALLBACK(listHandle), "server changed");
 
-	gtk_window_present(configWindow);
-	gtk_main();
+    gtk_window_present(configWindow);
+    gtk_main();
 }
 
 void handle(GtkWidget *wid, gpointer ptr)
 {
-    g_print ("button event: %s\n", ptr);
+    g_print("button event: %s\n", ptr);
 }
 
 void checkHandle(GtkCheckButton *wid, gpointer ptr)
 {
     gboolean active;
-    g_object_get(wid, "active", &active, NULL);     
-    g_print ("%s value: %d\n", ptr, active);
+    g_object_get(wid, "active", &active, NULL);
+    g_print("%s value: %d\n", ptr, active);
 }
 
-
-void listHandle(GtkComboBox *widget, gpointer user_data) {
+void listHandle(GtkComboBox *widget, gpointer user_data)
+{
     gchar *stext;
     stext = gtk_combo_box_text_get_active_text(configServerList);
- 
 
-    if (strcmp("<Add New>", stext) == 0) {
+    if (strcmp("<Add New>", stext) == 0)
+    {
         gtk_entry_set_text(configNameTextbox, "");
         gtk_entry_set_text(configIPTextbox, "");
+        gtk_entry_set_text(configDomainTextbox, "");
         gtk_entry_set_text(configScreenTextbox, "");
-    } else {
+        gtk_toggle_button_set_active(configUsbSelect, 0);
+        gtk_toggle_button_set_active(configPrinterSelect, 0);
+        gtk_toggle_button_set_active(configHomeSelect, 0);
+    }
+    else
+    {
 
-        size_t length = sizeof(arr_config)/sizeof(arr_config[0]);   
+        size_t length = sizeof(arr_config) / sizeof(arr_config[0]);
         int i;
-        for(i = 0; i < length - 1; i++) {
-            if (strcmp(arr_config[i].name, stext) == 0) {
+        for (i = 0; i < length - 1; i++)
+        {
+            if (strcmp(arr_config[i].name, stext) == 0)
+            {
                 gtk_entry_set_text(configNameTextbox, arr_config[i].name);
                 gtk_entry_set_text(configIPTextbox, arr_config[i].ip);
                 gtk_entry_set_text(configScreenTextbox, arr_config[i].res);
+                gtk_entry_set_text(configDomainTextbox, arr_config[i].domain);
+                gtk_toggle_button_set_active(configUsbSelect, arr_config[i].usb);
+                gtk_toggle_button_set_active(configPrinterSelect, arr_config[i].printers);
+                gtk_toggle_button_set_active(configHomeSelect, arr_config[i].drives);
             }
-        }   
-
-        // if (strcmp(arr_config[0].name, stext) == 0)
-
+        }
     }
 }

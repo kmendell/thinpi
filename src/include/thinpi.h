@@ -36,9 +36,9 @@ extern char openTOFUDialog();
 extern char* configName;
 extern char* configServer;
 extern char* configScreen;
-extern char *configDrives;
-extern char *configUSB;
-extern char *configPrinters;
+extern int *configDrives;
+extern int *configUSB;
+extern int *configPrinters;
 extern char *configDomain;
 extern void getiniConfigBeta();
 
@@ -48,9 +48,9 @@ typedef struct
     const char* type;
     const char* name;
     const char* ip;
-    const char* usb;
-    const char* printers;
-    const char* drives;
+    const int* usb;
+    const int* printers;
+    const int* drives;
     const char* res;
 	const char* domain;
 } configuration;

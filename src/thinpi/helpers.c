@@ -19,9 +19,9 @@ GtkComboBoxText *serverList;
 char *configName;
 char *configServer;
 char *configScreen;
-char *configDrives;
-char *configUSB;
-char *configPrinters;
+int *configDrives;
+int *configUSB;
+int *configPrinters;
 char *configDomain;
 
 configuration tpsconfig;
@@ -81,11 +81,11 @@ static int handler(void* connection, const char* section, const char* name,
     } else if (MATCH("connection", "ip")) {
         pconfig->ip = strdup(value);
     } else if (MATCH("connection", "usb")) {
-        pconfig->usb = strdup(value);
+        pconfig->usb = atoi(value);
     } else if (MATCH("connection", "printers")) {
-        pconfig->printers = strdup(value);
+        pconfig->printers = atoi(value);
     } else if (MATCH("connection", "drives")) {
-        pconfig->drives = strdup(value);
+        pconfig->drives = atoi(value);
     } else if (MATCH("connection", "domain")) {
         pconfig->domain = strdup(value);
     } else if (MATCH("connection", "res")) {
