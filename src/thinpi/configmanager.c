@@ -104,20 +104,30 @@ void addNewServer() {
   /* string writing */
   n = ini_puts("Connection", "ip", gtk_entry_get_text(configIPTextbox), inifile);
   n = ini_puts("Connection", "name", gtk_entry_get_text(configNameTextbox), inifile);
-  n = ini_puts("Connection", "res",  gtk_entry_get_text(configScreenTextbox), inifile);
+  if (strcmp(gtk_entry_get_text(configScreenTextbox), "") == 0) {
+      n = ini_puts("Connection", "res",  "1920x1080", inifile);
+  } else {
+      n = ini_puts("Connection", "res",  gtk_entry_get_text(configScreenTextbox), inifile);
+  }
   n = ini_puts("Connection", "usb", usb, inifile);
   n = ini_puts("Connection", "printers", prin, inifile);
   n = ini_puts("Connection", "drives", home, inifile);
   n = ini_puts("Connection", "domain",  gtk_entry_get_text(configDomainTextbox), inifile);
   /* ----- */
 
+    printf("[THINPI] - Server Added\n");
 }
 
 void handle(GtkWidget *wid, gpointer ptr)
 {
     g_print("button event: %s\n", ptr);
     if (strcmp(ptr, "addButton") == 0) {
-        addNewServer();
+        if (strcmp(gtk_button_get_label(addButton), "Add and Save") == 0) {
+            addNewServer();
+        } else {
+            printf("Server Edited\n");
+        }
+        
     }
 }
 
