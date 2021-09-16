@@ -26,14 +26,6 @@ GtkWidget *removeButton;
 int numofcon;
 configuration tparr[256];
 
-char *configName;
-char *configServer;
-char *configScreen;
-int *configDrives;
-int *configUSB;
-int *configPrinters;
-char *configDomain;
-
 gboolean usbActive;
 gboolean printerActive;
 gboolean homeActive;
@@ -43,6 +35,7 @@ void checkHandle(GtkCheckButton *wid, gpointer ptr);
 void listHandle(GtkComboBox *widget, gpointer user_data);
 void addNewServer();
 void editServer();
+void iniGet();
 
 void iniGet()
 {
@@ -127,7 +120,8 @@ void main(int argc, char *argv[])
     configHomeSelect = (GtkCheckButton *)gtk_builder_get_object(builder, "homefolderCheckbox");
     configScreenTextbox = (GtkEntry *)gtk_builder_get_object(builder, "screenResTextbox");
 
-    getiniConfigBeta();
+    // getiniConfigBeta();
+    iniGet();
 
     gtk_entry_set_text(configNameTextbox, tparr[0].name);
     gtk_entry_set_text(configIPTextbox, tparr[0].ip);

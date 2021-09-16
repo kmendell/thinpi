@@ -7,10 +7,10 @@ ODIR = output/thinpi
 
 all: manager tprdp extras
 
-manager: src/thinpi/manager.c src/thinpi/rdp.c src/thinpi/helpers.c src/include/ini.c
+manager: src/thinpi/manager.c src/thinpi/rdp.c src/thinpi/helpers.c src/include/ini.c src/thinpi/ini.c
 	@echo "[THINPI] - Building connect-manager ..."
-	$(CC) -w src/thinpi/manager.c src/thinpi/rdp.c src/thinpi/helpers.c src/include/ini.c $(CFLAGS)  -o $(ODIR)/thinpi-manager
-	$(CC) -w src/thinpi/tptofu.c src/thinpi/helpers.c src/include/ini.c $(CFLAGS) -o $(ODIR)/thinpi-tofu
+	$(CC) -w src/thinpi/manager.c src/thinpi/rdp.c src/thinpi/helpers.c src/include/ini.c src/thinpi/ini.c $(CFLAGS)  -o $(ODIR)/thinpi-manager
+	$(CC) -w src/thinpi/tptofu.c src/thinpi/helpers.c src/include/ini.c src/thinpi/ini.c $(CFLAGS) -o $(ODIR)/thinpi-tofu
 	cp src/Interface/connect-manager.glade output/thinpi/Interface/connect-manager.glade
 	cp src/Interface/tofu.glade output/thinpi/Interface/tofu.glade
 
