@@ -49,6 +49,7 @@ void main(int argc, char *argv[])
 
 	g_signal_connect(btn, "clicked", G_CALLBACK(handleClick), NULL);
 	g_signal_connect(openConfigButton, "clicked", G_CALLBACK(openConfigManager), NULL);
+	g_signal_connect(settingsButton, "clicked", G_CALLBACK(openSettings), NULL);
 
 	g_signal_connect(window1, "delete_event", G_CALLBACK(closeThinPiManager), NULL);
 	g_signal_connect(usernameTextbox, "changed", G_CALLBACK(hideErrorMessage), NULL);

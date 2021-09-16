@@ -24,6 +24,7 @@ extern GtkEntry *configNameTextbox;
 extern GtkEntry *configScreenTextbox;
 
 extern void closeThinPiManager(GtkWidget *wid, gpointer ptr);
+extern void openSettings(GtkWidget *wid, gpointer ptr);
 extern void hideErrorMessage(GtkWidget *wid, gpointer ptr);
 extern void getServerConfig();
 extern void iniConfigBeta();
