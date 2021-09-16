@@ -9,6 +9,11 @@ void handleClick(GtkWidget *wid, GtkEntry *pwordp)
 	openConnection(currentUsername, currentPassword, currentServerIP);
 }
 
+void openConfigManager(GtkWidget *wid, GtkEntry *pwordp)
+{
+	system("/thinpi/thinpi-config");
+}
+
 void main(int argc, char *argv[])
 {
 
@@ -34,6 +39,7 @@ void main(int argc, char *argv[])
 	iniConfigBeta();
 
 	g_signal_connect(btn, "clicked", G_CALLBACK(handleClick), NULL);
+	g_signal_connect(openConfigButton, "clicked", G_CALLBACK(openConfigManager), NULL);
 
 	g_signal_connect(window1, "delete_event", G_CALLBACK(closeThinPiManager), NULL);
 	g_signal_connect(usernameTextbox, "changed", G_CALLBACK(hideErrorMessage), NULL);
