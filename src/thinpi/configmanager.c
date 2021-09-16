@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../include/thinpi.h"
-#include "./include/minIni.h"
+#include "../include/minIni.h"
 #include "ini.h"
 
 #define sizearray(a) (sizeof(a) / sizeof((a)[0]))
@@ -138,7 +138,7 @@ void main(int argc, char *argv[])
     gtk_combo_box_text_append(configServerList, NULL, "<Add New>");
     gtk_combo_box_set_active(configServerList, 0);
 
-    g_signal_connect(configWindow, "delete_event", G_CALLBACK(closeThinPiManager), NULL);
+    g_signal_connect(configWindow, "delete_event", G_CALLBACK(closeThinPiManager), "Config");
     g_signal_connect(addButton, "clicked", G_CALLBACK(handle), "addButton");
     g_signal_connect(removeButton, "clicked", G_CALLBACK(handle), "removeButton");
     g_signal_connect(configUsbSelect, "toggled", G_CALLBACK(checkHandle), "usb");

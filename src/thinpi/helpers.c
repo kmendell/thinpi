@@ -33,7 +33,13 @@ configuration tpsconfig;
 
 void closeThinPiManager(GtkWidget *wid, gpointer ptr)
 {
-    gtk_main_quit();
+    if (strcmp(ptr, "config") == 0)
+    {
+    }
+    else
+    {
+        gtk_main_quit();
+    }
 }
 
 void hideErrorMessage(GtkWidget *wid, gpointer ptr)

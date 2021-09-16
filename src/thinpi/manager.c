@@ -11,7 +11,16 @@ void handleClick(GtkWidget *wid, GtkEntry *pwordp)
 
 void openConfigManager(GtkWidget *wid, GtkEntry *pwordp)
 {
-	system("/thinpi/thinpi-config");
+	if (!fork())
+	{
+		// system("GDK_BACKEND=x11");
+		int rv = system("/thinpi/thinpi-config");
+		return rv;
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 void main(int argc, char *argv[])
@@ -46,6 +55,7 @@ void main(int argc, char *argv[])
 	g_signal_connect(passwordTextbox, "changed", G_CALLBACK(hideErrorMessage), NULL);
 
 	gtk_window_fullscreen(window1);
+	// gtk_window_fullscreen(GTK_WINDOW(gtk_widget_get_root_window(window1)));
 	gtk_window_present(window1);
 	gtk_main();
 }
