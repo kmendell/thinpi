@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../include/thinpi.h"
-#include "./ini/minIni.h"
+#include "./include/minIni.h"
 #include "ini.h"
 
 #define sizearray(a) (sizeof(a) / sizeof((a)[0]))
