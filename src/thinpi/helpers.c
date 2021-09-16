@@ -33,7 +33,7 @@ configuration tpsconfig;
 
 void closeThinPiManager(GtkWidget *wid, gpointer ptr)
 {
-    if (strcmp(ptr, "config") == 0)
+    if (strcmp(ptr, "Config") == 0)
     {
     }
     else
