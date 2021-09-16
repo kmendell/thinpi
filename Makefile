@@ -5,7 +5,7 @@ TARGET = output/thinpi/thinpi-*
 ODIR = output/thinpi
 
 
-all: manager tprdp extras
+all: manager config tprdp
 
 manager: src/thinpi/manager.c src/thinpi/rdp.c src/thinpi/helpers.c src/include/ini.c src/thinpi/ini.c src/thinpi/settings.c
 	@echo "[THINPI] - Building connect-manager ..."
@@ -32,23 +32,10 @@ extras:
 	@echo "[THINPI] - Building thinpi-cli ..."
 	$(CC) -w src/thinpi/cli/tpcli.c -o output/usr/bin/tpcli
 	@echo "[THINPI] - CLI Tool Built"
-	@echo "[THINPI] - Installing Base HTTP Data ..."
-	gcc -w src/thinpi-http/reboot.c -o src/thinpi-http/build/reboot.cgi
-	gcc -w src/thinpi-http/shutdown.c -o src/thinpi-http/build/shutdown.cgi
-	gcc -w src/thinpi-http/default.c -o src/thinpi-http/build/default.cgi
-	cp -r src/thinpi-http/build/* output/var/www/html/
-	cp src/thinpi-http/index.cgi output/var/www/html/index.cgi
-	@echo "[THINPI] - Installed HTTP Base Data"
-	@echo "[THINPI] - Installing HTTP Dashboard ..."
-	cp -r src/thinpi-http/dashboard/* /var/www/html/dashboard/
-	shc -f src/thinpi/tpupdate/tpupdate
-	cp src/thinpi/tpupdate/tpupdate.x output/usr/bin/tpupdate
-	@echo "[THINPI] - Installed HTTP Dashboard"
 
 install: 
 	cp -r output/usr/bin/* /usr/bin/
 	cp -r output/thinpi/* /thinpi
-	cp -r output/var/www/html/* /var/www/html/
 	chmod -R 0777 /thinpi
 	chown -R root /thinpi
 	sudo chown root:root /usr/bin/thinpi-cli

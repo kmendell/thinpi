@@ -33,26 +33,6 @@ PATH: /usr/sbin
 PATH: /usr/bin
 PATH: /sbin
 PATH: /bin
-PATH: /usr/games
-PATH: /usr/local/games
-PATH: /usr/lib/wsl/lib
-PATH: /mnt/c/Windows/system32
-PATH: /mnt/c/Windows
-PATH: /mnt/c/Windows/System32/Wbem
-PATH: /mnt/c/Windows/System32/WindowsPowerShell/v1.0/
-PATH: /mnt/c/Windows/System32/OpenSSH/
-PATH: /mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR
-PATH: /mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common
-PATH: /mnt/c/WINDOWS/system32
-PATH: /mnt/c/WINDOWS
-PATH: /mnt/c/WINDOWS/System32/Wbem
-PATH: /mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/
-PATH: /mnt/c/WINDOWS/System32/OpenSSH/
-PATH: /mnt/c/Program Files/dotnet/
-PATH: /mnt/d/CR_DEV/depot_tools
-PATH: /mnt/c/Users/kmlab/AppData/Local/Microsoft/WindowsApps
-PATH: /mnt/c/Users/kmlab/AppData/Local/GitHubDesktop/bin
-PATH: /mnt/c/Users/kmlab/.dotnet/tools
 PATH: /snap/bin
 
 
@@ -328,7 +308,7 @@ configure:4765: found /usr/bin/pkg-config
 configure:4777: result: /usr/bin/pkg-config
 configure:4801: checking for library containing __gmpz_init
 configure:4832: gcc -o conftest -g -O2 -w -Wall -Wextra   conftest.c  >&5
-/usr/bin/ld: /tmp/cc5reJSO.o: in function `main':
+/usr/bin/ld: /tmp/ccXpqRuD.o: in function `main':
 /home/kmendell/thinpi/src/tprdp/conftest.c:31: undefined reference to `__gmpz_init'
 collect2: error: ld returned 1 exit status
 configure:4832: $? = 1
