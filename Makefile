@@ -60,4 +60,6 @@ clean:
 	rm -Rf *.o
 	cd src/Interface; \
 	rm -Rf *.glade~
+	cd output/thinpi/Interface; \
+	rm -Rf *.glade~
 
