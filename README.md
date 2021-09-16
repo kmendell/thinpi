@@ -1,4 +1,3 @@
-
 <h1 align="center">
   <img src="https://github.com/kmendell/thinpi/raw/master/assets/logo/icon-colors.png" width="150px"/><br/>
   ThinPi
@@ -28,16 +27,22 @@ sudo make install
 or
 /thinpi/thinpi-manager
 ```
+
 or
-  
+
 Download the thinpi_start.sh from this repo
-  
+
 ```bash
 chmod +x ./thinpi_start.sh
 sudo ./thinpi_start.sh
 ```
-  
+
 That's all you need to get ThinPi Installed! 🎉
+
+## ⚙️ ThinPi INI Config
+
+An Example config has been included in output/thinpi/config/thinpi.ini
+Under [thinpi_proto] the numcon varible should be set to how many connections you have starting at 1 NOT 0.
 
 ### 🐳 Docker-way to quick start
 
@@ -46,16 +51,17 @@ That's all you need to get ThinPi Installed! 🎉
 ## ⚙️ Commands & Options - TODO
 
 ### `tpcli`
--u	: Updates the ThinPi Filesystem to the Latest Code<br>
--ua  : Updates the host system using APT<br>
--d	: Deletes all ThinPi Configuration Files<br>
--i pkg	: Installs a package from APT pkg is the package<br>
--r pkg	: Installs a package from APT pkg is the package<br>
+
+-u : Updates the ThinPi Filesystem to the Latest Code<br>
+-ua : Updates the host system using APT<br>
+-d : Deletes all ThinPi Configuration Files<br>
+-i pkg : Installs a package from APT pkg is the package<br>
+-r pkg : Installs a package from APT pkg is the package<br>
 --reboot<br>
 --adduser user<br>
 --deluser user<br>
---man-start	: Starts ThinPi Connection Manager<br>
---config-start  : Starts ThinPi Configuration Manager<br>
+--man-start : Starts ThinPi Connection Manager<br>
+--config-start : Starts ThinPi Configuration Manager<br>
 
 ## 📝 ThinPi Web Console
 
