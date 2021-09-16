@@ -77,16 +77,6 @@ void getServerConfig()
 
 void iniConfigBeta()
 {
-
-    // configuration config;
-
-    // if (ini_parse("/thinpi/config/thinpi.ini", handler, &tpsconfig) < 0)
-    // {
-    //     printf("Can't load 'thinpi.ini'\n");
-    //     return 1;
-    // }
-    // printf("Config loaded from 'thinpi.ini'\n");
-
     managerInfo();
 }
 
@@ -122,36 +112,30 @@ void managerInfo()
         {
             tparr[i].ip = ip;
         }
-        // if (usb)
-        // {
-        //     tparr[i].usb = atoi(usb);
-        //     printf("usb: %d\n", tparr[i].usb);
-        // }
-        // if (printers)
-        // {
-        //     tparr[i].printers = atoi(printers);
-        //     printf("printers: %d\n", tparr[i].printers);
-        // }
-        // if (drives)
-        // {
-        //     tparr[i].drives = atoi(drives);
-        //     printf("drives: %d\n", tparr[i].drives);
-        // }
+        if (usb)
+        {
+            tparr[i].usb = atoi(usb);
+            printf("usb: %d\n", tparr[i].usb);
+        }
+        if (printers)
+        {
+            tparr[i].printers = atoi(printers);
+            printf("printers: %d\n", tparr[i].printers);
+        }
+        if (drives)
+        {
+            tparr[i].drives = atoi(drives);
+            printf("drives: %d\n", tparr[i].drives);
+        }
         if (res)
         {
             tparr[i].res = res;
         }
-        // if (domain)
-        // {
-        //     tparr[i].domain = domain;
-        //     printf("domain: %s\n", tparr[i].domain);
-        // }
+        if (domain)
+        {
+            tparr[i].domain = domain;
+        }
         gtk_combo_box_text_append(serverList, NULL, tparr[i].name);
         i++;
     }
 }
-
-// void getiniConfigBeta()
-// {
-//     iniGet();
-// }
