@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 - [CONFIG] Added minIni source from github to help manag ini writing and removing servers
 - [GUI] Added new Settings and Config Manager Buttons to the connect manager
 - [CONFIG] Added ThinPi Settings Page - **WIP**
+- [CONFIG] Editing Servers in the list from the GUI Config Manager now works (see BUGS.md for more info TPBUG#001)
 
 ## 0.2.0 - RC
 

@@ -217,25 +217,16 @@ void editServer()
         if (strcmp(tparr[i].name, stext) == 0)
         {
             sprintf(str, "connection%d", i);
-            printf("%d", i);
 
             n = ini_puts(str, "ip", gtk_entry_get_text(configIPTextbox), editinifile);
-            tparr[i].name = gtk_entry_get_text(configNameTextbox);
-            tparr[i].ip = gtk_entry_get_text(configIPTextbox);
-            tparr[i].domain = gtk_entry_get_text(configDomainTextbox);
-            tparr[i].usb = usb;
-            tparr[i].printers = prin;
-            tparr[i].drives = home;
             n = ini_puts(str, "name", gtk_entry_get_text(configNameTextbox), editinifile);
             if (strcmp(gtk_entry_get_text(configScreenTextbox), "") == 0)
             {
                 n = ini_puts(str, "res", "1920x1080", editinifile);
-                tparr[i].res = "1920x1080";
             }
             else
             {
                 n = ini_puts(str, "res", gtk_entry_get_text(configScreenTextbox), editinifile);
-                tparr[i].res = gtk_entry_get_text(configScreenTextbox);
             }
             n = ini_puts(str, "usb", usb, editinifile);
             n = ini_puts(str, "printers", prin, editinifile);
