@@ -8,7 +8,7 @@
 
 #define sizearray(a) (sizeof(a) / sizeof((a)[0]))
 
-const char inifile[] = "/thinpi/test.ini";
+const char inifile[] = "/thinpi/config/thinpi.ini";
 const char editinifile[] = "/thinpi/config/thinpi.ini";
 #define MAX 10
 
@@ -185,7 +185,7 @@ void addNewServer()
     }
     else
     {
-        n = ini_puts("connection", "res", gtk_entry_get_text(configScreenTextbox), inifile);
+        n = ini_puts(str, "res", gtk_entry_get_text(configScreenTextbox), inifile);
     }
     n = ini_puts(str, "usb", usb, inifile);
     n = ini_puts(str, "printers", prin, inifile);
