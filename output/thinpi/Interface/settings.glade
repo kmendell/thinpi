@@ -171,7 +171,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton">
+              <object class="GtkButton" id="settingsOtherUpdateButton">
                 <property name="label" translatable="yes">Update ThinPi</property>
                 <property name="width_request">200</property>
                 <property name="visible">True</property>

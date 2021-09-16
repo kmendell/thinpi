@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
+#define connectWidget(wid, event, callback, str) g_signal_connect(wid, event, G_CALLBACK(callback), str)
 
 extern gchar *currentServerIP;
 extern gchar *currentUsername;
@@ -46,6 +47,8 @@ extern gboolean usbActive;
 extern gboolean printerActive;
 extern gboolean homeActive;
 extern void getiniConfigBeta();
+
+extern void LOG(char *str);
 
 typedef struct
 {

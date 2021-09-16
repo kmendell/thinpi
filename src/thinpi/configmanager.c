@@ -122,6 +122,7 @@ void main(int argc, char *argv[])
 
     // getiniConfigBeta();
     iniGet();
+    LOG("Config Manager Loaded");
 
     gtk_entry_set_text(configNameTextbox, tparr[0].name);
     gtk_entry_set_text(configIPTextbox, tparr[0].ip);

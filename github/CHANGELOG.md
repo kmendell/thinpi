@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 - [CONFIG] Editing Servers in the list from the GUI Config Manager now works (see BUGS.md for more info TPBUG#001)
 - [CONFIG] Adding Servers from the GUI Config Manager now works (see BUGS.md for more info TPBUG#001)
 - [HTTP] Removed thinpi-http code, as with the new updates it is broken.
+- [INTERNAL] Added LOG() for easy printing and thinpi.log file
 
 ## 0.2.0 - RC
 

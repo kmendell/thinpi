@@ -34,12 +34,12 @@ extras:
 	@echo "[THINPI] - CLI Tool Built"
 
 install: 
-	cp -r output/usr/bin/* /usr/bin/
+	# cp -r output/usr/bin/* /usr/bin/
 	cp -r output/thinpi/* /thinpi
-	chmod -R 0777 /thinpi
-	chown -R root /thinpi
-	sudo chown root:root /usr/bin/thinpi-cli
-	sudo chmod 0777 /usr/bin/thinpi-cli
+	# chmod -R 0777 /thinpi
+	# chown -R kmendell /thinpi
+	# sudo chown root:root /usr/bin/thinpi-cli
+	# sudo chmod 0777 /usr/bin/thinpi-cli
 
 clean:
 	$(RM) $(TARGET)

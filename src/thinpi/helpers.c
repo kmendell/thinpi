@@ -31,8 +31,14 @@ configuration tparr[256];
 
 configuration tpsconfig;
 
+void LOG(char *str)
+{
+    printf("THINPI[*] - %s\n", str);
+}
+
 void closeThinPiManager(GtkWidget *wid, gpointer ptr)
 {
+    LOG("User exited thinpi forcefully");
     gtk_main_quit();
 }
 
@@ -53,7 +59,7 @@ void setUserInfo()
     currentPassword = gtk_entry_get_text(passwordTextbox);
     int index;
     index = gtk_combo_box_get_active(serverList);
-    printf("%d", index);
+    // printf("%d", index);
     currentServerIP = tparr[index].ip;
     currentServerDomain = tparr[index].domain;
     screenResValue = tparr[index].res;
@@ -88,7 +94,7 @@ void managerInfo()
     const char *constr = ini_get(config, "thinpi_proto", "numcon");
     if (constr)
     {
-        printf("numofcon: %s\n", constr);
+        // printf("numofcon: %s\n", constr);
         numofcon = atoi(constr);
     }
 
@@ -115,17 +121,17 @@ void managerInfo()
         if (usb)
         {
             tparr[i].usb = atoi(usb);
-            printf("usb: %d\n", tparr[i].usb);
+            // printf("usb: %d\n", tparr[i].usb);
         }
         if (printers)
         {
             tparr[i].printers = atoi(printers);
-            printf("printers: %d\n", tparr[i].printers);
+            // printf("printers: %d\n", tparr[i].printers);
         }
         if (drives)
         {
             tparr[i].drives = atoi(drives);
-            printf("drives: %d\n", tparr[i].drives);
+            // printf("drives: %d\n", tparr[i].drives);
         }
         if (res)
         {
