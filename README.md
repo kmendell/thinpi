@@ -8,9 +8,7 @@
 
 ## ⚡️ Quick start
 
-Run the Following Commands in The Terminal to Download, Compile, and Install all Dependencies and ThinPi Files
-
-Download the thinpi_start.sh from this repo
+Download the thinpi_start.sh from this repo and Run the Following Commands in The Terminal to Download, Compile, and Install all Dependencies and ThinPi Files
 
 ```bash
 chmod +x ./thinpi_start.sh
@@ -19,7 +17,7 @@ sudo ./thinpi_start.sh
 
 That's all you need to get ThinPi Installed! 🎉
 
-## ⚙️ ThinPi INI Config
+## 📝 ThinPi INI Config
 
 An Example config has been included in output/thinpi/config/thinpi.ini
 Under [thinpi_proto] the numcon varible should be set to how many connections you have starting at 1 NOT 0.
@@ -42,14 +40,6 @@ Under [thinpi_proto] the numcon varible should be set to how many connections yo
 --deluser user<br>
 --man-start : Starts ThinPi Connection Manager<br>
 --config-start : Starts ThinPi Configuration Manager<br>
-
-## 📝 ThinPi Web Console
-
-Certain Aspects of ThinPi can be Controlled via a Browser
-
-Navigate to 0.0.0.0/dashboard to view the web based dashboard
-
-> 🔔 0.0.0.0 should be replaced with the local ip of the device
 
 ## ⚠️ License
 
