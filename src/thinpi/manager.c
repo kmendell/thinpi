@@ -33,55 +33,8 @@ void handleClick(GtkWidget *wid, GtkEntry *pwordp)
 	gtk_button_set_label(btn, "Connecting...");
 	// sleep(1);
 	setUserInfo();
-
-	pid_t pid = fork();
-	if (pid == -1)
-	{
-		perror("fork failed");
-		exit(1);
-	}
-	else if (pid == 0)
-	{
-
-		// child process
-		// char *args[] = {currentServerIP, "-p", currentPassword, "-u", currentUsername, "-z", "-x", "b", "-d", currentServerDomain, "-g", screenResValue, "-f", "-v"};
-		// int rv = execvp("tprdp", args);
-		// execl("./r.out", "r.out", NULL);
-		openConnection(currentUsername, currentPassword, currentServerIP);
-		perror("exec failed");
-		exit(1);
-	}
-
-	signal(SIGALRM, alarm_handler);
-	signal(SIGCHLD, child_handler);
-
-	alarm(TIME_LIMIT); // install an alarm to be fired after TIME_LIMIT
-	pause();
-
-	if (timeout)
-	{
-		printf("alarm triggered\n");
-		gtk_button_set_label(btn, "Connect");
-		int result = waitpid(pid, NULL, WNOHANG);
-		if (result == 0)
-		{
-			// child still running, so kill it
-			printf("killing child\n");
-			kill(pid, 9);
-			wait(NULL);
-		}
-		else
-		{
-			gtk_button_set_label(btn, "Connect");
-			printf("alarm triggered, but child finished normally\n");
-		}
-	}
-	else if (child_done)
-	{
-		printf("child finished normally\n");
-		gtk_button_set_label(btn, "Connect");
-		wait(NULL);
-	}
+	openConnection(currentUsername, currentPassword, currentServerIP);
+	gtk_button_set_label(btn, "Connect");
 }
 
 void openConfigManager(GtkWidget *wid, GtkEntry *pwordp)
