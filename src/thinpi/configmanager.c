@@ -9,6 +9,7 @@
 #define sizearray(a) (sizeof(a) / sizeof((a)[0]))
 
 const char inifile[] = "/thinpi/test.ini";
+const char editinifile[] = "/thinpi/config/thinpi.ini";
 #define MAX 10
 
 GtkEntry *configIPTextbox;
@@ -41,6 +42,7 @@ void handle(GtkWidget *wid, gpointer ptr);
 void checkHandle(GtkCheckButton *wid, gpointer ptr);
 void listHandle(GtkComboBox *widget, gpointer user_data);
 void addNewServer();
+void editServer();
 
 void iniGet()
 {
@@ -158,32 +160,91 @@ void addNewServer()
 {
 
     char str[100];
+    char tmpcon[100];
     char usb[100];
     char prin[100];
     char home[100];
+    int numcpy;
     long n;
     int s, k;
     char section[50];
     sprintf(usb, "%d", usbActive);
     sprintf(prin, "%d", printerActive);
     sprintf(home, "%d", homeActive);
+    numcpy = numofcon + 1;
+    sprintf(str, "connection%d", numofcon);
+    sprintf(tmpcon, "%d", numcpy);
 
-    n = ini_puts("Connection", "ip", gtk_entry_get_text(configIPTextbox), inifile);
-    n = ini_puts("Connection", "name", gtk_entry_get_text(configNameTextbox), inifile);
+    n = ini_puts("thinpi_proto", "numcon", tmpcon, inifile);
+
+    n = ini_puts(str, "ip", gtk_entry_get_text(configIPTextbox), inifile);
+    n = ini_puts(str, "name", gtk_entry_get_text(configNameTextbox), inifile);
     if (strcmp(gtk_entry_get_text(configScreenTextbox), "") == 0)
     {
-        n = ini_puts("Connection", "res", "1920x1080", inifile);
+        n = ini_puts(str, "res", "1920x1080", inifile);
     }
     else
     {
-        n = ini_puts("Connection", "res", gtk_entry_get_text(configScreenTextbox), inifile);
+        n = ini_puts("connection", "res", gtk_entry_get_text(configScreenTextbox), inifile);
     }
-    n = ini_puts("Connection", "usb", usb, inifile);
-    n = ini_puts("Connection", "printers", prin, inifile);
-    n = ini_puts("Connection", "drives", home, inifile);
-    n = ini_puts("Connection", "domain", gtk_entry_get_text(configDomainTextbox), inifile);
+    n = ini_puts(str, "usb", usb, inifile);
+    n = ini_puts(str, "printers", prin, inifile);
+    n = ini_puts(str, "drives", home, inifile);
+    n = ini_puts(str, "domain", gtk_entry_get_text(configDomainTextbox), inifile);
 
     printf("[THINPI] - Server Added\n");
+}
+
+void editServer()
+{
+
+    char str[100];
+    char usb[100];
+    char prin[100];
+    char home[100];
+    long n;
+    char section[50];
+    sprintf(usb, "%d", usbActive);
+    sprintf(prin, "%d", printerActive);
+    sprintf(home, "%d", homeActive);
+
+    gchar *stext;
+    stext = gtk_combo_box_text_get_active_text(configServerList);
+    int i;
+
+    for (i = 0; i < numofcon; i++)
+    {
+        if (strcmp(tparr[i].name, stext) == 0)
+        {
+            sprintf(str, "connection%d", i);
+            printf("%d", i);
+
+            n = ini_puts(str, "ip", gtk_entry_get_text(configIPTextbox), editinifile);
+            tparr[i].name = gtk_entry_get_text(configNameTextbox);
+            tparr[i].ip = gtk_entry_get_text(configIPTextbox);
+            tparr[i].domain = gtk_entry_get_text(configDomainTextbox);
+            tparr[i].usb = usb;
+            tparr[i].printers = prin;
+            tparr[i].drives = home;
+            n = ini_puts(str, "name", gtk_entry_get_text(configNameTextbox), editinifile);
+            if (strcmp(gtk_entry_get_text(configScreenTextbox), "") == 0)
+            {
+                n = ini_puts(str, "res", "1920x1080", editinifile);
+                tparr[i].res = "1920x1080";
+            }
+            else
+            {
+                n = ini_puts(str, "res", gtk_entry_get_text(configScreenTextbox), editinifile);
+                tparr[i].res = gtk_entry_get_text(configScreenTextbox);
+            }
+            n = ini_puts(str, "usb", usb, editinifile);
+            n = ini_puts(str, "printers", prin, editinifile);
+            n = ini_puts(str, "drives", home, editinifile);
+            n = ini_puts(str, "domain", gtk_entry_get_text(configDomainTextbox), editinifile);
+        }
+    }
+
+    printf("[THINPI] - Server Edit Complete\n");
 }
 
 void handle(GtkWidget *wid, gpointer ptr)
@@ -196,7 +257,7 @@ void handle(GtkWidget *wid, gpointer ptr)
         }
         else
         {
-            printf("Server Edited\n");
+            editServer();
         }
     }
 }
