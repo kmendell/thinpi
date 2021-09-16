@@ -5,18 +5,11 @@
 </h1>
 <p align="center">Open Source Thin Client for the Raspberry Pi built in <b>C</b>
 
-<p align="center">
-  <a href="https://github.com/kmendell/thinpi/releases" target="_blank"><img src="https://img.shields.io/badge/download-v0.2.0-FC427B?style=for-the-badge&logo=none" alt="thinpi version" /></a>
+<p align="center"><a href="https://github.com/create-go-app/cli/releases" target="_blank"><img src="https://img.shields.io/badge/version-v0.2.0-blue?style=for-the-badge&logo=none" alt="cli version" /></a>&nbsp;<a href="https://pkg.go.dev/github.com/create-go-app/cli/v2?tab=doc" target="_blank"><img src="https://img.shields.io/badge/C-C17+-00ADD8?style=for-the-badge&logo=C" alt="go version" /></a><a href="" target="_blank">&nbsp;<img src="https://img.shields.io/badge/license-apache_2.0-red?style=for-the-badge&logo=none" alt="license" /></p>
 
 ## ⚡️ Quick start
 
-Run the Following Command in The Terminal to Download, Compile, and Install all Dependencies and ThinPi Files
-
-```bash
-sudo bash -c "$(curl -fsSL https://kmendell.github.io/thinpi/install.sh)"
-```
-
-ThinPi is also able to run on WSL
+Run the Following Commands in The Terminal to Download, Compile, and Install all Dependencies and ThinPi Files
 
 ```bash
 ##Get the latest master source code
@@ -35,30 +28,34 @@ sudo make install
 or
 /thinpi/thinpi-manager
 ```
+or
+  
+Download the thinpi_start.sh from this repo
+  
+```bash
+chmod +x ./thinpi_start.sh
+sudo ./thinpi_start.sh
+```
+  
 That's all you need to get ThinPi Installed! 🎉
 
 ### 🐳 Docker-way to quick start
 
-```bash
-docker run -it -v /local/path:/thinpi kmendell/tpdocker:build
-```
-
-> 🔔 ***/local/path*** is where the contents of the build will go on the host machine 
+> 🔔 Docker Building Support is Currently on hold while we work on the new update
 
 ## ⚙️ Commands & Options - TODO
 
 ### `tpcli`
-  
-`tpcli -u` Update ThinPi Project<br>
-`tpcli -ua` Update APT Packages<br>
-`tpcli -d` Remove all ThinPi Configuration<br>
-`tpcli -i packagename` Install APT Package<br>
-`tpcli -r packagename` Remove APT Package<br>
-`tpcli --reboot` Reboot System<br>
-`tpcli --adduser username` Add new Linux User<br>
-`tpcli --deluser username` Remove Linux User<br>
-`tpcli --man-start` Start Connection Manager<br>
-`tpcli --config-start` Start Config Utility<br>
+-u	: Updates the ThinPi Filesystem to the Latest Code<br>
+-ua  : Updates the host system using APT<br>
+-d	: Deletes all ThinPi Configuration Files<br>
+-i pkg	: Installs a package from APT pkg is the package<br>
+-r pkg	: Installs a package from APT pkg is the package<br>
+--reboot<br>
+--adduser user<br>
+--deluser user<br>
+--man-start	: Starts ThinPi Connection Manager<br>
+--config-start  : Starts ThinPi Configuration Manager<br>
 
 ## 📝 ThinPi Web Console
 
