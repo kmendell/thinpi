@@ -4,6 +4,7 @@
 #include <string.h>
 #include "../include/thinpi.h"
 #include "./ini/minIni.h"
+#include "ini.h"
 
 #define sizearray(a) (sizeof(a) / sizeof((a)[0]))
 
@@ -21,7 +22,16 @@ GtkCheckButton *configHomeSelect;
 GtkWidget *addButton;
 GtkWidget *removeButton;
 
-configuration arr_config[2];
+int numofcon;
+configuration tparr[256];
+
+char *configName;
+char *configServer;
+char *configScreen;
+int *configDrives;
+int *configUSB;
+int *configPrinters;
+char *configDomain;
 
 gboolean usbActive;
 gboolean printerActive;
@@ -31,6 +41,69 @@ void handle(GtkWidget *wid, gpointer ptr);
 void checkHandle(GtkCheckButton *wid, gpointer ptr);
 void listHandle(GtkComboBox *widget, gpointer user_data);
 void addNewServer();
+
+void iniGet()
+{
+
+    ini_t *config = ini_load("/thinpi/config/thinpi.ini");
+
+    const char *constr = ini_get(config, "thinpi_proto", "numcon");
+    if (constr)
+    {
+        printf("numofcon: %s\n", constr);
+        numofcon = atoi(constr);
+    }
+
+    int i = 0;
+    char tempcon[20];
+    while (i < numofcon)
+    {
+        sprintf(tempcon, "connection%d", i);
+        const char *name = ini_get(config, tempcon, "name");
+        const char *ip = ini_get(config, tempcon, "ip");
+        const char *usb = ini_get(config, tempcon, "usb");
+        const char *printers = ini_get(config, tempcon, "printers");
+        const char *drives = ini_get(config, tempcon, "drives");
+        const char *res = ini_get(config, tempcon, "res");
+        const char *domain = ini_get(config, tempcon, "domain");
+        if (name)
+        {
+            tparr[i].name = name;
+            printf("name: %s\n", tparr[i].name);
+        }
+        if (ip)
+        {
+            tparr[i].ip = ip;
+            printf("ip: %s\n", tparr[i].ip);
+        }
+        if (usb)
+        {
+            tparr[i].usb = atoi(usb);
+            printf("usb: %d\n", tparr[i].usb);
+        }
+        if (printers)
+        {
+            tparr[i].printers = atoi(printers);
+            printf("printers: %d\n", tparr[i].printers);
+        }
+        if (drives)
+        {
+            tparr[i].drives = atoi(drives);
+            printf("drives: %d\n", tparr[i].drives);
+        }
+        if (res)
+        {
+            tparr[i].res = res;
+            printf("res: %s\n", tparr[i].res);
+        }
+        if (domain)
+        {
+            tparr[i].domain = domain;
+            printf("domain: %s\n", tparr[i].domain);
+        }
+        i++;
+    }
+}
 
 void main(int argc, char *argv[])
 {
@@ -54,22 +127,18 @@ void main(int argc, char *argv[])
 
     getiniConfigBeta();
 
-    arr_config[0].name = configName;
-    arr_config[0].res = configScreen;
-    arr_config[0].ip = configServer;
-    arr_config[0].domain = configDomain;
-    arr_config[0].usb = configUSB;
-    arr_config[0].printers = configPrinters;
-    arr_config[0].drives = configDrives;
-
-    gtk_entry_set_text(configNameTextbox, configName);
-    gtk_entry_set_text(configIPTextbox, configServer);
-    gtk_entry_set_text(configScreenTextbox, configScreen);
-    gtk_entry_set_text(configDomainTextbox, configDomain);
-    gtk_toggle_button_set_active(configUsbSelect, configUSB);
-    gtk_toggle_button_set_active(configPrinterSelect, configPrinters);
-    gtk_toggle_button_set_active(configHomeSelect, configDrives);
-    gtk_combo_box_text_append(configServerList, NULL, configName);
+    gtk_entry_set_text(configNameTextbox, tparr[0].name);
+    gtk_entry_set_text(configIPTextbox, tparr[0].ip);
+    gtk_entry_set_text(configScreenTextbox, tparr[0].res);
+    gtk_entry_set_text(configDomainTextbox, tparr[0].domain);
+    gtk_toggle_button_set_active(configUsbSelect, tparr[0].usb);
+    gtk_toggle_button_set_active(configPrinterSelect, tparr[0].printers);
+    gtk_toggle_button_set_active(configHomeSelect, tparr[0].drives);
+    int i;
+    for (i = 0; i < numofcon; i++)
+    {
+        gtk_combo_box_text_append(configServerList, NULL, tparr[i].name);
+    }
     gtk_combo_box_text_append(configServerList, NULL, "<Add New>");
     gtk_combo_box_set_active(configServerList, 0);
 
@@ -169,20 +238,20 @@ void listHandle(GtkComboBox *widget, gpointer user_data)
     else
     {
 
-        size_t length = sizeof(arr_config) / sizeof(arr_config[0]);
+        size_t length = sizeof(tparr) / sizeof(tparr[0]);
         int i;
-        for (i = 0; i < length - 1; i++)
+        for (i = 0; i < numofcon; i++)
         {
-            if (strcmp(arr_config[i].name, stext) == 0)
+            if (strcmp(tparr[i].name, stext) == 0)
             {
                 gtk_button_set_label(addButton, "Edit and Save");
-                gtk_entry_set_text(configNameTextbox, arr_config[i].name);
-                gtk_entry_set_text(configIPTextbox, arr_config[i].ip);
-                gtk_entry_set_text(configScreenTextbox, arr_config[i].res);
-                gtk_entry_set_text(configDomainTextbox, arr_config[i].domain);
-                gtk_toggle_button_set_active(configUsbSelect, arr_config[i].usb);
-                gtk_toggle_button_set_active(configPrinterSelect, arr_config[i].printers);
-                gtk_toggle_button_set_active(configHomeSelect, arr_config[i].drives);
+                gtk_entry_set_text(configNameTextbox, tparr[i].name);
+                gtk_entry_set_text(configIPTextbox, tparr[i].ip);
+                gtk_entry_set_text(configScreenTextbox, tparr[i].res);
+                gtk_entry_set_text(configDomainTextbox, tparr[i].domain);
+                gtk_toggle_button_set_active(configUsbSelect, tparr[i].usb);
+                gtk_toggle_button_set_active(configPrinterSelect, tparr[i].printers);
+                gtk_toggle_button_set_active(configHomeSelect, tparr[i].drives);
             }
         }
     }
