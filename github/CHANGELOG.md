@@ -17,6 +17,8 @@ All notable changes to this project will be documented in this file.
 - [CONFIG] Adding Servers from the GUI Config Manager now works (see BUGS.md for more info TPBUG#001)
 - [HTTP] Removed thinpi-http code, as with the new updates it is broken.
 - [INTERNAL] Added LOG() for easy printing and thinpi.log file
+- [GUI] Added Icons on buttons on the Connect Manager, Config Manager, Confirm Prompt screens and more.
+- [GUI] Updated Fonts in some places of the the GUI
 
 ## 0.2.0 - RC
 

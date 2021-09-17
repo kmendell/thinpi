@@ -9,7 +9,6 @@
     <property name="modal">True</property>
     <property name="window_position">center-always</property>
     <property name="type_hint">dialog</property>
-    <property name="deletable">False</property>
     <property name="gravity">center</property>
     <child type="titlebar">
       <placeholder/>

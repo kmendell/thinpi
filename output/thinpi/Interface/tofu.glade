@@ -4,11 +4,12 @@
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkWindow" id="tptofuDialog">
     <property name="can_focus">False</property>
-    <property name="title" translatable="yes">TOFU</property>
+    <property name="title" translatable="yes">ThinPi Connection</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
     <property name="window_position">center-always</property>
     <property name="type_hint">dialog</property>
+    <property name="deletable">False</property>
     <property name="gravity">center</property>
     <child type="titlebar">
       <placeholder/>
@@ -26,7 +27,12 @@
             <property name="margin_right">20</property>
             <property name="margin_top">75</property>
             <property name="margin_bottom">20</property>
-            <property name="label" translatable="yes">This is a unsecure connection, do you want to connect anyways??</property>
+            <property name="label" translatable="yes">The connection to this server can not be verified, No certificate for the remote server is found.
+Would you like to connect anyways?</property>
+            <property name="justify">center</property>
+            <attributes>
+              <attribute name="font-desc" value="Victor Mono 10"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">True</property>
@@ -41,12 +47,14 @@
             <property name="margin_bottom">50</property>
             <child>
               <object class="GtkButton" id="yesBtn">
-                <property name="label" translatable="yes">Connect</property>
+                <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="margin_left">20</property>
-                <property name="margin_right">20</property>
+                <property name="margin_left">50</property>
+                <property name="margin_right">50</property>
+                <property name="use_stock">True</property>
+                <property name="always_show_image">True</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -56,12 +64,14 @@
             </child>
             <child>
               <object class="GtkButton" id="noBtn">
-                <property name="label" translatable="yes">Cancel </property>
+                <property name="label">gtk-close</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="margin_left">20</property>
-                <property name="margin_right">20</property>
+                <property name="margin_left">50</property>
+                <property name="margin_right">50</property>
+                <property name="use_stock">True</property>
+                <property name="always_show_image">True</property>
               </object>
               <packing>
                 <property name="expand">True</property>
