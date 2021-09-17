@@ -36,6 +36,21 @@ void LOG(char *str)
     printf("THINPI[*] - %s\n", str);
 }
 
+int tpexec(char *str, char *timeout)
+{
+    pid_t pid = fork();
+    if (pid == 0)
+    {
+        char *cmd = malloc(100);
+        sprintf(cmd, "%s", str);
+        int rv = execl(str, timeout, NULL);
+        if (rv != 0)
+        {
+            LOG("tpexec timedout");
+        }
+    }
+}
+
 void closeThinPiManager(GtkWidget *wid, gpointer ptr)
 {
     LOG("User exited thinpi forcefully");
@@ -144,4 +159,5 @@ void managerInfo()
         gtk_combo_box_text_append(serverList, NULL, tparr[i].name);
         i++;
     }
+    gtk_combo_box_set_active(serverList, 0);
 }

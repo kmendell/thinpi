@@ -10,28 +10,11 @@
 
 #define TIME_LIMIT 5
 
-void alarm_handler(int);
-void child_handler(int);
-
-int timeout = 0;
-int child_done = 0;
-
 GtkWidget *btn;
-
-void child_handler(int sig)
-{
-	child_done = 1;
-}
-
-void alarm_handler(int sig)
-{
-	timeout = 1;
-}
 
 void handleClick(GtkWidget *wid, GtkEntry *pwordp)
 {
 	gtk_button_set_label(btn, "Connecting...");
-	// sleep(1);
 	setUserInfo();
 	openConnection(currentUsername, currentPassword, currentServerIP);
 	gtk_button_set_label(btn, "Connect");
@@ -39,16 +22,7 @@ void handleClick(GtkWidget *wid, GtkEntry *pwordp)
 
 void openConfigManager(GtkWidget *wid, GtkEntry *pwordp)
 {
-	if (!fork())
-	{
-		// system("GDK_BACKEND=x11");
-		int rv = system("/thinpi/thinpi-config");
-		return rv;
-	}
-	else
-	{
-		return 0;
-	}
+	tpexec("/thinpi/thinpi-config", "");
 }
 
 void main(int argc, char *argv[])

@@ -1,7 +1,10 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
 #include <string.h>
+#include <signal.h>
 #include "../include/thinpi.h"
 #include "../include/minIni.h"
 #include "ini.h"
@@ -11,6 +14,7 @@
 const char inifile[] = "/thinpi/config/thinpi.ini";
 const char editinifile[] = "/thinpi/config/thinpi.ini";
 #define MAX 10
+pid_t pid;
 
 GtkEntry *configIPTextbox;
 GtkEntry *configNameTextbox;
@@ -29,6 +33,8 @@ configuration tparr[256];
 gboolean usbActive;
 gboolean printerActive;
 gboolean homeActive;
+
+void handleClose(GtkWidget *wid, gpointer ptr);
 
 void handle(GtkWidget *wid, gpointer ptr);
 void checkHandle(GtkCheckButton *wid, gpointer ptr);
@@ -102,7 +108,6 @@ void iniGet()
 
 void main(int argc, char *argv[])
 {
-
     gtk_init(&argc, &argv);
 
     GtkBuilder *builder = gtk_builder_new();
@@ -124,6 +129,11 @@ void main(int argc, char *argv[])
     iniGet();
     LOG("Config Manager Loaded");
 
+    pid = getpid();
+    wait(pid);
+
+    printf("pid: %lun\n", pid);
+
     gtk_entry_set_text(configNameTextbox, tparr[0].name);
     gtk_entry_set_text(configIPTextbox, tparr[0].ip);
     gtk_entry_set_text(configScreenTextbox, tparr[0].res);
@@ -139,7 +149,7 @@ void main(int argc, char *argv[])
     gtk_combo_box_text_append(configServerList, NULL, "<Add New>");
     gtk_combo_box_set_active(configServerList, 0);
 
-    g_signal_connect(configWindow, "destroy", G_CALLBACK(gtk_window_close), NULL);
+    g_signal_connect(configWindow, "destroy", G_CALLBACK(handleClose), NULL);
     g_signal_connect(addButton, "clicked", G_CALLBACK(handle), "addButton");
     g_signal_connect(removeButton, "clicked", G_CALLBACK(handle), "removeButton");
     g_signal_connect(configUsbSelect, "toggled", G_CALLBACK(checkHandle), "usb");
@@ -231,6 +241,12 @@ void editServer()
     }
 
     printf("[THINPI] - Server Edit Complete\n");
+}
+
+void handleClose(GtkWidget *wid, gpointer ptr)
+{
+
+    kill(pid, 9);
 }
 
 void handle(GtkWidget *wid, gpointer ptr)

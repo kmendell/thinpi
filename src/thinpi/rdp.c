@@ -7,10 +7,11 @@
 void openConnection(gchar *u, gchar *p, gchar *s)
 {
 	char *cmd = malloc(100);
-	sprintf(cmd, "tprdp %s -p %s -u %s -z -x b -g %s -f -v", s, p, u, screenResValue);
+	sprintf(cmd, "%s -p %s -u %s -z -x b -g %s -f -v", s, p, u, screenResValue);
+	// int rv = tpexec("/usr/bin/tprdp", "10.8.43.127 -p maddie -u kyle -z -x b -g 1280x720 -f -v");
 	int rv = system(cmd);
 	LOG(cmd);
-	printf("%d\n", rv);
+	// printf("%d\n", rv);
 	// int rv = execvp("tprdp", cmd);
 	if (rv == 2816)
 	{

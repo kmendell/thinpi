@@ -24,6 +24,8 @@ extern GtkEntry *configIPTextbox;
 extern GtkEntry *configNameTextbox;
 extern GtkEntry *configScreenTextbox;
 
+extern int tpexec(char *str, char *timeout);
+
 extern void closeThinPiManager(GtkWidget *wid, gpointer ptr);
 extern void openSettings(GtkWidget *wid, gpointer ptr);
 extern void hideErrorMessage(GtkWidget *wid, gpointer ptr);
