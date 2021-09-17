@@ -21,6 +21,7 @@ void openConnection(gchar *u, gchar *p, gchar *s)
 	else if (rv != 12 || rv != 11 || rv != 2 | rv != 1)
 	{
 		LOG("An Error Occured Please Contact your Administrator\n");
+		// gtk_label_set_label(wrongCredentialsMessage, "")
 		gtk_widget_show(wrongCredentialsMessage);
 	}
 	free(cmd);

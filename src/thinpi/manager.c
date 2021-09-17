@@ -57,6 +57,8 @@ void main(int argc, char *argv[])
 	connectWidget(usernameTextbox, "changed", hideErrorMessage, NULL);
 	connectWidget(passwordTextbox, "changed", hideErrorMessage, NULL);
 
+	gtk_button_set_label(openConfigButton, "Config Manager");
+
 	gtk_window_fullscreen(window1);
 	// gtk_window_fullscreen(GTK_WINDOW(gtk_widget_get_root_window(window1)));
 	gtk_window_present(window1);
