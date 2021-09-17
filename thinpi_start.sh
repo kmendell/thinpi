@@ -2,9 +2,6 @@
 RED='\033[0;31m'
 BLUE='\033[1;34m'
 
-echo -e "${RED}INSTALLING DPENDENCIES...THIS MAY TAKE AWHILE..."
-sudo ./tpdepends
-
 echo ""
 echo -e "${RED}Creating /thinpi ..."
 echo ""
