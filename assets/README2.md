@@ -31,11 +31,11 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="logo/icon-colors.png" alt="Logo" width="100" height="100">
+  <a href="https://gitlab.kmprojects.us/thinpi/core">
+    <img src="logo/icon-colors.png" alt="Logo">
   </a>
 
-  <h3 align="center">Best-README-Template</h3>
+  <h3 align="center">ThinPi Thin Client</h3>
 
   <p align="center">
     An awesome README template to jumpstart your projects!
