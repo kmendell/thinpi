@@ -183,15 +183,15 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/kmendell/thinpi.svg?style=flat-square
+[contributors-shield]: https://img.shields.io/github/contributors/kmendell/thinpi.svg?style=for-the-badge
 [contributors-url]: https://github.com/kmendell/thinpi/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/kmendell/thinpi.svg?style=flat-square
+[forks-shield]: https://img.shields.io/github/forks/kmendell/thinpi.svg?style=for-the-badge
 [forks-url]: https://github.com/github_username/repo_name/network/members
-[stars-shield]: https://img.shields.io/github/stars/kmendell/thinpi.svg?style=flat-square
+[stars-shield]: https://img.shields.io/github/stars/kmendell/thinpi.svg?style=for-the-badge
 [stars-url]: https://github.com/github_username/repo_name/stargazers
-[issues-shield]: https://img.shields.io/github/issues/kmendell/thinpi.svg?style=flat-square
+[issues-shield]: https://img.shields.io/github/issues/kmendell/thinpi.svg?style=for-the-badge
 [issues-url]: https://github.com/kmendell/thinpi/issues
-[license-shield]: https://img.shields.io/github/license/kmendell/thinpi.svg?style=flat-square
+[license-shield]: https://img.shields.io/github/license/kmendell/thinpi.svg?style=for-the-badge
 [license-url]: https://github.com/kmendell/thinpi/blob/master/github/LICENSE
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/github_username
