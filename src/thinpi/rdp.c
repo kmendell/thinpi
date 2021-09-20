@@ -7,7 +7,7 @@
 void openConnection(gchar *u, gchar *p, gchar *s)
 {
 	char *cmd = malloc(100);
-	sprintf(cmd, "tprdp %s -p %s -u %s -z -x b -g %s -f -v", s, p, u, screenResValue);
+	sprintf(cmd, "tprdp %s -p %s -u %s -z -x b -g %s -v", s, p, u, screenResValue);
 	int rv = system(cmd);
 	LOG(cmd);
 	// printf("%d\n", rv);
