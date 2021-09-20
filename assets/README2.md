@@ -21,7 +21,6 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<table align="center"><tr><td align="center" width="9999">
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -30,7 +29,8 @@
 [![Apache][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-<p align="center">
+
+<div align="center">
   <a href="https://gitlab.kmprojects.us/thinpi/core">
     <img src="logo/icon-colors.png" alt="Logo">
   </a>
@@ -49,8 +49,7 @@
     ·
     <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
   </p>
-</p>
-</tr></td></table>
+</div>
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
