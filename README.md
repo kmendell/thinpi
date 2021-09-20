@@ -6,7 +6,7 @@
 
 <p align="center"><a href="https://github.com/kmendell/thinpi/releases" target="_blank"><img src="https://img.shields.io/badge/version-v0.3.0(DEV)-pink?style=for-the-badge&logo=none" alt="cli version" /></a>&nbsp;<a href="https://github.com/kmendell/thinpi/" target="_blank"><img src="https://img.shields.io/badge/C-C17+-00ADD8?style=for-the-badge&logo=C" alt="go version" /></a><a href="https://github.com/kmendell/thinpi/" target="_blank">&nbsp;<img src="https://img.shields.io/badge/license-apache_2.0-red?style=for-the-badge&logo=none" alt="license" /></p></a>
 
-> 🔔 For a Full Changelog click [Here](https://github.com/kmendell/thinpi/blob/master/github/CHANGELOG.md)
+> 🔔 For a Full Changelog click [Here](https://gitlab.kmprojects.us/thinpi/core/-/blob/master/github/CHANGELOG.md)
 
 ## ⚡️ Quick start
 
