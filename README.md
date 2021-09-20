@@ -42,21 +42,6 @@ domain = thinpi.io
 
 > 🔔 Docker Building Support is Currently on hold while we work on the new update
 
-## ⚙️ Commands & Options - TODO
-
-### ⚙️ `tpcli`
-
--u : Updates the ThinPi Filesystem to the Latest Code<br>
--ua : Updates the host system using APT<br>
--d : Deletes all ThinPi Configuration Files<br>
--i pkg : Installs a package from APT pkg is the package<br>
--r pkg : Installs a package from APT pkg is the package<br>
---reboot<br>
---adduser user<br>
---deluser user<br>
---man-start : Starts ThinPi Connection Manager<br>
---config-start : Starts ThinPi Configuration Manager<br>
-
 ## ⚠️ License
 
 `ThinPi` is free and open-source software licensed under the [Apache 2.0 License](https://github.com/kmendell/thinpi/blob/master/LICENSE), and distributed under [Creative Commons](https://creativecommons.org/licenses/by-sa/4.0/) license (CC BY-SA 4.0 International).
