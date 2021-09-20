@@ -21,6 +21,7 @@
 
 <!-- PROJECT LOGO -->
 <br />
+<div align="center">
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -30,7 +31,7 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 
-<div align="center">
+
   <a href="https://gitlab.kmprojects.us/thinpi/core">
     <img src="logo/icon-colors.png" alt="Logo">
   </a>
