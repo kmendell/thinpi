@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 - [INTERNAL] Added LOG() for easy printing and thinpi.log file
 - [GUI] Added Icons on buttons on the Connect Manager, Config Manager, Confirm Prompt screens and more.
 - [GUI] Updated Fonts in some places of the the GUI
+- [RDP] Fullscreen Mode is entered/exited by hitting Ctrl+Alt+Enter
 
 ## 0.2.0 - RC
 

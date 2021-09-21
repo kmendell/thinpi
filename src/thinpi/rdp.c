@@ -10,9 +10,9 @@ void openConnection(gchar *u, gchar *p, gchar *s)
 	sprintf(cmd, "tprdp %s -p %s -u %s -z -x b -g %s -v", s, p, u, screenResValue);
 	int rv = system(cmd);
 	LOG(cmd);
-	// printf("%d\n", rv);
+	printf("RETURN VALUE: %d\n", rv);
 	// int rv = execvp("tprdp", cmd);
-	if (rv == 2816)
+	if (rv == 2816 || rv == 15872)
 	{
 		gtk_entry_set_text(usernameTextbox, "");
 		gtk_entry_set_text(passwordTextbox, "");
