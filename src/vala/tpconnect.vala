@@ -3,20 +3,20 @@ using Gtk;
 int main (string[] args) {
     Gtk.init (ref args);
 
-    TPServer[] servers = {};
+    
 
-    var test1 = TPServer() {
-        serverName = "TPTest 1",
-        serverDomain = ".",
-        serverScreen = "1920x1080",
-        serverUsername = "kmlab",
-        serverPassword = "Onalaska!8",
-        usbPass = 1,
-        printerPass = 1,
-        homePass = 1
-    };
+    //  var test1 = TPServer() {
+    //      serverName = "TPTest 1",
+    //      serverDomain = ".",
+    //      serverScreen = "1920x1080",
+    //      serverUsername = "kmlab",
+    //      serverPassword = "Onalaska!8",
+    //      usbPass = 1,
+    //      printerPass = 1,
+    //      homePass = 1
+    //  };
 
-    servers += test1;
+    //  TPConfig.servers += test1;
     
     try {
         var builder = new Builder ();
@@ -38,7 +38,7 @@ int main (string[] args) {
         
         wrongLabel.hide();
 
-        serverList.append_text(servers[0].serverName);
+        serverList.append_text(TPConfig.servers[0].serverName);
         serverList.set_active(0);
 
         Gtk.main ();
