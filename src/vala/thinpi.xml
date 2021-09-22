@@ -4,10 +4,16 @@
 		<title>ThinPi Server 1</title>
 		<ip>10.3.70.2</ip>
         <domain>thinpi.io</domain>
+		<usb>1</usb>
+		<home>1</home>
+		<printer>1</printer>
 	</server>
 	<server id="2">
 		<title>ThinPi Server 2</title>
 		<ip>10.3.70.5</ip>
         <domain>thinpi.io</domain>
+		<usb>1</usb>
+		<home>1</home>
+		<printer>1</printer>
 	</server>
 </connections>
