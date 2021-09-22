@@ -21,7 +21,7 @@ manager: src/thinpi/manager.c src/thinpi/rdp.c src/thinpi/helpers.c src/include/
 	@echo "${BLUE}TPBUILD[*] - connect-manager Build Succeded"
 
 vala:
-	@$(CC) -w src/vala/tpconnect.c $(CFLAGS)  -o $(ODIR)/tpc
+	valac src/vala/tpconnect.vala src/vala/helpers.vala --pkg gtk+-3.0 -o $(ODIR)/tpc
 
 config:
 	@echo "${RED}TPBUILD[*] - Building config-manager ..."

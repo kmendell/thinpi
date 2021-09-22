@@ -3,9 +3,24 @@ using Gtk;
 int main (string[] args) {
     Gtk.init (ref args);
 
+    TPServer[] servers = {};
+
+    var test1 = TPServer() {
+        serverName = "TPTest 1",
+        serverDomain = ".",
+        serverScreen = "1920x1080",
+        serverUsername = "kmlab",
+        serverPassword = "Onalaska!8",
+        usbPass = 1,
+        printerPass = 1,
+        homePass = 1
+    };
+
+    servers += test1;
+    
     try {
         var builder = new Builder ();
-        builder.add_from_file ("connect-manager.glade");
+        builder.add_from_file ("/thinpi/Interface/connect-manager.glade");
         var serverList = builder.get_object("serverSelect") as ComboBoxText;
         var wrongLabel = builder.get_object("wrongLabel") as Label;
         var settingsButton = builder.get_object("settingsButton") as Button;
@@ -17,9 +32,15 @@ int main (string[] args) {
             Gtk.main_quit();
         });
 
-        wrongLabel.hide();
-        //  window.show_all ();
+        
+        window.show_all ();
         window.fullscreen();
+        
+        wrongLabel.hide();
+
+        serverList.append_text(servers[0].serverName);
+        serverList.set_active(0);
+
         Gtk.main ();
     } catch (Error e) {
         stderr.printf ("Could not load ThinPi UI: %s\n", e.message);
