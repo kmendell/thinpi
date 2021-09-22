@@ -1,17 +1,5 @@
 using Gee;
 
-public struct TPServer {
-    public string serverName;
-    public string serverIP;
-    public string serverDomain;
-    //  public string serverUsername;
-    //  public string serverPassword;
-    //  public string serverScreen;
-    public string usbPass;
-    public string printerPass;
-    public string homePass;
-}
-
 public class ThinPiPublic {
     public static ThinPiPublic instance() {
         return new ThinPiPublic();
@@ -22,7 +10,6 @@ public class ThinPiPublic {
         var inst = ThinPiPublic.instance();
         if (!inst.publicServerArray.contains(server)) {
             inst.publicServerArray.add(server);
-            print("CHECK: %s\n\n", server.serverName);
         } else {
             print("Error");
         }
@@ -33,4 +20,3 @@ public class ThinPiPublic {
         }
     }
 }
-

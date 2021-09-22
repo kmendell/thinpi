@@ -113,12 +113,12 @@ public static void print_books (Xml.Node* node) {
 			}
 		}
 	}
-	ThinPiPublic.seeServers();
+	//  ThinPiPublic.seeServers();
 }
 
 public static int startconfig () {
 	// Parse the document from path
-	Xml.Doc* doc = Xml.Parser.parse_file ("src/vala/thinpi.xml");
+	Xml.Doc* doc = Xml.Parser.parse_file ("config/thinpi.xml");
 	if (doc == null) {
 		print ("File 'books.xml' not found or permissions missing\n");
 		return 0;
