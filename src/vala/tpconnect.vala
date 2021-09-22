@@ -2,7 +2,8 @@ using Gtk;
 
 int main (string[] args) {
     Gtk.init (ref args);
-    
+    startconfig();
+
     try {
         var builder = new Builder ();
         builder.add_from_file ("/thinpi/Interface/connect-manager.glade");
@@ -22,7 +23,10 @@ int main (string[] args) {
         window.fullscreen();
         
         wrongLabel.hide();
-
+        foreach (TPServer? i in ThinPiPublic.publicServerArray) {
+            serverList.append_text(i.serverName);
+        }
+        
         serverList.set_active(0);
 
         Gtk.main ();

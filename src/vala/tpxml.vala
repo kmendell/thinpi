@@ -105,17 +105,18 @@ public static void print_books (Xml.Node* node) {
 	for (Xml.Node* iter = node->children; iter != null; iter = iter->next) {
 		if (iter->type == Xml.ElementType.ELEMENT_NODE) {
 			if (iter->name == "server") {
-				var testServer = TPServer();
-				testServer = readConfigFile (iter);
-				print("%s, %s, %s, %s, %s, %s\n", testServer.serverName, testServer.serverIP, testServer.serverDomain, testServer.usbPass, testServer.printerPass, testServer.homePass);
+				var temp = readConfigFile (iter);
+				ThinPiPublic.addToArray(temp);
+				
 			} else {
 				print ("Unexpected element %s\n", iter->name);
 			}
 		}
 	}
+	ThinPiPublic.seeServers();
 }
 
-public static int main (string[] args) {
+public static int startconfig () {
 	// Parse the document from path
 	Xml.Doc* doc = Xml.Parser.parse_file ("src/vala/thinpi.xml");
 	if (doc == null) {
