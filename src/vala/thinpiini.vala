@@ -1,72 +1,83 @@
-using Gee;
+public static void print_simple (Xml.Node* node, string node_name) {
+	assert (node->name == node_name);
 
-int readIni (string path, owned TPServer[] arr) {
-    // A reference to our file
-    //  var file = File.new_for_path ("thinpi.ini");
-    var file = File.new_for_path (path);
-    var list = new ArrayList<TPServer?> ();
+	for (Xml.Node* iter = node->children; iter != null; iter = iter->next) {
+		if (iter->type == Xml.ElementType.TEXT_NODE) {
+			print ("   - %s\n", iter->get_content ());
+		} else {
+			print ("Unexpected element %s\n", iter->name);
+		}
+	}
 
-    if (!file.query_exists ()) {
-        stderr.printf ("File '%s' doesn't exist.\n", file.get_path ());
-        return 1;
-    }
-
-    try {
-        // Open file for reading and wrap returned FileInputStream into a
-        // DataInputStream, so we can read line by line
-        var dis = new DataInputStream (file.read ());
-        string line;
-        string tempServer;
-        int numServers = -1;
-        // Read lines until end of file (null) is reached
-        var  tmps = TPServer();
-        while ((line = dis.read_line (null)) != null) {
-            bool conRes = line.contains("[connection]");
-            bool endRes = line.contains("[connection end]");
-            bool nameRes = line.contains("serverName = ");
-            bool ipRes = line.contains("serverIP = ");
-            bool domainRes = line.contains("serverDomain = ");
-            bool screenRes = line.contains("serverScreen = ");
-            
-            if (conRes) {
-                numServers++;
-                stdout.printf ("%s %d\n", line, numServers);
-            } else if (endRes) {
-                stdout.printf ("%s\n", line);
-            }
-            if (numServers >= 0) {
-                if (nameRes) {
-                    tmps.serverName = line;
-                } else if (ipRes) {
-                    tmps.serverIP = line;
-                } else if (domainRes) {
-                    tmps.serverDomain = line;
-                } else if (screenRes) {
-                    tmps.serverScreen = line;
-                }
-                //  TPConfig.servers[0] = tmps;
-                list.add(tmps);
-            }
-            
-            
-        }
-        foreach (TPServer i in list) {
-            stdout.printf ("%s\n", i.serverIP);
-        }
-        //  stdout.printf ("%s, %s, %s, %s\n", tmps.serverName, tmps.serverIP, tmps.serverDomain, tmps.serverScreen);
-        //  stdout.printf ("%s, %s, %s, %s\n", tmps1.serverName, tmps1.serverIP, tmps1.serverDomain, tmps1.serverScreen);
-        //  stdout.printf("%s\n", TPConfig.servers[0].serverName);
-    } catch (Error e) {
-        error ("%s", e.message);
-    }
-
-    return 0;
 }
 
-int main () {
-    TPServer[] servers = {};
+public static void print_book (Xml.Node* node) {
+	assert (node->name == "book");
 
-    readIni("src/vala/thinpi.ini", servers);
-    //  stdout.printf ("%s\n", servers[0].serverName);
-    return 0;
+	print (" * Book:\n");
+
+	string? id = node->get_prop ("id");
+	if (id != null) {
+		print ("   - %s\n", id);
+	} else {
+		print ("Expected: <book id=...\n");
+	}
+
+	for (Xml.Node* iter = node->children; iter != null; iter = iter->next) {
+		if (iter->type == Xml.ElementType.ELEMENT_NODE) {
+			switch (iter->name) {
+			case "title":
+				print_simple (iter, "title");
+				break;
+
+			case "author":
+				print_simple (iter, "author");
+				break;
+
+			default:
+				print ("Unexpected element %s\n", iter->name);
+				break;
+			}
+		}
+	}
+}
+
+public static void print_books (Xml.Node* node) {
+	assert (node->name == "books");
+
+	print ("Books:\n");
+	for (Xml.Node* iter = node->children; iter != null; iter = iter->next) {
+		if (iter->type == Xml.ElementType.ELEMENT_NODE) {
+			if (iter->name == "book") {
+				print_book (iter);
+			} else {
+				print ("Unexpected element %s\n", iter->name);
+			}
+		}
+	}
+}
+
+public static int main (string[] args) {
+	// Parse the document from path
+	Xml.Doc* doc = Xml.Parser.parse_file ("src/vala/thinpi.xml");
+	if (doc == null) {
+		print ("File 'books.xml' not found or permissions missing\n");
+		return 0;
+	}
+
+	Xml.Node* root = doc->get_root_element ();
+	if (root == null) {
+		print ("WANTED! root\n");
+		delete doc;
+		return 0;
+	}
+
+	if (root->name == "books") {
+		print_books (root);
+	} else {
+		print ("Unexpected element %s\n", root->name);
+	}
+
+	delete doc;
+	return 0;
 }
