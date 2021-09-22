@@ -1,4 +1,4 @@
-public static void print_simple (Xml.Node* node, string node_name) {
+public static void printConfig (Xml.Node* node, string node_name) {
 	assert (node->name == node_name);
 
 	for (Xml.Node* iter = node->children; iter != null; iter = iter->next) {
@@ -11,7 +11,7 @@ public static void print_simple (Xml.Node* node, string node_name) {
 
 }
 
-public static void print_book (Xml.Node* node) {
+public static void readConfigFile (Xml.Node* node) {
 	assert (node->name == "server");
 
 	print (" * Server:\n");
@@ -27,27 +27,27 @@ public static void print_book (Xml.Node* node) {
 		if (iter->type == Xml.ElementType.ELEMENT_NODE) {
 			switch (iter->name) {
 			case "title":
-				print_simple (iter, "title");
+				printConfig (iter, "title");
 				break;
 
 			case "ip":
-				print_simple (iter, "ip");
+				printConfig (iter, "ip");
 				break;
 
             case "domain":
-				print_simple (iter, "domain");
+				printConfig (iter, "domain");
 				break;
 
 			case "usb":
-				print_simple (iter, "usb");
+				printConfig (iter, "usb");
 				break;
 
 			case "printer":
-				print_simple (iter, "printer");
+				printConfig (iter, "printer");
 				break;
 
 			case "home":
-				print_simple (iter, "home");
+				printConfig (iter, "home");
 				break;
 
 			default:
@@ -65,7 +65,7 @@ public static void print_books (Xml.Node* node) {
 	for (Xml.Node* iter = node->children; iter != null; iter = iter->next) {
 		if (iter->type == Xml.ElementType.ELEMENT_NODE) {
 			if (iter->name == "server") {
-				print_book (iter);
+				readConfigFile (iter);
 			} else {
 				print ("Unexpected element %s\n", iter->name);
 			}
