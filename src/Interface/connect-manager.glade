@@ -159,6 +159,7 @@
                 <property name="single-line-mode">True</property>
                 <attributes>
                   <attribute name="font-desc" value="URW Gothic 10"/>
+                  <attribute name="foreground" value="#eded33333b3b"/>
                 </attributes>
               </object>
               <packing>
