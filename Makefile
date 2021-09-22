@@ -22,7 +22,7 @@ manager: src/thinpi/manager.c src/thinpi/rdp.c src/thinpi/helpers.c src/include/
 
 vala:
 	# valac src/vala/tpconnect.vala src/vala/helpers.vala src/vala/tpserverclass.vala --pkg gtk+-3.0 -o tpc
-	valac  src/vala/tpxml.vala --pkg libxml-2.0 -o src/vala/build/config-test
+	valac  src/vala/tpxml.vala src/vala/tpserverclass.vala --pkg libxml-2.0 -o src/vala/build/config-test
 	src/vala/build/config-test
 
 config:
