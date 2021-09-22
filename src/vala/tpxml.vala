@@ -3,7 +3,7 @@ public static void printConfig (Xml.Node* node, string node_name) {
 
 	for (Xml.Node* iter = node->children; iter != null; iter = iter->next) {
 		if (iter->type == Xml.ElementType.TEXT_NODE) {
-			print ("   - %s\n", iter->get_content ());
+			print ("%s   - %s\n", node_name, iter->get_content ());
 		} else {
 			print ("Unexpected element %s\n", iter->name);
 		}
