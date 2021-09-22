@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<books>
-	<book id="1">
-		<title>The Royal Game</title>
-		<author>Stefan Zweig</author>
-	</book>
-	<book id="2">
-		<title>The Stoker</title>
-		<author>Franz Kafka</author>
-	</book>
-</books>
+<connections>
+	<server id="1">
+		<title>ThinPi Server 1</title>
+		<ip>10.3.70.2</ip>
+        <domain>thinpi.io</domain>
+	</server>
+	<server id="2">
+		<title>ThinPi Server 2</title>
+		<ip>10.3.70.5</ip>
+        <domain>thinpi.io</domain>
+	</server>
+</connections>

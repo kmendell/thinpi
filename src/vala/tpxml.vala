@@ -12,15 +12,15 @@ public static void print_simple (Xml.Node* node, string node_name) {
 }
 
 public static void print_book (Xml.Node* node) {
-	assert (node->name == "book");
+	assert (node->name == "server");
 
-	print (" * Book:\n");
+	print (" * Server:\n");
 
 	string? id = node->get_prop ("id");
 	if (id != null) {
 		print ("   - %s\n", id);
 	} else {
-		print ("Expected: <book id=...\n");
+		print ("Expected: <server id=...\n");
 	}
 
 	for (Xml.Node* iter = node->children; iter != null; iter = iter->next) {
@@ -30,8 +30,12 @@ public static void print_book (Xml.Node* node) {
 				print_simple (iter, "title");
 				break;
 
-			case "author":
-				print_simple (iter, "author");
+			case "ip":
+				print_simple (iter, "ip");
+				break;
+
+            case "domain":
+				print_simple (iter, "domain");
 				break;
 
 			default:
@@ -43,12 +47,12 @@ public static void print_book (Xml.Node* node) {
 }
 
 public static void print_books (Xml.Node* node) {
-	assert (node->name == "books");
+	assert (node->name == "connections");
 
-	print ("Books:\n");
+	print ("ThinPi Connections:\n");
 	for (Xml.Node* iter = node->children; iter != null; iter = iter->next) {
 		if (iter->type == Xml.ElementType.ELEMENT_NODE) {
-			if (iter->name == "book") {
+			if (iter->name == "server") {
 				print_book (iter);
 			} else {
 				print ("Unexpected element %s\n", iter->name);
@@ -72,7 +76,7 @@ public static int main (string[] args) {
 		return 0;
 	}
 
-	if (root->name == "books") {
+	if (root->name == "connections") {
 		print_books (root);
 	} else {
 		print ("Unexpected element %s\n", root->name);

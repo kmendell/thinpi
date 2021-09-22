@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+Changes with a ** next to them are only available on the gitlab dev instance repo
+
 ## 0.3.0
 
 - [WSL] Compatible with WSL
@@ -20,6 +22,8 @@ All notable changes to this project will be documented in this file.
 - [GUI] Added Icons on buttons on the Connect Manager, Config Manager, Confirm Prompt screens and more.
 - [GUI] Updated Fonts in some places of the the GUI
 - [RDP] Fullscreen Mode is entered/exited by hitting Ctrl+Alt+Enter
+- [CORE] Rewriting Most of Everythin in Vala rather than C **
+- [CONFIG] Testing XML Config Rather than ini as its more reliable and stable **
 
 ## 0.2.0 - RC
 

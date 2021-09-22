@@ -22,7 +22,8 @@ manager: src/thinpi/manager.c src/thinpi/rdp.c src/thinpi/helpers.c src/include/
 
 vala:
 	# valac src/vala/tpconnect.vala src/vala/helpers.vala src/vala/tpserverclass.vala --pkg gtk+-3.0 -o tpc
-	valac  src/vala/thinpiini.vala src/vala/helpers.vala --pkg gee-0.8 --pkg libxml-2.0 -o ini
+	valac  src/vala/tpxml.vala --pkg libxml-2.0 -o src/vala/build/config-test
+	src/vala/build/config-test
 
 config:
 	@echo "${RED}TPBUILD[*] - Building config-manager ..."
