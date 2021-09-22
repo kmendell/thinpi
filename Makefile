@@ -20,6 +20,9 @@ manager: src/thinpi/manager.c src/thinpi/rdp.c src/thinpi/helpers.c src/include/
 	cp src/Interface/settings.glade output/thinpi/Interface/settings.glade
 	@echo "${BLUE}TPBUILD[*] - connect-manager Build Succeded"
 
+vala:
+	@$(CC) -w src/vala/tpconnect.c $(CFLAGS)  -o $(ODIR)/tpc
+
 config:
 	@echo "${RED}TPBUILD[*] - Building config-manager ..."
 	@$(CC) -w src/thinpi/configmanager.c src/thinpi/helpers.c src/include/ini.c src/include/minIni.c src/thinpi/ini.c $(CFLAGS) -o $(ODIR)/thinpi-config
