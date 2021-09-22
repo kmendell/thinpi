@@ -38,6 +38,18 @@ public static void print_book (Xml.Node* node) {
 				print_simple (iter, "domain");
 				break;
 
+			case "usb":
+				print_simple (iter, "usb");
+				break;
+
+			case "printer":
+				print_simple (iter, "printer");
+				break;
+
+			case "home":
+				print_simple (iter, "home");
+				break;
+
 			default:
 				print ("Unexpected element %s\n", iter->name);
 				break;
