@@ -11,9 +11,9 @@
 
 
 > 🔔 For a Full Changelog click [Here](https://gitlab.kmprojects.us/thinpi/core/-/blob/master/github/CHANGELOG.md)
-## ⚡️ Quick start
+## ⚡️ Coming Soon
 
-This 'vala-rewrite' branch is under development, and no compilation/install instructions are available yet.
+### This 'vala-rewrite' branch is under development, and no compilation/install instructions are available yet.
 
 ## ⚠️ License
 
