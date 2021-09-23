@@ -13,37 +13,7 @@
 > 🔔 For a Full Changelog click [Here](https://gitlab.kmprojects.us/thinpi/core/-/blob/master/github/CHANGELOG.md)
 ## ⚡️ Quick start
 
-Download the thinpi_start.sh from this repo and Run the Following Commands in The Terminal to Download, Compile, and Install all Dependencies and ThinPi Files
-
-```bash
-chmod +x ./thinpi_start.sh
-sudo ./thinpi_start.sh
-```
-
-That's all you need to get ThinPi Installed! 🎉
-
-## 📝 ThinPi INI Config
-
-An Example config has been included in output/thinpi/config/thinpi.ini
-Under [thinpi_proto] the numcon varible should be set to how many connections you have starting at 1 NOT 0. See Example below.
-
-```ini
-[thinpi_proto]
-numcon=1
-
-[connection0]
-name = ThinPi Server
-ip = 10.4.100.2
-usb = 1
-printers = 0
-drives = 1
-res = 1920x1080
-domain = thinpi.io
-```
-
-### 🐳 Docker-way to quick start
-
-> 🔔 Docker Building Support is Currently on hold while we work on the new update
+This 'vala-rewrite' branch is under development, and no compilation/install instructions are available yet.
 
 ## ⚠️ License
 
