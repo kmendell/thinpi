@@ -1,3 +1,0 @@
-## Initramfs-Splash
-image=thinpios.png
-fullscreen=1

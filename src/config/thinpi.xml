@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<connections>
+	<server id="0">
+		<title>ThinPi Server 1</title>
+		<ip>10.3.70.2</ip>
+        <domain>thinpi.io</domain>
+		<res>1920x1080</res>
+		<usb>1</usb>
+		<home>1</home>
+		<printer>1</printer>
+	</server>
+	<server id="1">
+		<title>ThinPi Server 2</title>
+		<ip>10.3.70.5</ip>
+        <domain>thinpi.io</domain>
+		<res>1920x1080</res>
+		<usb>1</usb>
+		<home>1</home>
+		<printer>1</printer>
+	</server>
+</connections>
