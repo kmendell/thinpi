@@ -6,11 +6,16 @@
 <p align="center">Open Source Thin Client for the Raspberry Pi built in <b>C</b>
 
 <p align="center"><a href="https://gitlab.kmprojects.us/thinpi/core/-/releases" target="_blank"><img src="https://img.shields.io/badge/version-v0.3.0(DEV)-hotpink?style=for-the-badge&logo=none" alt="cli version" /></a>&nbsp;<a href="https://github.com/kmendell/thinpi/" target="_blank"><img src="https://img.shields.io/badge/C-C17+-00ADD8?style=for-the-badge&logo=C" alt="go version" /></a><a href="https://github.com/kmendell/thinpi/" target="_blank">&nbsp;<img src="https://img.shields.io/badge/license-apache_2.0-red?style=for-the-badge&logo=none" alt="license" /></p></a>
-</div>
+
 
 
 
 > 🔔 For a Full Changelog click [Here](https://gitlab.kmprojects.us/thinpi/core/-/blob/master/github/CHANGELOG.md)
+
+## Demo
+
+<img src="assets/demo.png" align="center" width="1000" alt="Project icon">
+</div>
 ## ⚡️ Quick start
 
 Download the thinpi_start.sh from this repo and Run the Following Commands in The Terminal to Download, Compile, and Install all Dependencies and ThinPi Files
