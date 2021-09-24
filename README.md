@@ -12,10 +12,13 @@
 
 🔔 For a Full Changelog click [Here](https://gitlab.kmprojects.us/thinpi/core/-/blob/master/github/CHANGELOG.md)
 
-## Demo
+## Screenshots
 
 <img src="assets/demo.png" align="center" width="1000" alt="Project icon">
+<img src="assets/demo2.png" align="center" width="1000" alt="Project icon">
+<img src="assets/demo3.png" align="center" width="1000" alt="Project icon">
 </div>
+
 ## ⚡️ Quick start
 
 Download the thinpi_start.sh from this repo and Run the Following Commands in The Terminal to Download, Compile, and Install all Dependencies and ThinPi Files
